@@ -1,0 +1,16 @@
+.card_container {
+    background-color: rgb(240, 245, 255);
+    border: solid rgb(235, 235, 235) 0.5px;
+    border-radius: 1px;
+    box-shadow: 1px 2px 8px -2px black;
+    display: grid;
+    grid-template: 14px repeat(11, 9px) 14px / 14px repeat(3, 14px) 28px;
+    grid-column-gap: 4px;
+    grid-row-gap: 2px;
+    max-height: 155px;
+    max-width: 95px;
+    overflow: hidden;
+    text-align: center;
+    padding: 3px;
+    position: relative
+}

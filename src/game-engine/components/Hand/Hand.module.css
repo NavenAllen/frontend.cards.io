@@ -1,0 +1,12 @@
+.hand_cards_container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    width: fit-content;
+    margin: 30px 10px;
+}
+
+.hand_container {
+    max-width: 550px;
+    display: inline-block;
+}
