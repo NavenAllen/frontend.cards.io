@@ -9,29 +9,25 @@ const get_angle = (index, num_cards) => {
         if (index < num_cards / 2)
             return {
                 transform: `translate(
-                    ${num_cards * 10 * (num_cards / 2 - index - 1)}px, 
-                    ${num_cards * 2 * (num_cards / 2 - index - 1)}px
-                    ) 
-                    rotate(-${(num_cards / 2 - index - 1) * single}deg)`
+                    ${num_cards * 10 * (num_cards / 2 - index - 1)}px,0px) 
+                    rotate(-${0}deg)`
             };
         return {
             transform: `translate(
-                ${-num_cards * 10 * (index + 1 - num_cards / 2)}px,
-                ${num_cards * 2 * (index - num_cards / 2)}px
-                )
-                rotate(${(index - num_cards / 2) * single}deg)`,
+                ${-num_cards * 10 * (index + 1 - num_cards / 2)}px,0px)
+                rotate(${0}deg)`,
         };
     }
     if (index < num_cards / 2)
         return {
-            transform: `rotate(-${(num_cards / 2 - index - 1) * single}deg)`,
+            transform: `rotate(-${0}deg)`,
             left: num_cards * 10 * (num_cards / 2 - index - 1),
-            top: num_cards * 2 * (num_cards / 2 - index - 1),
+            // top: num_cards * 2 * (num_cards / 2 - index - 1),
         };
     return {
-        transform: `rotate(${(index - num_cards / 2) * single}deg)`,
+        transform: `rotate(${0}deg)`,
         left: -num_cards * 10 * (index + 1 - num_cards / 2),
-        top: num_cards * 2 * (index + 1 - num_cards / 2),
+        // top: num_cards * 2 * (index + 1 - num_cards / 2),
     };
 };
 
@@ -42,7 +38,7 @@ const Hand = (props) => {
         <div className={classes.hand_container}>
             <div className={classes.hand_cards_container}>
                 {props.cards.map((card, index) => (
-                    <Card value={card} style={get_angle(index, num_cards)} />
+                    <Card value={card} style={get_angle(index, num_cards)} side="front" />
                 ))}
             </div>
         </div>
