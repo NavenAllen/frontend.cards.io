@@ -1,10 +1,32 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {render} from 'react-dom';
 import './index.css';
 import App from './App';
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import rootReducer from './State/Reducers'
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const preloadedState = {
+    'gamestate': {
+      'game': 'literature',
+      'players': [],
+      'hand':[],
+      'pile': [],
+      'turn':{}
+    },
+    'litgamestate':{
+        'teams': []
+    }
+  };
+const store = createStore(rootReducer,preloadedState)
+
+render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementById('root')
+  )
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
