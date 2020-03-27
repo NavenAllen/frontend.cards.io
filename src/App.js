@@ -1,21 +1,27 @@
 import React from 'react';
 import './App.css';
+import { BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
 import Deck from './game-engine/components/Deck';
 import Hand from './game-engine/components/Hand/Hand';
+import GamePage from './game-engine/components/GamePage/GamePage'
+import HomePage from './game-engine/components/HomePage/HomePage'
 import CardDeck from './game-engine/components/Deck/Deck';
 
 const App = props => {
-    const deck1 = new Deck();
-    deck1.shuffle();
-    const cards = [deck1.deal(), deck1.deal(), deck1.deal(), deck1.deal(), deck1.deal(), deck1.deal()];
     return (
-        <div class="playerCards">
-            {/* <CardDeck></CardDeck> */}
-            <Hand cards={cards} />
-            {/* <Hand cards={cards} />
-            <Hand cards={cards} />
-            <Hand cards={cards} /> */}
-        </div>
+        <BrowserRouter>
+            <Switch>
+                <Route path='/home' component={HomePage}/>
+                <Route path='/game' component={GamePage}/>
+                <Route path='/' render={()=> (
+                    localStorage.getItem('playerId')!=null?(
+                        <Redirect to='/game'/>
+                    ):(
+                        <Redirect to='/home'/>
+                    )
+                )}/>
+            </Switch>
+        </BrowserRouter>
     );
 };
 
