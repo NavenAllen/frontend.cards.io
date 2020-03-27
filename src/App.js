@@ -1,11 +1,8 @@
-import React from 'react';
+import React from 'react'
 import './App.css';
 import { BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
-import Deck from './game-engine/components/Deck';
-import Hand from './game-engine/components/Hand/Hand';
 import GamePage from './game-engine/components/GamePage/GamePage'
 import HomePage from './game-engine/components/HomePage/HomePage'
-import CardDeck from './game-engine/components/Deck/Deck';
 
 const App = props => {
     return (
@@ -22,7 +19,25 @@ const App = props => {
                 )}/>
             </Switch>
         </BrowserRouter>
-    );
+    )
 };
+
+// import {Engine} from './game-engine/engine'
+// let {deal, fold, game} = Engine({});
+// (
+//     <>
+//     <button style={{
+//         position: 'absolute',
+//         left: '50vw',
+//         top: '50vh'
+//     }} onClick={fold}>Fold all</button>
+//     <button style={{
+//         position: 'absolute',
+//         left: '50vw',
+//         top: '60vh'
+//     }} onClick={() => deal(4)}>Deal</button>
+//     {game}
+//     </>
+// );
 
 export default App;

@@ -12,5 +12,5 @@
     overflow: hidden;
     text-align: center;
     padding: 3px;
-    position: relative
+    transition: 1s;
 }

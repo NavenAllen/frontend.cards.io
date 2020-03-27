@@ -1,47 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '../Card/Card.js';
 
 import classes from './Hand.module.css';
 
-const get_angle = (index, num_cards) => {
-    const single = Math.ceil(120 / num_cards);
-    if (num_cards % 2 === 0) {
-        if (index < num_cards / 2)
-            return {
-                transform: `translate(
-                    ${num_cards * 10 * (num_cards / 2 - index - 1)}px,0px) 
-                    rotate(-${0}deg)`
-            };
-        return {
-            transform: `translate(
-                ${-num_cards * 10 * (index + 1 - num_cards / 2)}px,0px)
-                rotate(${0}deg)`,
-        };
-    }
-    if (index < num_cards / 2)
-        return {
-            transform: `rotate(-${0}deg)`,
-            left: num_cards * 10 * (num_cards / 2 - index - 1),
-            // top: num_cards * 2 * (num_cards / 2 - index - 1),
-        };
-    return {
-        transform: `rotate(${0}deg)`,
-        left: -num_cards * 10 * (index + 1 - num_cards / 2),
-        // top: num_cards * 2 * (index + 1 - num_cards / 2),
-    };
-};
-
 const Hand = (props) => {
     sort(props.cards);
-    const num_cards = props.cards.length;
+    const [hover, setHover] = useState(false)
+    useEffect(() => {
+        if (props.folded) setHover(false)
+    }, [props.folded])
     return (
-        <div className={classes.hand_container}>
-            <div className={classes.hand_cards_container}>
-                {props.cards.map((card, index) => (
-                    <Card value={card} style={get_angle(index, num_cards)} side="front" />
-                ))}
-            </div>
-        </div>
+        <ul className={classes.hand} style={props.style} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+            {props.cards.map((card, index) => (
+                <Card folded={props.folded} value={card} index={index} key={index} hover={hover} />
+            ))}
+        </ul>
     );
 };
 

@@ -1,12 +1,30 @@
-.hand_cards_container {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    width: fit-content;
-    margin: 30px 10px;
+.hand {
+	width: 150px;
+	height: 225px;
+	position: absolute;
+	transition: 1s;
+	margin: 30px;
+	animation: appear 1s ease-in;
+	animation-fill-mode: forwards;
+}
+.hand > li {
+	position: absolute;
+	transition: 1s;
+	top: 0;
+	left: 0;
+}
+.hand > li:hover {
+	left: 0;
+	top: -30px;
+	cursor: pointer;
+	box-shadow: inset 0 0 80px rgba(150, 100, 50, 0.3), 0 0 50px rgba(255, 255, 200, 0.8);
 }
 
-.hand_container {
-    max-width: 550px;
-    display: inline-block;
+@keyframes appear {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }

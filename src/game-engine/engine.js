@@ -1,16 +1,39 @@
-/**
- * This will be the interface of the engine
- * i.e. the user will interact with things here
- * we can have an engine, which can be structured like this
- * 
- * If a deck of cards is supplied, we use that, else we have a default deck
- * based on the number of players, we create hands for each player
- * the engine keeps track of which player has what cards,
- * and also takes care of animations which display interactions between players
- * 
- * we keep a draw function, which will actually mount the Hand components, 
- * which can be dynamic based on the number of players and the screen size
- * 
- * Basically, the aim is to minimise the work of someone who wants to create a card 
- * game, and give him a head-start, by handling most of the things
- */
+import React, {useState} from 'react';
+
+import Deck from './components/Deck/Deck'
+import Game from './components/Game/Game'
+
+export const Engine = props => {
+    const [num_players, set_num_players] = useState(4)
+    const [dealt, setDealt] = useState(false)
+    const [folded, setFolded] = useState(false)
+    const deck = new Deck(props.deck);
+    const _ = [];
+    for (let i=0; i<num_players; i++)
+        _.push([]);
+    const [players, setPlayers] = useState(_)
+
+    const deal = cards_per_user => {
+        if (dealt) return;
+        deck.shuffle();
+        let total_cards = cards_per_user * num_players;
+        let new_players = Array.from(players)
+        while (total_cards--) {
+            new_players[total_cards % num_players].push(deck.deal())
+        }
+        setPlayers(new_players)
+        setDealt(true)
+    }
+
+    const fold = () => {
+        console.log('h')
+        setFolded(prev => !prev);
+    }
+    return (
+        {
+            game: <Game dealt={dealt} players={players} num_players={num_players} folded={folded} />,
+            deal,
+            fold
+        }
+    )
+}

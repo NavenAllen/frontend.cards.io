@@ -1,25 +1,25 @@
 import React from 'react';
 import './GamePage.css';
-import Deck from '../Deck';
-import Hand from '../Hand/Hand';
+import {Engine} from '../../engine'
 
-class GamePage extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-    render(){
-        const deck1 = new Deck();
-        deck1.shuffle();
-        const cards = [deck1.deal(), deck1.deal(), deck1.deal(), deck1.deal(), deck1.deal(), deck1.deal()];
-        return (
-            <div class="playerCards">
-                {/* <CardDeck></CardDeck> */}
-                <Hand cards={cards} />
-                {/* <Hand cards={cards} />
-                <Hand cards={cards} />
-                <Hand cards={cards} /> */}
-            </div>
-        );
-    }
+
+const GamePage = props => {
+    let {deal, fold, game} = Engine({});
+    return  (
+        <>
+        <button style={{
+            position: 'absolute',
+            left: '50vw',
+            top: '50vh'
+        }} onClick={fold}>Fold all</button>
+        <button style={{
+            position: 'absolute',
+            left: '50vw',
+            top: '60vh'
+        }} onClick={() => deal(4)}>Deal</button>
+        {game}
+        </>
+    );
 }
+
 export default GamePage
