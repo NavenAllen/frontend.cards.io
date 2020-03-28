@@ -29,7 +29,7 @@ class JoinGamePage extends React.Component {
     joinGame = () => {};
     render() {
         return (
-            <div>
+            <div className="homePageForm">
                 <input name="JoinName" type="text" placeholder="Name" onChange={this.handleNameInputChange} />
                 <input
                     name="JoinPosition"

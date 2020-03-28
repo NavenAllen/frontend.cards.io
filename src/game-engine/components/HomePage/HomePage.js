@@ -3,9 +3,9 @@ import './HomePage.css';
 import PropTypes from 'prop-types';
 import CreateGameForm from './CreateGameForm';
 import JoinGameForm from './JoinGameForm';
-import {connect} from 'react-redux';
-import {createGameActions} from '../../../State/Actions';
-import socket, {subscribeTocreateGame} from '../../../socket-api/socket-api';
+import { connect } from 'react-redux';
+import { createGameActions } from '../../../State/Actions';
+import socket, { subscribeTocreateGame } from '../../../socket-api/socket-api';
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -13,8 +13,13 @@ class HomePage extends React.Component {
         this.state = {
             form: 'create',
         };
-        subscribeTocreateGame((msg) => {
-            alert(msg);
+        subscribeTocreateGame((data) => {
+            if(data.type=='CREATE'){
+                localStorage.setItem('playerId',data.pid);
+                localStorage.setItem('gameCode',data.gcode);
+                localStorage.setItem('playerName',data.pname);
+                this.props.history.push('/game');
+            }
         });
     }
 
@@ -29,11 +34,11 @@ class HomePage extends React.Component {
         });
     };
     render() {
-        const {locked} = this.props;
+        const { locked } = this.props;
         return (
             <div className="create-game-wrapper">
                 <div className="create-game-container">
-                    {this.state.form === 'create' ? (
+                    {/* {this.state.form === 'create' ? (
                         <div>
                             <h2 className="active" onClick={this.switchToCreateGame}>
                                 Create Game
@@ -43,21 +48,30 @@ class HomePage extends React.Component {
                             </h2>
                         </div>
                     ) : (
-                        <div>
-                            <h2 className="inactive underlineHover" onClick={this.switchToCreateGame}>
-                                Create Game
+                            <div>
+                                <h2 className="inactive underlineHover" onClick={this.switchToCreateGame}>
+                                    Create Game
                             </h2>
-                            <h2 className="active" onClick={this.switchToJoinGame}>
-                                Join Game
+                                <h2 className="active" onClick={this.switchToJoinGame}>
+                                    Join Game
                             </h2>
-                        </div>
-                    )}
+                            </div>
+                        )} */}
 
-                    {this.state.form === 'create' ? (
+                    {/* {this.state.form === 'create' ? (
                         <CreateGameForm createGame={this.handleCreateGameFormSubmit} locked={locked} />
                     ) : (
                         <JoinGameForm></JoinGameForm>
-                    )}
+                    )} */}
+                    <div className="left">
+                        <h2 className="active">createGame</h2>
+                        <CreateGameForm createGame={this.handleCreateGameFormSubmit} locked={locked} />
+                    </div>
+                    <div className="or">OR</div>
+                    <div className="right">
+                        <h2 className="active">Join Game</h2>
+                        <JoinGameForm/>
+                    </div>
                 </div>
             </div>
         );

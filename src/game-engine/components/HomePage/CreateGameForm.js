@@ -26,7 +26,7 @@ class CreateGameForm extends React.Component {
     render() {
         const {locked} = this.props;
         return (
-            <div>
+            <div className="homePageForm">
                 <input name="name" type="text" placeholder="Name" onChange={this.handleNameInputChange} />
                 <input name="position" type="number" placeholder="position" onChange={this.handlePositionInputChange} />
                 <input type="button" value="create game" onClick={this.handleCreateGameFormSubmit} disabled={locked} />
