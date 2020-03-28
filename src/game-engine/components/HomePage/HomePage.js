@@ -1,28 +1,35 @@
 import React from 'react';
 import './HomePage.css'
+import PropTypes from 'prop-types';
 import CreateGameForm from './CreateGameForm'
 import JoinGameForm from './JoinGameForm'
+import { connect } from 'react-redux';
+import { createGameActions } from '../../../State/Actions'
+import socket,{subscribeTocreateGame} from '../../../socket-api/socket-api'
+
 class HomePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             form: "create"
         }
-        this.switchToJoinGame = this.switchToJoinGame.bind(this)
-        this.switchToCreateGame = this.switchToCreateGame.bind(this)
+        subscribeTocreateGame((msg)=>{
+            alert(msg);
+        })
     }
-    
-    switchToCreateGame() {
+
+    switchToCreateGame = () => {
         this.setState({
             form: "create"
         })
     }
-    switchToJoinGame() {
+    switchToJoinGame = () => {
         this.setState({
             form: "join"
         })
     }
     render() {
+        const { locked } = this.props
         return (
             <div className="create-game-wrapper">
                 <div className="create-game-container">
@@ -39,13 +46,32 @@ class HomePage extends React.Component {
                         )}
 
                     {(this.state.form == "create") ? (
-                        <CreateGameForm></CreateGameForm>)
-                         : (
+                        <CreateGameForm
+                            createGame={this.handleCreateGameFormSubmit}
+                            locked={locked}
+                        />)
+                        : (
                             <JoinGameForm></JoinGameForm>
                         )}
                 </div>
             </div>
         )
     }
+    handleCreateGameFormSubmit = (user) => {
+        this.props.createGame(user);
+    }
 }
-export default HomePage
+HomePage.propTypes = {
+    createGame: PropTypes.func.isRequired,
+    JoinGame: PropTypes.func.isRequired,
+    locked: PropTypes.bool.isRequired
+}
+const mapStateToProps = state => {
+    return {
+        locked: state.locked
+    }
+}
+const mapDispatchToProps = dispatch => ({
+    createGame: (user) => dispatch(createGameActions.createGame(user))
+})
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

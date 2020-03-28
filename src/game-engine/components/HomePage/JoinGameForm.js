@@ -14,7 +14,6 @@ class JoinGamePage extends React.Component {
         this.setState({
             name:e.target.value
         })
-     //   console.log(this.state.name);
     }
     handlePositionInputChange=(e)=>{
         this.setState({
@@ -28,13 +27,13 @@ class JoinGamePage extends React.Component {
         console.log(this.state.gameCode)
     }
     joinGame=()=>{
-        console.log(this.state)
+        
     }
     render() {
         return (
             <div>
-                <input name="JoinName" type='text' placeholder="Name" onClick={this.handleNameInputChange} />
-                <input name="JoinPosition" type='number' placeholder="position" onClick={this.handlePositionInputChange} />
+                <input name="JoinName" type='text' placeholder="Name" onChange={this.handleNameInputChange} />
+                <input name="JoinPosition" type='number' placeholder="position" onChange={this.handlePositionInputChange} />
                 <input name="gameCode" type='text' placeholder="Game Code" onChange={this.handleGameCodeInputChange} />
                 <input type="button" value="Join Game" onClick={this.joinGame} />   
             </div>
