@@ -1,4 +1,4 @@
-import {DefaultDeck} from './DefaultDeck'
+import {DefaultDeck} from './DefaultDeck';
 
 class Deck {
     constructor(cards) {

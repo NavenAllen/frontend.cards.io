@@ -1,15 +1,15 @@
-import socket from '../../socket-api/socket-api'
+import socket from '../../socket-api/socket-api';
 
 export const createGameConstants = {
-    CREATE_GAME_REQUEST: 'CREATE_GAME_REQUEST'
-}
+    CREATE_GAME_REQUEST: 'CREATE_GAME_REQUEST',
+};
 export const createGameActions = {
-    createGame
-}
+    createGame,
+};
 function createGame(user) {
     socket.emit('create', {
         name: user.name,
-        position: user.position
+        position: user.position,
     });
-    return { type: createGameConstants.CREATE_GAME_REQUEST, user: user }
+    return {type: createGameConstants.CREATE_GAME_REQUEST, user: user};
 }

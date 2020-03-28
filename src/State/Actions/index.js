@@ -1,2 +1,2 @@
 export * from './game.actions';
-export * from './createGame.actions'
+export * from './createGame.actions';

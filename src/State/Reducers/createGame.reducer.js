@@ -1,15 +1,15 @@
-import { createGameConstants } from '../Actions';
+import {createGameConstants} from '../Actions';
 
-const initialState={}
+const initialState = {};
 
-export function createGame(state=initialState,action){
-    switch(action.type){
+export function createGame(state = initialState, action) {
+    switch (action.type) {
         case createGameConstants.CREATE_GAME_REQUEST:
             return {
                 ...state,
-                locked:true
-            }
+                locked: true,
+            };
         default:
-            return state
+            return state;
     }
 }

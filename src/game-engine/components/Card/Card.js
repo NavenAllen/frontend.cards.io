@@ -27,7 +27,6 @@ const rightSuit = {
 };
 
 export const Card = (props) => {
-    // const side = props.side;
     const value = props.value.num === '0' ? '10' : props.value.num;
     const suit = {
         C: '♣',
@@ -36,30 +35,33 @@ export const Card = (props) => {
         S: '♠',
     }[props.value.shape];
     const cardColor = suit === '♥' || suit === '♦' || suit === '♡' || suit === '♢' ? {color: 'red'} : {color: 'black'};
-    let folded = {position: 'absolute',}
-    if (props.folded) {
+    let folded = {position: 'absolute'};
+    if (!props.folded) {
         folded = {
             ...folded,
             left: props.index * 30,
-            transform: `rotate(${(props.index - 1) * 10}deg)`
-        }
-    }
-    else {
+            transform: `rotate(${(props.index - props.cards) * 10}deg)`,
+        };
+    } else {
         folded = {
             ...folded,
-            transform: `rotate(${props.index < 1 ? '0' : `${props.index - 1} * 3`}deg)`,
-        }
+            transform: `rotate(${(props.index - props.cards) * 3}deg)`,
+        };
     }
     if (props.hover) {
         folded = {
             ...folded,
-            transform: `rotate(${(props.index - 1) * 10}deg)`,
-	        left: props.index * 30
-        }
+            transform: `rotate(${(props.index - props.cards) * 10}deg)`,
+            left: props.index * 30,
+        };
     }
     return (
         <>
-            <li id={value + suit} className={classes.card_container} style={{...cardColor, ...props.style, ...folded}}>
+            <li
+                onClick={props.onClick}
+                id={value + suit}
+                className={classes.card_container}
+                style={{...cardColor, ...folded, ...props.style}}>
                 <div style={left}>{value}</div>
                 <div style={leftSuit}>{suit}</div>
                 <CardColumn order="1" value={value} suit={suit} />
@@ -69,7 +71,7 @@ export const Card = (props) => {
                 <div style={right}>{value}</div>
             </li>
         </>
-    )
+    );
 };
 
 export default Card;

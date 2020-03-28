@@ -16,7 +16,7 @@
     font-size: calc(10px + 2vmin);
     color: white;
 }
-.playerCards{
+.playerCards {
     position: absolute;
     bottom: 0px;
 }

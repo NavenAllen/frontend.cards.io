@@ -3,8 +3,8 @@ var socket = openSocket('http://localhost:8000/literature');
 
 export default socket;
 
-export function subscribeTocreateGame(cb){
+export function subscribeTocreateGame(cb) {
     socket.on('gameUpdates', (msg) => {
-        cb(msg)
-    })
+        cb(msg);
+    });
 }
