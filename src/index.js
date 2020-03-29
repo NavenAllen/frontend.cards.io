@@ -7,11 +7,11 @@ import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
 
 import rootStore from './rootState/store'
-import EventListener from './game-engine/components/EventListener'
+import startEventListeners from './rootState/rootEventListener'
 
+startEventListeners(rootStore.dispatch)
 render(
 	<Provider store={rootStore}>
-		<EventListener />
 		<App />
 	</Provider>,
 	document.getElementById('root')
