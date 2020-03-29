@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import CreateGameForm from './CreateGameForm';
 import JoinGameForm from './JoinGameForm';
 import { connect } from 'react-redux';
-import { createGameActions } from '../../state/actions';
-import socket, { subscribeTocreateGame } from '../../../util/socket-client';
+import { gameActions } from '../../state/actions';
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -13,14 +12,6 @@ class HomePage extends React.Component {
         this.state = {
             form: 'create',
         };
-        subscribeTocreateGame((data) => {
-            if(data.type=='CREATE'){
-                localStorage.setItem('playerId',data.pid);
-                localStorage.setItem('gameCode',data.gcode);
-                localStorage.setItem('playerName',data.pname);
-                this.props.history.push('/game');
-            }
-        });
     }
 
     switchToCreateGame = () => {
@@ -91,6 +82,6 @@ const mapStateToProps = (state) => {
     };
 };
 const mapDispatchToProps = (dispatch) => ({
-    createGame: (user) => dispatch(createGameActions.createGame(user)),
+    createGame: (user) => dispatch(gameActions.createGame(user)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

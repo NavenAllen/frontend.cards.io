@@ -4,28 +4,14 @@ import './index.css';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
-import thunkMiddleware from 'redux-thunk';
-import {composeWithDevTools} from 'redux-devtools-extension';
-import rootReducer from './game-engine/state/reducers';
 import * as serviceWorker from './serviceWorker';
-const preloadedState = {
-    locked: false,
-    gamestate: {
-        game: 'literature',
-        players: [],
-        hand: [],
-        pile: [],
-        turn: {},
-    },
-    litgamestate: {
-        teams: [],
-    },
-};
-const store = createStore(rootReducer, preloadedState, composeWithDevTools(applyMiddleware(thunkMiddleware)));
+
+import rootStore from './rootState/store'
+import EventListener from './game-engine/components/EventListener';
 
 render(
-    <Provider store={store}>
+    <Provider store={rootStore}>
+        <EventListener/>
         <App />
     </Provider>,
     document.getElementById('root')

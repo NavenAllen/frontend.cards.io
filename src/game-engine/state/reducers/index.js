@@ -1,6 +1,5 @@
-import {combineReducers} from 'redux';
-import {createGame} from './createGame.reducer';
+import { game } from './game.reducer';
 
-const rootReducer = createGame;
+const coreGameReducer = game;
 
-export default rootReducer;
+export default coreGameReducer;
