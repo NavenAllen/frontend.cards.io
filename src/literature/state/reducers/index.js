@@ -1,5 +1,5 @@
-import { game } from './game.reducer';
+import { game } from './game.reducer'
 
-const literatureGameReducer = game;
+const literatureGameReducer = game
 
-export default literatureGameReducer;
+export default literatureGameReducer

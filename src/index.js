@@ -1,23 +1,23 @@
-import React from 'react';
-import {render} from 'react-dom';
-import './index.css';
-import App from './App';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import {Provider} from 'react-redux';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import { render } from 'react-dom'
+import './index.css'
+import App from './App'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Provider } from 'react-redux'
+import * as serviceWorker from './serviceWorker'
 
 import rootStore from './rootState/store'
-import EventListener from './game-engine/components/EventListener';
+import EventListener from './game-engine/components/EventListener'
 
 render(
-    <Provider store={rootStore}>
-        <EventListener/>
-        <App />
-    </Provider>,
-    document.getElementById('root')
-);
+	<Provider store={rootStore}>
+		<EventListener />
+		<App />
+	</Provider>,
+	document.getElementById('root')
+)
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.unregister()

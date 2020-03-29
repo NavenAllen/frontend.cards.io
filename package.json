@@ -4,7 +4,6 @@
     "private": true,
     "dependencies": {
         "bootstrap": "^4.4.1",
-        "prettier": "^2.0.1",
         "prop-types": "^15.7.2",
         "react": "^16.13.0",
         "react-bootstrap": "^1.0.0",
@@ -23,10 +22,20 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "fmt-dir": "prettier --print-width 120 --jsx-bracket-same-line --no-bracket-spacing --single-quote --tab-width 4 --write \".\""
+        "format": "prettier --write 'src/**/*.js'"
     },
     "eslintConfig": {
         "extends": "react-app"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.ts": [
+            "prettier --write"
+        ]
     },
     "browserslist": {
         "production": [
@@ -39,5 +48,10 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
+    },
+    "devDependencies": {
+        "husky": "^4.2.3",
+        "lint-staged": "^10.0.10",
+        "prettier": "^2.0.2"
     }
 }

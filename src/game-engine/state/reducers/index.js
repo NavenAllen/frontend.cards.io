@@ -1,5 +1,5 @@
-import { game } from './game.reducer';
+import { game } from './game.reducer'
 
-const coreGameReducer = game;
+const coreGameReducer = game
 
-export default coreGameReducer;
+export default coreGameReducer
