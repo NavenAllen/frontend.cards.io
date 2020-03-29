@@ -51,7 +51,7 @@ h2 {
     color: #cccccc;
 }
 input[type='text'],
-input[type='number'] {
+input[type='number'],select {
     background-color: #f6f6f6;
     border: none;
     color: #0d0d0d;

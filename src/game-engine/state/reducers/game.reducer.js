@@ -38,11 +38,12 @@ export function game(state = initialState, action) {
 				locked: true
 			}
 		case gameConstants.GET_PLAYERS_LIST_SUCCESS:
+			console.log(action.data.data)
 			return {
 				...state,
 				gameData: {
 					...state.gameData,
-					players: action.data
+					players: action.data.data
 				},
 				locked: false
 			}

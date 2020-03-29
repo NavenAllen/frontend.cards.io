@@ -7,7 +7,8 @@ class CreateGameForm extends React.Component {
 		super(props)
 		this.state = {
 			name: '',
-			position: 0
+            position: 0,
+            game:'literature'
 		}
 	}
 	handleNameInputChange = (e) => {
@@ -39,6 +40,13 @@ class CreateGameForm extends React.Component {
 					placeholder="position"
 					onChange={this.handlePositionInputChange}
 				/>
+                <select name="game">
+                    <option
+                        value="literature"
+                    >
+                        Literature
+                    </option>
+                </select>
 				<input
 					type="button"
 					value="create game"

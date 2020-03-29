@@ -7,7 +7,16 @@ export const gameConstants = {
 
 	CREATE_GAME_REQUEST: 'CREATE_GAME_REQUEST',
 	CREATE_GAME_SUCCESS: 'CREATE_GAME_SUCCESS',
-	CREATE_GAME_FAILURE: 'CREATE_GAME_FAILURE'
+	CREATE_GAME_FAILURE: 'CREATE_GAME_FAILURE',
+
+	PROBE_GAME_REQUEST: 'PROBE_GAME_REQUEST',
+	PROBE_GAME_SUCCESS: 'PROBE_GAME_SUCCESS',
+	PROBE_GAME_FAILURE: 'PROBE_GAME_FAILURE',
+
+	JOIN_GAME_REQUEST: 'JOIN_GAME_REQUEST',
+	JOIN_GAME_SUCCESS: 'JOIN_GAME_SUCCESS',
+	JOIN_GAME_SUCCESS: 'JOIN_GAME_SUCCESS',
+
 }
 
 export const gameActions = {
@@ -18,7 +27,6 @@ export const gameActions = {
 	getPlayersListSuccess,
 	getPlayersListFailure
 }
-
 function getPlayersList(gameCode) {
 	return (dispatch) => {
 		dispatch({ type: gameConstants.GET_PLAYERS_LIST_REQUEST })
@@ -28,6 +36,7 @@ function getPlayersList(gameCode) {
 }
 
 function getPlayersListSuccess(data) {
+	console.log(data)
 	return (dispatch) =>
 		dispatch({ type: gameConstants.GET_PLAYERS_LIST_SUCCESS, data })
 }
@@ -52,6 +61,7 @@ function createGame(user) {
 }
 
 function createGameSuccess(data) {
+	console.log(data)
 	return (dispatch) =>
 		dispatch({ type: gameConstants.CREATE_GAME_SUCCESS, data })
 }
