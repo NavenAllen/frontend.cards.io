@@ -1,4 +1,4 @@
-import socket from '../../socket-api/socket-api';
+import socket from '../../../util/socket-client';
 
 export const createGameConstants = {
     CREATE_GAME_REQUEST: 'CREATE_GAME_REQUEST',

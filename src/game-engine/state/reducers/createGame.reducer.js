@@ -1,4 +1,4 @@
-import {createGameConstants} from '../Actions';
+import {createGameConstants} from '../actions';
 
 const initialState = {};
 

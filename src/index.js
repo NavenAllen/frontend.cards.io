@@ -7,7 +7,7 @@ import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension';
-import rootReducer from './State/Reducers';
+import rootReducer from './game-engine/state/reducers';
 import * as serviceWorker from './serviceWorker';
 const preloadedState = {
     locked: false,

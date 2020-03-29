@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import CreateGameForm from './CreateGameForm';
 import JoinGameForm from './JoinGameForm';
 import { connect } from 'react-redux';
-import { createGameActions } from '../../../State/Actions';
-import socket, { subscribeTocreateGame } from '../../../socket-api/socket-api';
+import { createGameActions } from '../../state/actions';
+import socket, { subscribeTocreateGame } from '../../../util/socket-client';
 
 class HomePage extends React.Component {
     constructor(props) {
