@@ -7,6 +7,7 @@ export function game(state = initialState, action) {
     case gameConstants.CREATE_GAME_REQUEST:
       return {
         ...state,
+        error: {},
         locked: true
       };
     case gameConstants.CREATE_GAME_SUCCESS:
@@ -19,6 +20,7 @@ export function game(state = initialState, action) {
             id: action.data.pid,
             name: action.data.pname
         },
+        error: {}
         locked: false
       };
     case gameConstants.CREATE_GAME_FAILURE:

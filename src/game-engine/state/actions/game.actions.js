@@ -1,4 +1,4 @@
-import socket from '../../components/EventListener'
+import socket from '../../../util/socket-client'
 
 export const gameConstants = {
     GET_PLAYERS_LIST_REQUEST: 'GET_PLAYERS_LIST_REQUEST',

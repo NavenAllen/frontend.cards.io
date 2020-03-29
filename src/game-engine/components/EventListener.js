@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { gameActions } from '../state/actions'
+import socket from '../../util/socket-client'
 
 class EventListener extends React.Component {
     constructor(props) {
@@ -9,7 +10,7 @@ class EventListener extends React.Component {
     }
 
     startEventListeners = () => {
-        const { socket, createGameSuccess } = this.props;
+        const { createGameSuccess } = this.props;
         socket.on('game-updates', data => {
             if( data.type === 'CREATE') {
                 if(data.code === 200) {
