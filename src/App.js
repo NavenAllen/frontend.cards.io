@@ -3,6 +3,8 @@ import './App.css'
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 import GamePage from './game-engine/components/GamePage/GamePage'
 import HomePage from './game-engine/components/HomePage/HomePage'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 const App = (props) => {
 	return (
@@ -13,7 +15,7 @@ const App = (props) => {
 				<Route
 					path="/"
 					render={() =>
-						localStorage.getItem('playerId') != null ? (
+						props.inGame ? (
 							<Redirect to="/game" />
 						) : (
 							<Redirect to="/home" />
@@ -24,4 +26,12 @@ const App = (props) => {
 		</BrowserRouter>
 	)
 }
-export default App
+App.propTypes={
+	inGame: PropTypes.bool.isRequired
+}
+const mapStateToProps=state=>{
+	return {
+		inGame: state.inGame
+	}
+}
+export default connect(mapStateToProps,null)(App)

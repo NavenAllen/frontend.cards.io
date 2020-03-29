@@ -16,7 +16,6 @@ class JoinGamePage extends React.Component {
         })
     }
     handlePositionInputChange = (e) => {
-        console.log(this.state.position)
         this.setState({
             position: e.target.value
         })
@@ -25,14 +24,13 @@ class JoinGamePage extends React.Component {
         this.setState({
             gameCode: e.target.value
         })
-        console.log(this.state.gameCode)
     }
     handleGameCodeSubmit = () => {
         this.props.probeGameRequest(this.state.gameCode)
     }
-    joinGame = () => { 
-        // this.props.joinGame(this.state)
-        console.log(this.state)
+    joinGame = () => {
+        if (this.state.position != 0 && this.state.name != '' && this.state.gameCode != '')
+            this.props.joinGame(this.state)
     }
     render() {
         return (
@@ -49,13 +47,11 @@ class JoinGamePage extends React.Component {
                     value="Probe Game"
                     onClick={this.handleGameCodeSubmit}
                 />
-                <p>
-                    {(this.props.players != undefined) ? (this.props.players.map((ele) => {
-                        if (ele.name != '<Available>')
-                            return ele.name
-                    })) : (null)
-                    }
-                </p>
+                {(this.props.players != undefined) ? (this.props.players.map((ele) => {
+                    if (ele.name != '<Available>')
+                        return (<p>{ele.name}</p>)
+                })) : (null)
+                }
                 <input
                     name="JoinName"
                     type="text"

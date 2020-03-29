@@ -21,7 +21,8 @@ export function game(state = initialState, action) {
 					name: action.data.pname
 				},
 				error: null,
-				locked: false
+				locked: false,
+				inGame:true
 			}
 		case gameConstants.CREATE_GAME_FAILURE:
 			return {
@@ -38,7 +39,6 @@ export function game(state = initialState, action) {
 				locked: true
 			}
 		case gameConstants.GET_PLAYERS_LIST_SUCCESS:
-			console.log(action.data.data)
 			return {
 				...state,
 				gameData: {
@@ -55,6 +55,31 @@ export function game(state = initialState, action) {
 					message: action.data.message
 				},
 				locked: false
+			}
+		}
+		case gameConstants.JOIN_GAME_REQUEST: {
+			return {
+				...state,
+				gameData: {
+					code: action.data.gameCode
+				},
+				playerData:{
+					name: action.data.name
+				},
+				locked: true
+			}
+		}
+		case gameConstants.JOIN_GAME_SUCCESS:{
+			return {
+				...state,
+				playerData: {
+					...state.playerData,
+					id: action.data.pid
+				},
+				players: action.data.data,
+				error: null,
+				locked: false,
+				inGame: true
 			}
 		}
 		default:
