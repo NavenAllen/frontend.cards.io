@@ -18,7 +18,8 @@ export function game(state = initialState, action) {
 				},
 				playerData: {
 					id: action.data.pid,
-					name: action.data.pname
+					name: action.data.pname,
+					position: 1
 				},
 				error: null,
 				locked: false,
@@ -64,7 +65,8 @@ export function game(state = initialState, action) {
 					code: action.data.gameCode
 				},
 				playerData: {
-					name: action.data.name
+					name: action.data.name,
+					position: action.data.position
 				},
 				locked: true
 			}
