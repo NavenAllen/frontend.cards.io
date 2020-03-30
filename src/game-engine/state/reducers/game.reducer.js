@@ -173,6 +173,12 @@ export function game(state = initialState, action) {
 				playerData: action.data,
 				locked: false
 			}
+		case gameConstants.CARD_SELECTED: {
+			return {
+				...state,
+				cardSelected: action.data
+			}
+		}
 		default:
 			return state
 	}

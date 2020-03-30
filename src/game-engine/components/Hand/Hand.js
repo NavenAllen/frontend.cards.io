@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Card from '../Card/Card.js'
-
+import PropTypes from 'prop-types'
 import classes from './Hand.module.css'
+import { connect } from 'react-redux'
+import { gameActions } from '../../state/actions/index.js'
 
 const Hand = (props) => {
 	sort(props.cards)
@@ -17,6 +19,7 @@ const Hand = (props) => {
 	const cards = Math.floor(props.cards.length / 2)
 	const [cardStyle, setCardStyle] = useState(defaultCardStyle)
 	const transfer_card = (card, card_index) => {
+		props.selectCard(card)
 		let dest = parseInt(
 			prompt('To which deck you want to transfer, enter index')
 		)
@@ -65,6 +68,9 @@ const Hand = (props) => {
 			}, 1000)
 		}, 100)
 	}
+	const askCardSelect = (card) => {
+		props.askCardSelect(card)
+	}
 	return (
 		<>
 			<ul
@@ -73,24 +79,43 @@ const Hand = (props) => {
 				onMouseEnter={() => setHover(true)}
 				onMouseLeave={() => setHover(false)}
 			>
-				{props.cards.map((card, index) => (
-					<Card
-						transfer_card={props.transfer_card}
-						folded={props.folded}
-						value={card}
-						key={card.shape + card.num}
-						index={index}
-						hover={hover}
-						onClick={() => transfer_card(card, index)}
-						cards={cards}
-						style={
-							cardStyle.shape === card.shape &&
-							cardStyle.num === card.num
-								? style
-								: {}
-						}
-					/>
-				))}
+				{props.cards.map((card, index) =>
+					props.inAskCard ? (
+						<Card
+							transfer_card={props.transfer_card}
+							folded={props.folded}
+							value={card}
+							key={card.shape + card.num}
+							index={index}
+							hover={hover}
+							onClick={() => askCardSelect(card)}
+							cards={cards}
+							style={
+								cardStyle.shape === card.shape &&
+								cardStyle.num === card.num
+									? style
+									: {}
+							}
+						/>
+					) : (
+						<Card
+							transfer_card={props.transfer_card}
+							folded={props.folded}
+							value={card}
+							key={card.shape + card.num}
+							index={index}
+							hover={hover}
+							onClick={() => transfer_card(card, index)}
+							cards={cards}
+							style={
+								cardStyle.shape === card.shape &&
+								cardStyle.num === card.num
+									? style
+									: {}
+							}
+						/>
+					)
+				)}
 			</ul>
 		</>
 	)
@@ -125,5 +150,19 @@ function sort(hand) {
 		return weights[a[0]] - weights[b[0]]
 	})
 }
+Hand.propTypes = {
+	cardSelected: PropTypes.object,
+	selectCard: PropTypes.func
+}
+const mapStateToProps = (state) => {
+	return {
+		cardSelected: state.cardSelected
+	}
+}
+const mapDispatchToProps = (dispatch) => {
+	return {
+		selectCard: (card) => dispatch(gameActions.cardSelected(card))
+	}
+}
 
-export default Hand
+export default connect(mapStateToProps, mapDispatchToProps)(Hand)

@@ -1,0 +1,10 @@
+.ask-card-container{
+    position: absolute;
+    bottom: 0px;
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+}
+.f{
+    position: relative;
+    bottom: 0px;
+}

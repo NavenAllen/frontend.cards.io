@@ -33,7 +33,9 @@ export const gameConstants = {
 
 	UPDATE_GAME: 'UPDATE_GAME',
 
-	UPDATE_PLAYER: 'UPDATE_PLAYER'
+	UPDATE_PLAYER: 'UPDATE_PLAYER',
+
+	CARD_SELECTED: 'CARD_SELECTED'
 }
 
 export const gameActions = {
@@ -57,7 +59,8 @@ export const gameActions = {
 	destroyGameFailure,
 	addPlayer,
 	updateGame,
-	updatePlayer
+	updatePlayer,
+	cardSelected
 }
 
 function getPlayersList(gameCode) {
@@ -197,4 +200,9 @@ function updateGame(data) {
 
 function updatePlayer(data) {
 	return (dispatch) => dispatch({ type: gameConstants.UPDATE_PLAYER, data })
+}
+function cardSelected(card) {
+	console.log(card)
+	return (dispatch) =>
+		dispatch({ type: gameConstants.CARD_SELECTED, data: card })
 }
