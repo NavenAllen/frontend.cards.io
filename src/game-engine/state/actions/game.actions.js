@@ -15,8 +15,7 @@ export const gameConstants = {
 
 	JOIN_GAME_REQUEST: 'JOIN_GAME_REQUEST',
 	JOIN_GAME_SUCCESS: 'JOIN_GAME_SUCCESS',
-	JOIN_GAME_FAILURE: 'JOIN_GAME_FAILURE',
-
+	JOIN_GAME_FAILURE: 'JOIN_GAME_FAILURE'
 }
 
 export const gameActions = {
@@ -75,15 +74,15 @@ function createGameFailure(data) {
 			message: data.message
 		})
 }
-function joinGameRequest(user){
-	socket.emit('join',{
-		code:user.gameCode,
+function joinGameRequest(user) {
+	socket.emit('join', {
+		code: user.gameCode,
 		name: user.name,
-		position:user.position
+		position: user.position
 	})
-	return {type:gameConstants.JOIN_GAME_REQUEST,data:user.gameCode}
+	return { type: gameConstants.JOIN_GAME_REQUEST, data: user.gameCode }
 }
-function joinGameSuccess(data){
+function joinGameSuccess(data) {
 	console.log(data)
-	return {type:gameConstants.JOIN_GAME_SUCCESS,data:data}
+	return { type: gameConstants.JOIN_GAME_SUCCESS, data: data }
 }

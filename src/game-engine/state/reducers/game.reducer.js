@@ -22,7 +22,7 @@ export function game(state = initialState, action) {
 				},
 				error: null,
 				locked: false,
-				inGame:true
+				inGame: true
 			}
 		case gameConstants.CREATE_GAME_FAILURE:
 			return {
@@ -63,13 +63,13 @@ export function game(state = initialState, action) {
 				gameData: {
 					code: action.data.gameCode
 				},
-				playerData:{
+				playerData: {
 					name: action.data.name
 				},
 				locked: true
 			}
 		}
-		case gameConstants.JOIN_GAME_SUCCESS:{
+		case gameConstants.JOIN_GAME_SUCCESS: {
 			return {
 				...state,
 				playerData: {

@@ -12,4 +12,4 @@ var startLiteratureGameEventListeners = () => {
 	})
 }
 
-export default startLiteratureGameEventListeners;
+export default startLiteratureGameEventListeners

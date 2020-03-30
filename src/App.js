@@ -26,12 +26,12 @@ const App = (props) => {
 		</BrowserRouter>
 	)
 }
-App.propTypes={
+App.propTypes = {
 	inGame: PropTypes.bool.isRequired
 }
-const mapStateToProps=state=>{
+const mapStateToProps = (state) => {
 	return {
 		inGame: state.inGame
 	}
 }
-export default connect(mapStateToProps,null)(App)
+export default connect(mapStateToProps, null)(App)
