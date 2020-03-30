@@ -47,7 +47,7 @@ export function game(state = initialState, action) {
 				},
 				locked: false
 			}
-		case gameConstants.GET_PLAYERS_LIST_FAILURE: {
+		case gameConstants.GET_PLAYERS_LIST_FAILURE:
 			return {
 				...state,
 				error: {
@@ -56,8 +56,7 @@ export function game(state = initialState, action) {
 				},
 				locked: false
 			}
-		}
-		case gameConstants.JOIN_GAME_REQUEST: {
+		case gameConstants.JOIN_GAME_REQUEST:
 			return {
 				...state,
 				gameData: {
@@ -68,8 +67,7 @@ export function game(state = initialState, action) {
 				},
 				locked: true
 			}
-		}
-		case gameConstants.JOIN_GAME_SUCCESS: {
+		case gameConstants.JOIN_GAME_SUCCESS:
 			return {
 				...state,
 				playerData: {
@@ -81,7 +79,74 @@ export function game(state = initialState, action) {
 				locked: false,
 				inGame: true
 			}
-		}
+		case gameConstants.JOIN_GAME_FAILURE:
+			return {
+				...state,
+				playerData: {},
+				error: {
+					code: action.data.code,
+					message: action.data.message
+				},
+				locked: false,
+				inGame: false
+			}
+		case gameConstants.LEAVE_GAME_REQUEST:
+			return {
+				...state,
+				locked: true
+			}
+		case gameConstants.LEAVE_GAME_FAILURE:
+			return {
+				...state,
+				error: {
+					code: action.data.code,
+					message: action.data.message
+				},
+				locked: false
+			}
+		case gameConstants.START_GAME_REQUEST:
+			return {
+				...state,
+				locked: true
+			}
+		case gameConstants.START_GAME_FAILURE:
+			return {
+				...state,
+				error: {
+					code: action.data.code,
+					message: action.data.message
+				},
+				locked: false
+			}
+		case gameConstants.DESTROY_GAME_REQUEST:
+			return {
+				...state,
+				locked: true
+			}
+		case gameConstants.DESTROY_GAME_FAILURE:
+			return {
+				...state,
+				error: {
+					code: action.data.code,
+					message: action.data.message
+				},
+				locked: false
+			}
+		case gameConstants.GAME_UPDATE_SUCCESS:
+			return {
+				...state,
+				gameData: {
+					...state.gameData,
+					...action.state.data
+				},
+				locked: false
+			}
+		case gameConstants.PLAYER_UPDATE_SUCCESS:
+			return {
+				...state,
+				playerData: action.state.data,
+				locked: false
+			}
 		default:
 			return state
 	}

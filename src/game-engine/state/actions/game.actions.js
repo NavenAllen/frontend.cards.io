@@ -15,7 +15,25 @@ export const gameConstants = {
 
 	JOIN_GAME_REQUEST: 'JOIN_GAME_REQUEST',
 	JOIN_GAME_SUCCESS: 'JOIN_GAME_SUCCESS',
-	JOIN_GAME_FAILURE: 'JOIN_GAME_FAILURE'
+	JOIN_GAME_FAILURE: 'JOIN_GAME_FAILURE',
+
+	LEAVE_GAME_REQUEST: 'LEAVE_GAME_REQUEST',
+	LEAVE_GAME_SUCCESS: 'LEAVE_GAME_SUCCESS',
+	LEAVE_GAME_FAILURE: 'LEAVE_GAME_FAILURE',
+
+	START_GAME_REQUEST: 'START_GAME_REQUEST',
+	START_GAME_SUCCESS: 'START_GAME_SUCCESS',
+	START_GAME_FAILURE: 'START_GAME_FAILURE',
+
+	DESTROY_GAME_REQUEST: 'DESTROY_GAME_REQUEST',
+	DESTROY_GAME_SUCCESS: 'DESTROY_GAME_SUCCESS',
+	DESTROY_GAME_FAILURE: 'DESTROY_GAME_FAILURE',
+
+	GAME_UPDATE_SUCCESS: 'GAME_UPDATE_SUCCESS',
+	GAME_UPDATE_FAILURE: 'GAME_UPDATE_FAILURE',
+
+	PLAYER_UPDATE_SUCCESS: 'PLAYER_UPDATE_SUCCESS',
+	PLAYER_UPDATE_FAILURE: 'PLAYER_UPDATE_FAILURE'
 }
 
 export const gameActions = {
@@ -26,8 +44,21 @@ export const gameActions = {
 	getPlayersListSuccess,
 	getPlayersListFailure,
 	joinGameRequest,
-	joinGameSuccess
+	joinGameSuccess,
+	joinGameFailure,
+	leaveGameRequest,
+	leaveGameSuccess,
+	leaveGameFailure,
+	startGameRequest,
+	startGameSuccess,
+	startGameFailure,
+	destroyGameRequest,
+	destroyGameSuccess,
+	destroyGameFailure,
+	gameUpdateSuccess,
+	playerUpdateSuccess
 }
+
 function getPlayersList(gameCode) {
 	return (dispatch) => {
 		dispatch({ type: gameConstants.GET_PLAYERS_LIST_REQUEST })
@@ -37,7 +68,6 @@ function getPlayersList(gameCode) {
 }
 
 function getPlayersListSuccess(data) {
-	console.log(data)
 	return (dispatch) =>
 		dispatch({ type: gameConstants.GET_PLAYERS_LIST_SUCCESS, data })
 }
@@ -74,15 +104,91 @@ function createGameFailure(data) {
 			message: data.message
 		})
 }
+
 function joinGameRequest(user) {
-	socket.emit('join', {
-		code: user.gameCode,
-		name: user.name,
-		position: user.position
-	})
-	return { type: gameConstants.JOIN_GAME_REQUEST, data: user.gameCode }
+	return (dispatch) => {
+		socket.emit('join', {
+			code: user.gameCode,
+			name: user.name,
+			position: user.position
+		})
+		dispatch({ type: gameConstants.JOIN_GAME_REQUEST, data: user.gameCode })
+	}
 }
+
 function joinGameSuccess(data) {
-	console.log(data)
-	return { type: gameConstants.JOIN_GAME_SUCCESS, data: data }
+	return (dispatch) =>
+		dispatch({ type: gameConstants.JOIN_GAME_SUCCESS, data })
+}
+
+function joinGameFailure(data) {
+	return (dispatch) =>
+		dispatch({ type: gameConstants.JOIN_GAME_FAILURE, data })
+}
+
+function leaveGameRequest(code, pid) {
+	return (dispatch) => {
+		socket.emit('leave', {
+			code,
+			pid
+		})
+	}
+}
+
+function leaveGameSuccess(data) {
+	return (dispatch) =>
+		dispatch({ type: gameConstants.LEAVE_GAME_SUCCESS, data })
+}
+
+function leaveGameFailure(data) {
+	return (dispatch) =>
+		dispatch({ type: gameConstants.LEAVE_GAME_FAILURE, data })
+}
+
+function startGameRequest(code, pid) {
+	return (dispatch) => {
+		socket.emit('leave', {
+			code,
+			pid
+		})
+	}
+}
+
+function startGameSuccess(data) {
+	return (dispatch) =>
+		dispatch({ type: gameConstants.START_GAME_SUCCESS, data })
+}
+
+function startGameFailure(data) {
+	return (dispatch) =>
+		dispatch({ type: gameConstants.START_GAME_FAILURE, data })
+}
+
+function destroyGameRequest(code, pid) {
+	return (dispatch) => {
+		socket.emit('leave', {
+			code,
+			pid
+		})
+	}
+}
+
+function destroyGameSuccess(data) {
+	return (dispatch) =>
+		dispatch({ type: gameConstants.DESTROY_GAME_SUCCESS, data })
+}
+
+function destroyGameFailure(data) {
+	return (dispatch) =>
+		dispatch({ type: gameConstants.DESTROY_GAME_FAILURE, data })
+}
+
+function gameUpdateSuccess(data) {
+	return (dispatch) =>
+		dispatch({ type: gameConstants.GAME_UPDATE_SUCCESS, data })
+}
+
+function playerUpdateSuccess(data) {
+	return (dispatch) =>
+		dispatch({ type: gameConstants.PLAYER_UPDATE_SUCCESS, data })
 }
