@@ -1,33 +1,21 @@
 import React from 'react'
 import CardColumn from '../CardColumn/CardColumn.js'
-import classes from './Card.module.css'
+import './Card.css'
 
-const left = {
-	gridColumn: '1',
-	gridRow: '1'
-}
-
-const leftSuit = {
-	gridColumn: '1',
-	gridRow: '2'
-}
-
-const right = {
-	gridColumn: '5',
-	gridRow: '13',
-	transform: `rotate(-180deg)`,
-	translateX: `(-8px)`
-}
-
-const rightSuit = {
-	gridColumn: '5',
-	gridRow: '12',
-	transform: `rotate(-180deg)`,
-	translateX: `(-8px)`
+const FaceCard = (props) => {
+	const { value, shape } = props
+	return (
+		<img
+			class="face"
+			alt="face"
+			src={'img/faces/face-' + value + '-' + shape + '.png'}
+		/>
+	)
 }
 
 export const Card = (props) => {
 	const value = props.value.num === '0' ? '10' : props.value.num
+	const shape = props.value.shape
 	const suit = {
 		C: '♣',
 		D: '♦',
@@ -60,20 +48,26 @@ export const Card = (props) => {
 	}
 	return (
 		<>
-			<li
+			<div
 				onClick={props.onClick}
 				id={value + suit}
-				className={classes.card_container}
+				class="card"
 				style={{ ...cardColor, ...folded, ...props.style }}
 			>
-				<div style={left}>{value}</div>
-				<div style={leftSuit}>{suit}</div>
-				<CardColumn order="1" value={value} suit={suit} />
-				<CardColumn order="2" value={value} suit={suit} />
-				<CardColumn order="3" value={value} suit={suit} />
-				<div style={rightSuit}>{suit}</div>
-				<div style={right}>{value}</div>
-			</li>
+				<div class="index">
+					<div class="value">{value}</div>
+					<div class="suit">{suit}</div>
+				</div>
+				{!isNaN(parseInt(value)) || value === 'A' ? (
+					<div>
+						<CardColumn order="0" value={value} suit={suit} />
+						<CardColumn order="1" value={value} suit={suit} />
+						<CardColumn order="2" value={value} suit={suit} />
+					</div>
+				) : (
+					<FaceCard value={value} shape={shape} />
+				)}
+			</div>
 		</>
 	)
 }

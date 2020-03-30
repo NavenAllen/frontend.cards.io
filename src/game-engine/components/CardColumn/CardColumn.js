@@ -1,22 +1,19 @@
 import React from 'react'
-import './CardColumn.css'
-import ranks from './ranks'
+import { suitePositions } from './ranks'
 
 const CardColumn = (props) => {
-	const display = isNaN(parseInt(props.value))
-		? [[ranks[1].col1], [ranks[1].col2]]
-		: [[ranks[props.value].col1], [ranks[props.value].col2]]
+	let { order, value, suit } = props
+	let settings = {}
 
-	const settings = { display: 0, column: '2' }
-
-	switch (props.order) {
-		case '2':
-			settings.display = 1
-			settings.column = '3'
+	switch (order) {
+		case '0':
+			settings.left = '0.6em'
 			break
-		case '3':
-			settings.display = 0
-			settings.column = '4'
+		case '1':
+			settings.left = '1.55em'
+			break
+		case '2':
+			settings.left = '2.5em'
 			break
 		default:
 			break
@@ -25,17 +22,18 @@ const CardColumn = (props) => {
 	return (
 		<>
 			{' '}
-			{display[settings.display][0].map((item) => {
+			{suitePositions[value][parseInt(order)].map((item) => {
 				return (
 					<div
 						key={item}
 						className={item}
 						style={{
-							gridColumn: settings.column,
-							fontSize: '1.7em'
+							position: 'absolute',
+							left: settings.left,
+							top: item
 						}}
 					>
-						{props.suit}
+						{suit}
 					</div>
 				)
 			})}{' '}

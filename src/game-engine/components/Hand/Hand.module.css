@@ -7,13 +7,13 @@
     animation: appear 1s ease-in;
     animation-fill-mode: forwards;
 }
-.hand > li {
+.hand > div {
     position: absolute;
     transition: 1s;
     top: 0;
     left: 0;
 }
-.hand > li:hover {
+.hand > div:hover {
     left: 0;
     top: -30px;
     cursor: pointer;
