@@ -8,7 +8,8 @@ const preloadedState = {
 	gameData: {},
 	playerData: {},
 	error: null,
-	inGame: false
+	inGame: false,
+	isGameStarted: false
 }
 const rootStore = createStore(
 	rootReducer,

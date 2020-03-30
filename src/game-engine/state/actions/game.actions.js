@@ -93,7 +93,6 @@ function createGame(user) {
 }
 
 function createGameSuccess(data) {
-	console.log(data)
 	return (dispatch) =>
 		dispatch({ type: gameConstants.CREATE_GAME_SUCCESS, data })
 }
@@ -119,7 +118,7 @@ function joinGameRequest(user) {
 
 function joinGameSuccess(data) {
 	return (dispatch) =>
-		dispatch({ type: gameConstants.JOIN_GAME_SUCCESS, data })
+		dispatch({ type: gameConstants.JOIN_GAME_SUCCESS, data: data })
 }
 
 function joinGameFailure(data) {
@@ -189,7 +188,7 @@ function destroyGameFailure(data) {
 
 function addPlayer(name, position) {
 	return (dispatch) =>
-		dispatchEvent({ type: gameConstants.ADD_PLAYER({ name, position }) })
+		dispatch({ type: gameConstants.ADD_PLAYER, data: { name, position } })
 }
 
 function updateGame(data) {

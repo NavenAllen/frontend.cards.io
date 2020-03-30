@@ -75,7 +75,10 @@ export function game(state = initialState, action) {
 					...state.playerData,
 					id: action.data.pid
 				},
-				players: action.data.data,
+				gameData: {
+					...state.gameData,
+					players: action.data.data
+				},
 				error: null,
 				locked: false,
 				inGame: true,
@@ -144,11 +147,15 @@ export function game(state = initialState, action) {
 				started: false
 			}
 		case gameConstants.ADD_PLAYER:
+			var players
+			if (state.players != undefined)
+				players = [...this.state.players, action.data]
+
 			return {
 				...state,
 				gameData: {
 					...state.gameData,
-					players: state.gameData.players.push(action.data)
+					players: players
 				}
 			}
 		case gameConstants.UPDATE_GAME:

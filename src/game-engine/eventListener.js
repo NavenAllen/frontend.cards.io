@@ -6,6 +6,7 @@ var startCoreGameEventListeners = (dispatch) => {
 		createGameSuccess,
 		createGameFailure,
 		getPlayersListSuccess,
+		getPlayersListFailure,
 		joinGameSuccess,
 		joinGameFailure,
 		leaveGameFailure,
@@ -18,7 +19,9 @@ var startCoreGameEventListeners = (dispatch) => {
 
 	socket.on('game-probe', (response) => {
 		if (response.code === 200) {
-			dispatch(getPlayersListSuccess(response.data))
+			dispatch(getPlayersListSuccess(response))
+		} else {
+			dispatch(getPlayersListFailure(response))
 		}
 	})
 	socket.on('game-updates', (response) => {
@@ -34,6 +37,7 @@ var startCoreGameEventListeners = (dispatch) => {
 			case 'JOIN':
 				if (response.code === 200)
 					dispatch(addPlayer(response.pname, response.position))
+				else dispatch(joinGameFailure(response))
 				break
 			case 'LEAVE':
 				if (response.code !== 200) dispatch(leaveGameFailure(response))

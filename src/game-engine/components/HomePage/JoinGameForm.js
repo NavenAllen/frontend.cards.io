@@ -17,7 +17,7 @@ class JoinGamePage extends React.Component {
 	}
 	handlePositionInputChange = (e) => {
 		this.setState({
-			position: e.target.value
+			position: parseInt(e.target.value)
 		})
 	}
 	handleGameCodeInputChange = (e) => {

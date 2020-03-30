@@ -13,6 +13,11 @@ class HomePage extends React.Component {
 			form: 'create'
 		}
 	}
+	componentDidUpdate(prevProps) {
+		if (this.props.inGame) {
+			this.props.history.push('/game')
+		}
+	}
 
 	switchToCreateGame = () => {
 		this.setState({
