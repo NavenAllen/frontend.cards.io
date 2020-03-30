@@ -29,11 +29,11 @@ export const gameConstants = {
 	DESTROY_GAME_SUCCESS: 'DESTROY_GAME_SUCCESS',
 	DESTROY_GAME_FAILURE: 'DESTROY_GAME_FAILURE',
 
-	GAME_UPDATE_SUCCESS: 'GAME_UPDATE_SUCCESS',
-	GAME_UPDATE_FAILURE: 'GAME_UPDATE_FAILURE',
+	ADD_PLAYER: 'ADD_PLAYER',
 
-	PLAYER_UPDATE_SUCCESS: 'PLAYER_UPDATE_SUCCESS',
-	PLAYER_UPDATE_FAILURE: 'PLAYER_UPDATE_FAILURE'
+	UPDATE_GAME: 'UPDATE_GAME',
+
+	UPDATE_PLAYER: 'UPDATE_PLAYER'
 }
 
 export const gameActions = {
@@ -55,8 +55,9 @@ export const gameActions = {
 	destroyGameRequest,
 	destroyGameSuccess,
 	destroyGameFailure,
-	gameUpdateSuccess,
-	playerUpdateSuccess
+	addPlayer,
+	updateGame,
+	updatePlayer
 }
 
 function getPlayersList(gameCode) {
@@ -76,7 +77,7 @@ function getPlayersListFailure(data) {
 	return (dispatch) =>
 		dispatch({
 			type: gameConstants.GET_PLAYERS_LIST_REQUEST,
-			message: data.message
+			data
 		})
 }
 
@@ -101,7 +102,7 @@ function createGameFailure(data) {
 	return (dispatch) =>
 		dispatch({
 			type: gameConstants.CREATE_GAME_FAILURE,
-			message: data.message
+			data
 		})
 }
 
@@ -132,6 +133,7 @@ function leaveGameRequest(code, pid) {
 			code,
 			pid
 		})
+		dispatch({ type: gameConstants.LEAVE_GAME_REQUEST })
 	}
 }
 
@@ -147,10 +149,11 @@ function leaveGameFailure(data) {
 
 function startGameRequest(code, pid) {
 	return (dispatch) => {
-		socket.emit('leave', {
+		socket.emit('start', {
 			code,
 			pid
 		})
+		dispatch({ type: gameConstants.START_GAME_REQUEST })
 	}
 }
 
@@ -166,10 +169,11 @@ function startGameFailure(data) {
 
 function destroyGameRequest(code, pid) {
 	return (dispatch) => {
-		socket.emit('leave', {
+		socket.emit('start', {
 			code,
 			pid
 		})
+		dispatch({ type: gameConstants.DESTROY_GAME_REQUEST })
 	}
 }
 
@@ -183,12 +187,15 @@ function destroyGameFailure(data) {
 		dispatch({ type: gameConstants.DESTROY_GAME_FAILURE, data })
 }
 
-function gameUpdateSuccess(data) {
+function addPlayer(name, position) {
 	return (dispatch) =>
-		dispatch({ type: gameConstants.GAME_UPDATE_SUCCESS, data })
+		dispatchEvent({ type: gameConstants.ADD_PLAYER({ name, position }) })
 }
 
-function playerUpdateSuccess(data) {
-	return (dispatch) =>
-		dispatch({ type: gameConstants.PLAYER_UPDATE_SUCCESS, data })
+function updateGame(data) {
+	return (dispatch) => dispatch({ type: gameConstants.UPDATE_GAME, data })
+}
+
+function updatePlayer(data) {
+	return (dispatch) => dispatch({ type: gameConstants.UPDATE_PLAYER, data })
 }

@@ -22,7 +22,8 @@ export function game(state = initialState, action) {
 				},
 				error: null,
 				locked: false,
-				inGame: true
+				inGame: true,
+				started: false
 			}
 		case gameConstants.CREATE_GAME_FAILURE:
 			return {
@@ -77,7 +78,8 @@ export function game(state = initialState, action) {
 				players: action.data.data,
 				error: null,
 				locked: false,
-				inGame: true
+				inGame: true,
+				started: false
 			}
 		case gameConstants.JOIN_GAME_FAILURE:
 			return {
@@ -93,7 +95,8 @@ export function game(state = initialState, action) {
 		case gameConstants.LEAVE_GAME_REQUEST:
 			return {
 				...state,
-				locked: true
+				locked: true,
+				inGame: false
 			}
 		case gameConstants.LEAVE_GAME_FAILURE:
 			return {
@@ -108,6 +111,12 @@ export function game(state = initialState, action) {
 			return {
 				...state,
 				locked: true
+			}
+		case gameConstants.START_GAME_SUCCESS:
+			return {
+				...state,
+				locked: false,
+				started: true
 			}
 		case gameConstants.START_GAME_FAILURE:
 			return {
@@ -130,21 +139,31 @@ export function game(state = initialState, action) {
 					code: action.data.code,
 					message: action.data.message
 				},
-				locked: false
+				locked: false,
+				inGame: false,
+				started: false
 			}
-		case gameConstants.GAME_UPDATE_SUCCESS:
+		case gameConstants.ADD_PLAYER:
 			return {
 				...state,
 				gameData: {
 					...state.gameData,
-					...action.state.data
+					players: state.gameData.players.push(action.data)
+				}
+			}
+		case gameConstants.UPDATE_GAME:
+			return {
+				...state,
+				gameData: {
+					...action.data,
+					players: state.gameData.players
 				},
 				locked: false
 			}
-		case gameConstants.PLAYER_UPDATE_SUCCESS:
+		case gameConstants.UPDATE_PLAYER:
 			return {
 				...state,
-				playerData: action.state.data,
+				playerData: action.data,
 				locked: false
 			}
 		default:
