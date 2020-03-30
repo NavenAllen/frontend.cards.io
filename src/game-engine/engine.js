@@ -4,7 +4,7 @@ import Deck from './components/Deck/Deck'
 import Game from './components/Game/Game'
 
 export const Engine = (props) => {
-	const [num_players, set_num_players] = useState(4)
+	const [num_players, set_num_players] = useState(8)
 	const [dealt, setDealt] = useState(false)
 	const [folded, setFolded] = useState(true)
 	const deck = new Deck(props.deck)
