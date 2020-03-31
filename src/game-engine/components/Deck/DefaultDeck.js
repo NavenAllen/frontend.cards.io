@@ -144,6 +144,22 @@ export const DefaultDeck = [
 		shape: 'C'
 	},
 	{
+		num: '10',
+		shape: 'S'
+	},
+	{
+		num: '10',
+		shape: 'H'
+	},
+	{
+		num: '10',
+		shape: 'D'
+	},
+	{
+		num: '10',
+		shape: 'C'
+	},
+	{
 		num: 'J',
 		shape: 'S'
 	},

@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
-import GamePage from './game-engine/components/GamePage/GamePage'
+import GamePage from './literature/components/GamePage'
 import HomePage from './game-engine/components/HomePage/HomePage'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
