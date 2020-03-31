@@ -10,12 +10,13 @@ class AskCard extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			cardSelected: undefined
+			cardSelected: undefined,
+			playerSelected: undefined
 		}
 		this.findSetWithCard(props.card)
 	}
 	teams = [
-		[1, 3, 6],
+		[1, 3, 5],
 		[2, 4, 6]
 	]
 	componentDidUpdate(prevProps) {
@@ -33,12 +34,24 @@ class AskCard extends React.Component {
 	// getPlayerPosition=()=>{
 	// 	return this.props.players.find(player=>)
 	// }
-	askCard = (card, player) => {
-		this.props.playAsk({
-			card: card,
-			code: this.props.gameCode,
-			fid: this.props.playerId,
-			tpos: player
+	askCard = (card) => {
+		if (
+			this.state.cardSelected == undefined ||
+			this.state.playerSelected == undefined
+		) {
+			alert('Select Card/Player to ask')
+		} else {
+			this.props.playAsk({
+				card: card,
+				code: this.props.gameCode,
+				fid: this.props.playerId,
+				tpos: this.state.playerSelected
+			})
+		}
+	}
+	handleAskCardPlayerChange = (e) => {
+		this.setState({
+			playerSelected: e.target.value
 		})
 	}
 	askCardSelect = (card) => {
@@ -49,22 +62,43 @@ class AskCard extends React.Component {
 	render() {
 		return (
 			<div className="ask-card-container">
-				<div>
+				<div className="modal-main">
 					<Hand
 						cards={this.findSetWithCard(this.props.card)}
 						inAskCard={true}
 						askCardSelect={this.askCardSelect}
-						style={{ left: 0, bottom: -50 }}
+						style={{ left: 50, bottom: -50 }}
 					/>
+					{this.state.cardSelected != undefined ? (
+						<div>
+							<p>Card Selected:{this.state.cardSelected.num}</p>
+							<select onChange={this.handleAskCardPlayerChange}>
+								{this.props.playerPosition % 2
+									? this.teams[0].map((pos) => {
+											return (
+												<option value={pos}>
+													{/* {this.props.players[pos].name} */}
+													{pos}
+												</option>
+											)
+									  })
+									: this.teams[1].map((pos) => {
+											return (
+												<option value={pos}>
+													{/* {this.props.players[pos].name} */}
+													{pos}
+												</option>
+											)
+									  })}
+							</select>
+							<input
+								type="button"
+								value="Ask Card"
+								onClick={this.askCard}
+							/>
+						</div>
+					) : null}
 				</div>
-				{this.state.cardSelected != undefined ? (
-					<div>
-						Card Selected:{this.state.cardSelected.num}
-						{/* <select onChange={}>
-						{this.teams.includes}
-					</select> */}
-					</div>
-				) : null}
 			</div>
 		)
 	}
@@ -74,6 +108,7 @@ AskCard.propTypes = {
 	gameCode: PropTypes.string.isRequired,
 	playAsk: PropTypes.func.isRequired,
 	playerId: PropTypes.string.isRequired,
+	playerPosition: PropTypes.number.isRequired,
 	players: PropTypes.array.isRequired
 }
 const mapStateToProps = (state) => {
@@ -81,7 +116,8 @@ const mapStateToProps = (state) => {
 		card: state.cardSelected,
 		gameCode: state.gameData.code,
 		playerId: state.playerData.id,
-		players: state.gameData.players
+		players: state.gameData.players,
+		playerPosition: state.playerData.position
 	}
 }
 const mapDispatchToProps = (dispatch) => {

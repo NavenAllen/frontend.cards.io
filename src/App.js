@@ -15,7 +15,7 @@ const App = (props) => {
 				<Route
 					path="/"
 					render={() =>
-						props.inGame ? (
+						props.inGame || localStorage.getItem('playerId') ? (
 							<Redirect to="/game" />
 						) : (
 							<Redirect to="/home" />

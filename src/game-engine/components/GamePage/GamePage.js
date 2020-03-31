@@ -7,9 +7,6 @@ import AskCard from '../../../literature/components/AskCard/AskCard'
 
 const GamePage = (props) => {
 	let { deal, fold, game } = Engine({})
-	const cardSelected = (card) => {
-		console.log(card)
-	}
 	return (
 		<>
 			<h1>GameCode:{props.gameData.code}</h1>
@@ -40,12 +37,14 @@ const GamePage = (props) => {
 }
 GamePage.propTypes = {
 	gameData: PropTypes.object.isRequired,
-	cardSelected: PropTypes.object
+	cardSelected: PropTypes.object,
+	playerData: PropTypes.object
 }
 const mapStateToProps = (state) => {
 	return {
 		gameData: state.gameData,
-		cardSelected: state.cardSelected
+		cardSelected: state.cardSelected,
+		playerData: state.playerData
 	}
 }
 

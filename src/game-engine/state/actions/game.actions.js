@@ -96,6 +96,7 @@ function createGame(user) {
 }
 
 function createGameSuccess(data) {
+	localStorage.setItem('playerId', data.pid)
 	return (dispatch) =>
 		dispatch({ type: gameConstants.CREATE_GAME_SUCCESS, data })
 }
@@ -120,6 +121,7 @@ function joinGameRequest(user) {
 }
 
 function joinGameSuccess(data) {
+	localStorage.setItem('playerId', data.pid)
 	return (dispatch) =>
 		dispatch({ type: gameConstants.JOIN_GAME_SUCCESS, data: data })
 }

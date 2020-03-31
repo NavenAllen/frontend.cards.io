@@ -49,6 +49,8 @@ var startCoreGameEventListeners = (dispatch) => {
 			case 'GAME':
 				dispatch(updateGame(response.data))
 				break
+			case 'CONNECT':
+				console.log(response)
 			default:
 				break
 		}

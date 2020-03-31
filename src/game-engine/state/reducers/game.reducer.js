@@ -62,6 +62,7 @@ export function game(state = initialState, action) {
 			return {
 				...state,
 				gameData: {
+					...state.gameData,
 					code: action.data.gameCode
 				},
 				playerData: {
