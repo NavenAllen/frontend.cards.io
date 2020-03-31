@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+
+html,body {
+    background-color: #0a5efb!important;
+}
+
 .create-game-wrapper {
     display: flex;
     align-items: center;
@@ -7,6 +14,7 @@
     min-height: 100%;
     padding: 20px;
 }
+
 .create-game-container {
     -webkit-border-radius: 10px 10px 10px 10px;
     border-radius: 10px 10px 10px 10px;
@@ -22,7 +30,8 @@
     display: grid;
     grid-template-columns: 10fr 1fr 10fr;
 }
-.or{
+
+.or {
     width: 40px;
     height: 40px;
     background: #DDD;
@@ -31,16 +40,18 @@
     text-align: center;
     line-height: 40px;
     position: relative;
-    top: 50%; 
+    top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
 }
-.homePageForm{
+
+.homePageForm {
     position: relative;
-    top: 50%; 
+    top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
 }
+
 h2 {
     text-align: center;
     font-size: 16px;
@@ -50,76 +61,7 @@ h2 {
     margin: 40px 8px 10px 8px;
     color: #cccccc;
 }
-input[type='text'],
-input[type='number'],select {
-    background-color: #f6f6f6;
-    border: none;
-    color: #0d0d0d;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 5px;
-    width: 90%;
-    border: 2px solid #f6f6f6;
-    -webkit-transition: all 0.5s ease-in-out;
-    -moz-transition: all 0.5s ease-in-out;
-    -ms-transition: all 0.5s ease-in-out;
-    -o-transition: all 0.5s ease-in-out;
-    transition: all 0.5s ease-in-out;
-    -webkit-border-radius: 5px 5px 5px 5px;
-    border-radius: 5px 5px 5px 5px;
-}
-input[type='button'],
-input[type='submit'],
-input[type='reset'] {
-    background-color: #56baed;
-    border: none;
-    color: white;
-    padding: 15px 80px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    text-transform: uppercase;
-    font-size: 13px;
-    -webkit-box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
-    box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
-    -webkit-border-radius: 5px 5px 5px 5px;
-    border-radius: 5px 5px 5px 5px;
-    margin: 5px 20px 40px 20px;
-    -webkit-transition: all 0.3s ease-in-out;
-    -moz-transition: all 0.3s ease-in-out;
-    -ms-transition: all 0.3s ease-in-out;
-    -o-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-}
 
-input[type='text']:focus,
-input[type='number']:focus {
-    background-color: #fff;
-    border-bottom: 2px solid #5fbae9;
-}
-
-input[type='text']:placeholder,
-input[type='number']:placeholder {
-    color: #cccccc;
-}
-input[type='button']:hover,
-input[type='submit']:hover,
-input[type='reset']:hover {
-    background-color: #39ace7;
-}
-
-input[type='button']:active,
-input[type='submit']:active,
-input[type='reset']:active {
-    -moz-transform: scale(0.95);
-    -webkit-transform: scale(0.95);
-    -o-transform: scale(0.95);
-    -ms-transform: scale(0.95);
-    transform: scale(0.95);
-}
 h2.inactive {
     color: #cccccc;
 }
@@ -128,6 +70,7 @@ h2.active {
     color: #0d0d0d;
     border-bottom: 2px solid #5fbae9;
 }
+
 .underlineHover:after {
     display: block;
     left: 0;
@@ -146,3 +89,52 @@ h2.active {
 .underlineHover:hover:after {
     width: 100%;
 }
+
+
+.main-container {
+    text-align: center;
+}
+
+/* Vertical divider start */
+.or-spacer {
+    display: block;
+    height: 100%;
+    position: relative;
+}
+
+.or-spacer .mask {
+    overflow: hidden;
+    height: 2px;
+    transform: rotate(90deg);
+}
+
+.or-spacer .mask:after {
+    content: '';
+    display: block;
+    border: 3px solid #ccc;
+}
+
+.or-spacer span {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    bottom: 100%;
+    margin-bottom: -25px;
+    left: 50%;
+    margin-left: -25px;
+    top: 100px;
+    border-radius: 100%;
+    background: #eee;
+}
+
+.or-spacer span i {
+    display: inline-block;
+    border-radius: 100%;
+    text-align: center;
+    width: 100%;
+    line-height: 50px;
+    font-style: normal;
+    color: #999;
+}
+
+/* Vertical divider end */
