@@ -1,17 +1,6 @@
 import React from 'react'
-import CardColumn from '../CardColumn/CardColumn.js'
+import CardDisplay from './CardDisplay'
 import './Card.css'
-
-const FaceCard = (props) => {
-	const { value, shape } = props
-	return (
-		<img
-			class="face"
-			alt="face"
-			src={'img/faces/face-' + value + '-' + shape + '.png'}
-		/>
-	)
-}
 
 export const Card = (props) => {
 	const value = props.value.num === '0' ? '10' : props.value.num
@@ -26,7 +15,7 @@ export const Card = (props) => {
 		suit === '♥' || suit === '♦' || suit === '♡' || suit === '♢'
 			? { color: 'red' }
 			: { color: 'black' }
-	let folded = { position: 'absolute' }
+	let folded = { position: 'absolute', fontSize: props.fontSize }
 	if (!props.folded) {
 		folded = {
 			...folded,
@@ -51,22 +40,10 @@ export const Card = (props) => {
 			<div
 				onClick={props.onClick}
 				id={value + suit}
-				class="card"
+				className={'card'}
 				style={{ ...cardColor, ...folded, ...props.style }}
 			>
-				<div class="index">
-					<div class="value">{value}</div>
-					<div class="suit">{suit}</div>
-				</div>
-				{!isNaN(parseInt(value)) || value === 'A' ? (
-					<div>
-						<CardColumn order="0" value={value} suit={suit} />
-						<CardColumn order="1" value={value} suit={suit} />
-						<CardColumn order="2" value={value} suit={suit} />
-					</div>
-				) : (
-					<FaceCard value={value} shape={shape} />
-				)}
+				<CardDisplay value={value} suit={suit} shape={shape} />
 			</div>
 		</>
 	)

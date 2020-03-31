@@ -110,15 +110,15 @@ export const positions = {
 		},
 		{
 			left: 100,
-			bottom: '20vh'
+			bottom: '40vh'
 		},
 		{
 			left: '30vw',
-			bottom: 0
+			bottom: '20vh'
 		},
 		{
 			right: '30vw',
-			bottom: 0
+			bottom: '20vh'
 		},
 		{
 			right: 100,
@@ -126,7 +126,7 @@ export const positions = {
 		},
 		{
 			right: 100,
-			bottom: '20vh'
+			bottom: '40vh'
 		}
 	]
 }

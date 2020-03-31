@@ -1,6 +1,6 @@
 .hand {
-    width: 150px;
-    height: 225px;
+    max-width: 150px;
+    max-height: 225px;
     position: absolute;
     transition: 1s;
     margin: 30px;
