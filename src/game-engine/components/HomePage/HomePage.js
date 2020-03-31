@@ -6,30 +6,14 @@ import JoinGameForm from './JoinGameForm'
 import { connect } from 'react-redux'
 import { gameActions } from '../../state/actions'
 
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import {
-	Box,
-	Button,
-	Card,
-	CardActionArea,
-	CardActions,
-	CardContent,
-	CardHeader,
-	CardMedia,
-	Chip,
 	Container,
-	CssBaseline,
-	Divider,
 	Grid,
-	IconButton,
 	Paper,
 	TextField,
 	Typography
 } from '@material-ui/core';
-
-import {
-	InfoOutlined as InfoIcon
-} from '@material-ui/icons';
 
 const styles = (theme) => ({
 	root: {
@@ -51,6 +35,7 @@ const styles = (theme) => ({
 			}
 		},
 		'&:hover': {
+			cursor: 'pointer'
 		},
 	},
 	chip: {
@@ -137,23 +122,6 @@ const styles = (theme) => ({
 	}
 });
 
-const createGameData = [
-	{ name: 'Literature', tags: ['Team', '6 to 8'], rules: 'link' },
-	{ name: 'Ace', tags: ['4 to 8'], rules: 'link' },
-	{ name: 'Hearts', tags: ['Team', 'Only 4'], rules: 'link' },
-	{ name: 'Bridge', tags: ['Team', '6 to 8'], rules: 'link' },
-	{ name: 'Rummy', tags: ['4 to 6'], rules: 'link' }
-]
-
-const data2 = [
-	{ position: 1, name: 'Bharath' },
-	{ position: 2, name: 'Bharath' },
-	{ position: 3, name: 'Bharath' },
-	{ position: 4, name: 'Bharath' },
-	{ position: 5, name: 'Bharath' },
-	{ position: 6, name: 'Bharath' },
-];
-
 class HomePage extends React.Component {
 
 	constructor(props) {
@@ -178,17 +146,6 @@ class HomePage extends React.Component {
 			form: 'join'
 		})
 	}
-
-	handleCreateGameCardClick = (e) => {
-		console.log("card",e);
-	}
-
-	handleCreateGameInfoClick = (e) => {
-		// Stop click event propagation to parent(handleCreateGameCardClick)
-		e.stopPropagation();
-		console.log("info",e);
-	}
-
 
 	render() {
 		const { classes, locked } = this.props;
@@ -237,98 +194,17 @@ class HomePage extends React.Component {
 								<Grid item xs={0} sm={4} xl={4}></Grid>
 							</Grid>
 							<Grid container xs={6} className={classes.sectionGrid} spacing={1}>
-								{createGameData.map((game) => (
-									<Grid item xl={4} sm={6} xs={12} className={classes.itemGrid}>
-										<Card className={classes.card}
-											onClick={this.handleCreateGameCardClick}
-										>
-											<CardHeader
-												action={
-													<div>
-														<IconButton aria-label="settings"
-															onClick={this.handleCreateGameInfoClick}
-														>
-															<InfoIcon />
-														</IconButton>
-													</div>
-											}
-												title="Literature"
-											/>
-											<CardContent>
-												{game.tags.map((tag, i) => (
-													<Chip
-														key={i}
-														className={classes.chip}
-														size="small"
-														label={tag}
-													/>
-												))}
-											</CardContent>
-
-										</Card>
-									</Grid>
-								))}
-								<Grid container xs={12} sm={12} xl={12}
-									justify="center"
-									className={classes.joinBtnContainer}
-								>
-									<Button size="small" variant="contained" color="primary">
-										Host
-									</Button>
-								</Grid>
+								<CreateGameForm
+									createGame={this.handleCreateGameFormSubmit}
+									locked={locked}
+								/>
 							</Grid>
 							<Grid container xs={6} className={classes.sectionGrid}>
-								<Grid container xs={12} xl={12} alignItems="center" >
-									<Grid container item xs={9} justify="center">
-										<TextField
-											label="Game Code"
-											variant="outlined"
-											size="small"
-											fullWidth
-											color="secondary"
-											className={classes.textField}
-										/>
-									</Grid>
-									<Grid item align="center" alignItems="center" xs={3} justify="center">
-										<Button size="small" variant="contained" color="secondary">
-											Peek
-										</Button>
-									</Grid>
-								</Grid>
-								<Grid container xs={12} xl={12} className={classes.centerChild}>
-								</Grid>
-								<Grid container xs={12} xl={12} className={classes.joinListGrid}
-									spacing={2}
-								>
-									{data2.map((player) => (
-										<Grid item xs={6} className={classes.nameTabGrid}>
-											<Card className={classes.nameTabCard} alignItems="center">
-												<Box className={classes.chipNumberBox}>
-													{player.position}
-												</Box>
-												<div className={classes.detail}>
-													<CardContent className={classes.cardContent}>
-														<Typography
-															color="textSecondary"
-															component="div"
-															gutterBottom
-														>
-															{player.name}
-														</Typography>
-													</CardContent>
-												</div>
-											</Card>
-										</Grid>
-									))}
-									<Grid container xs={12} sm={12} xl={12}
-										justify="center"
-										className={classes.joinBtnContainer}
-									>
-										<Button size="small" variant="contained" color="secondary">
-											Join
-										</Button>
-									</Grid>
-								</Grid>
+								<JoinGameForm
+									joinGame={this.handleJoinGameFormSubmit}
+									probeGameRequest={this.props.probeGameRequest}
+									players={this.props.players}
+								/>
 							</Grid>
 						</Grid>
 					</Paper>

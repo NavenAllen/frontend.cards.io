@@ -150,7 +150,7 @@ export function game(state = initialState, action) {
 			}
 		case gameConstants.ADD_PLAYER:
 			var players
-			if (state.players != undefined)
+			if (state.players !== undefined)
 				players = [...this.state.players, action.data]
 
 			return {
