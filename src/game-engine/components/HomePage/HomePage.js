@@ -1,19 +1,27 @@
-import React, { useEffect, useState } from 'react'
-import './HomePage.css'
+import React from 'react'
 import PropTypes from 'prop-types'
+import { useMediaQuery } from 'react-responsive'
+
 import CreateGameForm from './CreateGameForm'
 import JoinGameForm from './JoinGameForm'
 import { connect } from 'react-redux'
 import { gameActions } from '../../state/actions'
 
-import { withStyles } from '@material-ui/core/styles'
+import './HomePage.css'
+
+import { withStyles } from '@material-ui/core/styles';
 import {
+	AppBar,
+	Box,
 	Container,
+	Divider,
 	Grid,
 	Paper,
 	TextField,
+	Tab,
+	Tabs,
 	Typography
-} from '@material-ui/core'
+} from '@material-ui/core';
 
 const styles = (theme) => ({
 	root: {},
@@ -102,6 +110,8 @@ const styles = (theme) => ({
 
 const HomePage = (props) => {
 	const [name, setName] = useState('')
+	const [tabValue, setTabValue] = useState(0)
+
 	useEffect(() => {
 		if (props.inGame) props.history.push('/game')
 	})
@@ -111,6 +121,52 @@ const HomePage = (props) => {
 			type: game
 		})
 	}
+
+	const Mobile = ({ children }) => {
+		const isMob1 = useMediaQuery({ 
+			maxDeviceHeight: 619,
+		})
+		let isMob2 = useMediaQuery({ maxDeviceWidth: 767 })
+		isMob2 = useMediaQuery({ maxDeviceHeight: 1020 }) && isMob2
+
+		return isMob1 || isMob2 ? children : null
+	}
+
+	const Desktop = ({ children }) => {
+		const isMob1 = useMediaQuery({ 
+			maxDeviceHeight: 619,
+		})
+		let isMob2 = useMediaQuery({ maxDeviceWidth: 767 })
+		isMob2 = useMediaQuery({ maxDeviceHeight: 1020 }) && isMob2
+
+		return isMob1 || isMob2 ? null : children
+	}
+
+	// Functions for Tabs
+	function TabPanel(props) {
+		const { children, value, index, ...other } = props;
+	
+		return (
+		<Typography
+			component="div"
+			role="tabpanel"
+			hidden={value !== index}
+			id={`full-width-tabpanel-${index}`}
+			aria-labelledby={`full-width-tab-${index}`}
+			{...other}
+		>
+			{value === index && <Box p={3}>{children}</Box>}
+		</Typography>
+		);
+	}
+
+	function a11yProps(index) {
+		return {
+			id: `full-width-tab-${index}`,
+			'aria-controls': `full-width-tabpanel-${index}`,
+		};
+	}
+
 	const handleJoinGameFormSubmit = (gameCode, position) => {
 		props.joinGame({
 			gameCode,
@@ -122,7 +178,12 @@ const HomePage = (props) => {
 		setName(e.target.value)
 	}
 
+	const handleTabChange = () => {
+		setTabValue(1 - tabValue)
+	};
+
 	const { classes, locked } = props
+
 	return (
 			<Container component="main" className={classes.mainContainer}>
 				<Grid
@@ -140,7 +201,27 @@ const HomePage = (props) => {
 					>
 						cards.io
 					</Typography>
-					<Paper className={classes.mainPaper} elevation={6}>
+					<Paper
+						className={classes.mainPaper}
+						elevation={6}
+					>
+						<Mobile>
+							<AppBar position="static" color="default">
+								{console.log(tabValue)}
+								<Tabs
+									value={tabValue}
+									indicatorColor="secondary"
+									textColor="secondary"
+									centered
+									variant="fullWidth"
+									aria-label="full width tabs example"
+									onChange={handleTabChange}
+								>
+									<Tab label="Create Game" {...a11yProps(0)} />
+									<Tab label="Join Game" {...a11yProps(1)} />
+								</Tabs>
+							</AppBar>
+						</Mobile>
 						<Grid container className={classes.paperGridContainer}>
 							<Grid
 								container
@@ -187,61 +268,77 @@ const HomePage = (props) => {
 								</Grid>
 								<Grid item xs={2} sm={4} xl={4}></Grid>
 							</Grid>
-							<Grid container xs={12}>
-								<Grid
-									container
-									xs
-									className={classes.sectionGrid}
-								>
-									<CreateGameForm
-										createGame={
-											this.handleCreateGameFormSubmit
-										}
-										locked={locked}
-									/>
-								</Grid>
-								<Grid container justify="center" item xs={1}>
-									<div class="split-layout__divider">
-										<div class="split-layout__rule"></div>
-										<div class="split-layout__label">
-											OR
+							<Desktop>
+								<Grid container xs={12}>
+									<Grid
+										container
+										xs
+										className={classes.sectionGrid}
+									>
+										<CreateGameForm
+											createGame={
+												handleCreateGameFormSubmit
+											}
+											locked={locked}
+										/>
+									</Grid>
+									<Grid container justify="center" item xs={1}>
+										<div class="split-layout__divider">
+											<div class="split-layout__rule"></div>
+											<div class="split-layout__label">
+												OR
+											</div>
+											<div class="split-layout__rule"></div>
 										</div>
-										<div class="split-layout__rule"></div>
-									</div>
+									</Grid>
+									<Grid
+										container
+										xs
+										className={classes.sectionGrid}
+									>
+										<JoinGameForm
+											joinGame={handleJoinGameFormSubmit}
+											probeGameRequest={
+												props.probeGameRequest
+											}
+											players={props.players}
+										/>
+									</Grid>
 								</Grid>
-								<Grid
-									container
-									xs
-									className={classes.sectionGrid}
-								>
-									<JoinGameForm
-										joinGame={this.handleJoinGameFormSubmit}
-										probeGameRequest={
-											this.props.probeGameRequest
-										}
-										players={this.props.players}
-									/>
+							</Desktop>
+							<Mobile>
+								<Grid container xs={12}>
+									<TabPanel value={tabValue} index={0}>
+										<Grid
+											container
+											xs
+											className={classes.sectionGrid}
+										>
+											<CreateGameForm
+												createGame={
+													handleCreateGameFormSubmit
+												}
+												locked={locked}
+											/>
+										</Grid>
+									</TabPanel>
+									<TabPanel value={tabValue} index={1}>
+										<Grid
+											container
+											xs
+											className={classes.sectionGrid}
+										>
+											<JoinGameForm
+												joinGame={handleJoinGameFormSubmit}
+												probeGameRequest={
+													props.probeGameRequest
+												}
+												players={props.players}
+											/>
+										</Grid>
+									</TabPanel>
 								</Grid>
-							</Grid>
-							<Grid item xs={2} sm={4} xl={4}></Grid>
-						</Grid>
-						<Grid
-							container
-							xs={6}
-							className={classes.sectionGrid}
-							spacing={1}
-						>
-							<CreateGameForm
-								createGame={handleCreateGameFormSubmit}
-								locked={locked}
-							/>
-						</Grid>
-						<Grid container xs={6} className={classes.sectionGrid}>
-							<JoinGameForm
-								joinGame={handleJoinGameFormSubmit}
-								probeGameRequest={props.probeGameRequest}
-								players={props.players}
-							/>
+							</Mobile>
 						</Grid>
 					</Paper>
 					<Typography
