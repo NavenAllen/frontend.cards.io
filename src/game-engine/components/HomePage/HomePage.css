@@ -1,6 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
 
-html,body {
-    background-color: #0a5efb!important;
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: #0a5efb;
+    background-image: url("/img/background.png");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
