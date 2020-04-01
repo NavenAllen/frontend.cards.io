@@ -51,11 +51,15 @@ var startCoreGameEventListeners = (dispatch) => {
 				break
 			case 'CONNECT':
 				console.log(response)
+				break
 			default:
 				break
 		}
 	})
-	socket.on('player-updates', (response) => {
+	socket.on('game-data', (response) => {
+		dispatch(updateGame(response.data))
+	})
+	socket.on('player-data', (response) => {
 		dispatch(updatePlayer(response.data))
 	})
 }
