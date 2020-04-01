@@ -22,7 +22,7 @@ const styles = (theme) => ({
 		marginRight: theme.spacing(1)
 	},
 	card: {
-		margin: theme.spacing(0.5),
+		margin: theme.spacing(0.8),
 		'& > *': {
 			padding: theme.spacing(1),
 			paddingBottom: 0,
@@ -46,6 +46,8 @@ const styles = (theme) => ({
 		border: '3px solid',
 		borderRadius: '6px',
 		display: 'flex',
+		margin: theme.spacing(0.8),
+		color: 'black',
 		padding: theme.spacing(0),
 		'& > *': {
 			padding: theme.spacing(1),
@@ -70,6 +72,28 @@ const styles = (theme) => ({
 	},
 	joinBtnContainer: {
 		marginTop: theme.spacing(2)
+	},
+	cssLabel: {
+		color: 'black',
+		fontSize: '0.9rem'
+	},
+	cssOutlinedInput: {
+		'&$cssFocused $notchedOutline': {
+			borderWidth: '2px',
+			borderColor: `${theme.palette.secondary.main} !important`
+		}
+	},
+	cssFocused: {
+		fontSize: '1rem'
+	},
+	notchedOutline: {
+		borderWidth: '2px',
+		borderColor: 'black !important'
+	},
+	formButton: {
+		'&:focus': {
+			outline: 'none'
+		}
 	}
 })
 
@@ -99,40 +123,59 @@ const JoinGameForm = (props) => {
 	const { classes } = props
 
 	return (
-		<>
-			<Grid container xs={12} xl={12} alignItems="center">
-				<Grid item xs={2}></Grid>
-				<Grid container item xs={7} justify="center">
-					<TextField
-						label="Game Code"
-						variant="outlined"
-						size="small"
-						fullWidth
-						color="secondary"
-						className={classes.textField}
-						value={gameCode}
-						onChange={handleGameCodeInputChange}
-					/>
+			<>
+				<Grid container xs={12} xl={12} alignItems="center">
+					<Grid item xs={2}></Grid>
+					<Grid container item xs={7} justify="center">
+						<TextField
+							label="Game Code"
+							variant="outlined"
+							size="small"
+							InputLabelProps={{
+								classes: {
+									root: classes.cssLabel,
+									focused: classes.cssFocused
+								}
+							}}
+							InputProps={{
+								classes: {
+									root: classes.cssOutlinedInput,
+									focused: classes.cssFocused,
+									notchedOutline: classes.notchedOutline
+								},
+								inputMode: 'text'
+							}}
+							color="secondary"
+							className={classes.textField}
+							value={gameCode}
+							onChange={handleGameCodeInputChange}
+						/>
+					</Grid>
+					<Grid item alignItems="center" xs={3} justify="center">
+						<Button
+							size="small"
+							variant="contained"
+							color="secondary"
+							onClick={handleProbeGameSubmit}
+						>
+							Peek
+						</Button>
+					</Grid>
 				</Grid>
-				<Grid item alignItems="center" xs={3} justify="center">
-					<Button
-						size="small"
-						variant="contained"
-						color="secondary"
-						onClick={handleProbeGameSubmit}
-					>
-						Peek
-					</Button>
-				</Grid>
-			</Grid>
-			<Grid
-				container
-				xs={12}
-				xl={12}
-				className={classes.joinListGrid}
-				spacing={2}
-			>
-				{props.players.map((player) => {
+				<Grid
+					container
+					xs={12}
+					xl={12}
+					className={classes.centerChild}
+				></Grid>
+				<Grid
+					container
+					xs={12}
+					xl={12}
+					className={classes.joinListGrid}
+					spacing={0}
+				>
+					{props.players.map((player) => {
 					const isActive = position === player.position
 					return (
 						<Grid item xs={6} className={classes.nameTabGrid}>
@@ -171,27 +214,27 @@ const JoinGameForm = (props) => {
 								</div>
 							</Card>
 						</Grid>
-					)
-				})}
-				<Grid
-					container
-					xs={12}
-					sm={12}
-					xl={12}
-					justify="center"
-					className={classes.joinBtnContainer}
-				>
-					<Button
-						size="small"
-						variant="contained"
-						color="secondary"
-						onClick={joinGame}
+					))}
+					<Grid
+						container
+						xs={12}
+						sm={12}
+						xl={12}
+						justify="center"
+						className={classes.joinBtnContainer}
 					>
-						Join
-					</Button>
+						<Button
+							className={classes.formButton}
+							size="small"
+							variant="contained"
+							color="secondary"
+							onClick={joinGame}
+						>
+							Join
+						</Button>
+					</Grid>
 				</Grid>
-			</Grid>
-		</>
+			</>
 	)
 }
 
