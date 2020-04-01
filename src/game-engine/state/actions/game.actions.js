@@ -204,7 +204,6 @@ function updatePlayer(data) {
 	return (dispatch) => dispatch({ type: gameConstants.UPDATE_PLAYER, data })
 }
 function cardSelected(card) {
-	console.log(card)
 	return (dispatch) =>
 		dispatch({ type: gameConstants.CARD_SELECTED, data: card })
 }
