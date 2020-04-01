@@ -34,47 +34,9 @@ const styles = (theme) => ({
 			cursor: 'pointer'
 		}
 	},
-	chip: {
-		marginLeft: theme.spacing(0.5),
-		marginRight: theme.spacing(0.5)
-	},
-	titleContainer: {
-		textAlign: 'center',
-		marginTop: theme.spacing(6)
-	},
-	title: {
-		fontFamily: 'Pacifico',
-		color: 'white'
-	},
-	paper: {
-		boxShadow: theme.shadows[9]
-	},
 	centerChild: {
 		textAlign: 'center'
 	},
-	mainContainer: {
-		width: '100vw',
-		height: '100vh'
-	},
-	mainGrid: {
-		marginTop: theme.spacing(2)
-	},
-	mainPaper: {
-		minWidth: '75vw',
-		minHeight: '70vh',
-		backgroundColor: theme.palette.secondary
-	},
-	paperGridContainer: {
-		padding: theme.spacing(2)
-	},
-	nameBigContainer: {
-		marginTop: theme.spacing(0.5),
-		marginBottom: theme.spacing(0.5)
-	},
-	sectionGrid: {
-		padding: theme.spacing(2)
-	},
-	itemGrid: {},
 	joinListGrid: {
 		marginTop: theme.spacing(1),
 		marginLeft: 0
@@ -105,13 +67,6 @@ const styles = (theme) => ({
 		'&:last-child': {
 			paddingBottom: theme.spacing(0)
 		}
-	},
-	cover: {
-		width: '20%'
-	},
-	details: {
-		display: 'flex',
-		flexDirection: 'column'
 	},
 	joinBtnContainer: {
 		marginTop: theme.spacing(2)
