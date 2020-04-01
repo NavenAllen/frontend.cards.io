@@ -28,6 +28,8 @@ const styles = (theme) => ({
 		marginRight: theme.spacing(1),
 	},
 	card: {
+		border: '3px solid',
+		borderRadius: '8px',
 		margin: theme.spacing(0.5),
 		'& > *': {
 			padding: theme.spacing(1),
@@ -95,7 +97,7 @@ const styles = (theme) => ({
 			padding: theme.spacing(1),
 			paddingBottom: 0,
 			"&:last-child": {
-				paddingBottom: theme.spacing(0.5)
+				paddingBottom: theme.spacing(0.7)
 			}
 		},
 	},
@@ -170,21 +172,23 @@ class CreateGameForm extends React.Component {
 		return (
 			<>
 				{createGameData.map((game) => (
-					<Grid item xl={4} sm={6} xs={12} className={classes.itemGrid}>
+					<Grid item xl={4} sm={4} xs={12} className={classes.itemGrid}>
 						<Card className={classes.card}
+							variant="outlined"
 							onClick={this.handleCreateGameCardClick}
 						>
 							<CardHeader
 								action={
 									<div>
 										<IconButton aria-label="settings"
+											fontSize="small"
 											onClick={this.handleCreateGameInfoClick}
 										>
 											<InfoIcon />
 										</IconButton>
 									</div>
 								}
-								title="Literature"
+								title={game.name}
 							/>
 							<CardContent>
 								{game.tags.map((tag, i) => (

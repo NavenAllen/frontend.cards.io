@@ -44,11 +44,10 @@ const styles = (theme) => ({
 	},
 	titleContainer: {
 		textAlign: "center",
-		marginTop: theme.spacing(6),
+		marginTop: theme.spacing(1),
 	},
 	title: {
 		fontFamily: 'Pacifico',
-		color: "white",
 	},
 	paper: {
 		boxShadow: theme.shadows[9]
@@ -57,23 +56,21 @@ const styles = (theme) => ({
 		textAlign: "center"
 	},
 	mainContainer: {
-		width: "100vw",
-		height: "100vh",
 	},
 	mainGrid: {
 		marginTop: theme.spacing(2)
 	},
 	mainPaper: {
-		minWidth: "75vw",
+		marginTop: theme.spacing(11),
 		minHeight: "70vh",
-		backgroundColor: theme.palette.secondary,
+		backgroundColor: "#fff",
 	},
 	paperGridContainer: {
 		padding: theme.spacing(2),
 	},
 	nameBigContainer: {
 		marginTop: theme.spacing(0.5),
-		marginBottom: theme.spacing(0.5),
+		marginBottom: theme.spacing(4),
 	},
 	sectionGrid: {
 		padding: theme.spacing(2),
@@ -152,15 +149,6 @@ class HomePage extends React.Component {
 
 		return (
 			<Container component="main" className={classes.mainContainer}>
-				<div className={classes.titleContainer}>
-					<Typography
-						variant="h3"
-						component="h3"
-						className={classes.title}
-					>
-						Cards.io
-					</Typography>
-				</div>
 				<Grid
 					container
 					spacing={0}
@@ -174,12 +162,21 @@ class HomePage extends React.Component {
 						elevation={6}
 					>
 						<Grid container className={classes.paperGridContainer}>
+							<Grid xs={12} className={classes.titleContainer}>
+								<Typography
+									variant="h3"
+									component="h3"
+									className={classes.title}
+								>
+									cards.io
+								</Typography>
+							</Grid>
 							<Grid container xs={12} sm={12} xl={12}
 								justify="center"
 								className={classes.nameBigContainer}
 							>
-								<Grid item xs={0} sm={4} xl={4}></Grid>
-								<Grid item xs={12} sm={4} xl={4}
+								<Grid item xs={2} sm={4} xl={4}></Grid>
+								<Grid item xs={8} sm={4} xl={4}
 									justify="center"
 									className={classes.joinBtnContainer}
 								>
@@ -187,11 +184,12 @@ class HomePage extends React.Component {
 										label="Enter your name"
 										size="small"
 										fullWidth
+										variant="outlined"
 										className={classes.textField}
 										color="primary"
 									/>
 								</Grid>
-								<Grid item xs={0} sm={4} xl={4}></Grid>
+								<Grid item xs={2} sm={4} xl={4}></Grid>
 							</Grid>
 							<Grid container xs={6} className={classes.sectionGrid} spacing={1}>
 								<CreateGameForm

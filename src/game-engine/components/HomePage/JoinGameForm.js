@@ -85,13 +85,15 @@ const styles = (theme) => ({
 	nameTabGrid: {
 	},
 	nameTabCard: {
+		border: '3px solid',
+		borderRadius: '6px',
 		display: 'flex',
 		padding: theme.spacing(0),
 		'& > *': {
 			padding: theme.spacing(1),
 			paddingBottom: 0,
 			"&:last-child": {
-				paddingBottom: theme.spacing(0.5)
+				paddingBottom: theme.spacing(0)
 			}
 		},
 	},
@@ -177,7 +179,9 @@ class JoinGamePage extends React.Component {
 		return (
 			<>
 				<Grid container xs={12} xl={12} alignItems="center" >
-					<Grid container item xs={9} justify="center">
+					<Grid item xs={2}>
+					</Grid>
+					<Grid container item xs={7} justify="center">
 						<TextField
 							label="Game Code"
 							variant="outlined"
@@ -187,7 +191,7 @@ class JoinGamePage extends React.Component {
 							className={classes.textField}
 						/>
 					</Grid>
-					<Grid item align="center" alignItems="center" xs={3} justify="center">
+					<Grid item alignItems="center" xs={3} justify="center">
 						<Button size="small" variant="contained" color="secondary">
 							Peek
 						</Button>
@@ -200,7 +204,9 @@ class JoinGamePage extends React.Component {
 				>
 					{joinGameData.map((player) => (
 						<Grid item xs={6} className={classes.nameTabGrid}>
-							<Card className={classes.nameTabCard} alignItems="center">
+							<Card className={classes.nameTabCard} alignItems="center"
+								variant="outlined"
+							>
 								<Box className={classes.chipNumberBox}>
 									{player.position}
 								</Box>
