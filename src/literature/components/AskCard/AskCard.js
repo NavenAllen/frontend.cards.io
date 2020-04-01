@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './AskCard.css'
 import Hand from '../../../game-engine/components/Hand/Hand'
 import { literatureSets } from '../../literatureSets'
@@ -6,23 +6,17 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { literatureGameActions } from '../../state/actions'
 
-class AskCard extends React.Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			cardSelected: undefined,
-			playerSelected: undefined
-		}
-		this.findSetWithCard(props.card)
-	}
-	teams = [
+const AskCard = (props) => {
+	const [cardSelected, setCardSelected] = useState(undefined)
+	const [playerSelected, setPlayerSelected] = useState(undefined)
+	const teams = [
 		[1, 3, 5],
 		[2, 4, 6]
 	]
-	componentDidUpdate(prevProps) {
-		this.findSetWithCard(this.props.card)
-	}
-	findSetWithCard = (card) => {
+	useEffect(() => {
+		findSetWithCard(props.card)
+	})
+	const findSetWithCard = (card) => {
 		const set = literatureSets.find((set) => set.includes(card.num))
 		return set.map((ele) => {
 			return {
@@ -32,76 +26,67 @@ class AskCard extends React.Component {
 		})
 	}
 	// getPlayerPosition=()=>{
-	// 	return this.props.players.find(player=>)
+	// 	return props.players.find(player=>)
 	// }
-	askCard = (card) => {
-		if (
-			this.state.cardSelected == undefined ||
-			this.state.playerSelected == undefined
-		) {
+	const askCard = (card) => {
+		if (cardSelected == undefined || playerSelected == undefined) {
 			alert('Select Card/Player to ask')
 		} else {
-			this.props.playAsk({
+			props.playAsk({
 				card: card,
-				code: this.props.gameCode,
-				fid: this.props.playerId,
-				tpos: this.state.playerSelected
+				code: props.gameCode,
+				fid: props.playerId,
+				tpos: playerSelected
 			})
 		}
 	}
-	handleAskCardPlayerChange = (e) => {
-		this.setState({
-			playerSelected: e.target.value
-		})
+	const handleAskCardPlayerChange = (e) => {
+		setPlayerSelected(e.target.value)
 	}
-	askCardSelect = (card) => {
-		this.setState({
-			cardSelected: card
-		})
+	const askCardSelect = (card) => {
+		setCardSelected(card)
 	}
-	render() {
-		return (
-			<div className="ask-card-container">
-				<div className="modal-main">
-					<Hand
-						cards={this.findSetWithCard(this.props.card)}
-						inAskCard={true}
-						askCardSelect={this.askCardSelect}
-						style={{ left: 50, bottom: -50 }}
-					/>
-					{this.state.cardSelected != undefined ? (
-						<div>
-							<p>Card Selected:{this.state.cardSelected.num}</p>
-							<select onChange={this.handleAskCardPlayerChange}>
-								{this.props.playerPosition % 2
-									? this.teams[0].map((pos) => {
-											return (
-												<option value={pos}>
-													{/* {this.props.players[pos].name} */}
-													{pos}
-												</option>
-											)
-									  })
-									: this.teams[1].map((pos) => {
-											return (
-												<option value={pos}>
-													{/* {this.props.players[pos].name} */}
-													{pos}
-												</option>
-											)
-									  })}
-							</select>
-							<input
-								type="button"
-								value="Ask Card"
-								onClick={this.askCard}
-							/>
-						</div>
-					) : null}
-				</div>
+	return (
+		<div className="ask-card-container">
+			<div className="modal-main">
+				<Hand
+					cards={findSetWithCard(props.card)}
+					inAskCard={true}
+					askCardSelect={askCardSelect}
+					style={{ left: 50, bottom: -50 }}
+				/>
+				{cardSelected != undefined ? (
+					<div>
+						<p>Card Selected:{cardSelected.num}</p>
+						<select onChange={handleAskCardPlayerChange}>
+							{props.playerPosition % 2
+								? teams[0].map((pos) => {
+										return (
+											<option value={pos}>
+												{/* {props.players[pos].name} */}
+												{pos}
+											</option>
+										)
+								  })
+								: teams[1].map((pos) => {
+										return (
+											<option value={pos}>
+												{/* {props.players[pos].name} */}
+												{pos}
+											</option>
+										)
+								  })}
+						</select>
+						<input
+							type="button"
+							value="Ask Card"
+							onClick={askCard}
+						/>
+					</div>
+				) : null}
 			</div>
-		)
-	}
+		</div>
+	)
 }
 AskCard.propTypes = {
 	card: PropTypes.object,
