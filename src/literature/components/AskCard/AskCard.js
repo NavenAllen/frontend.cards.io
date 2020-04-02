@@ -29,7 +29,7 @@ const AskCard = (props) => {
 	// 	return props.players.find(player=>)
 	// }
 	const askCard = (card) => {
-		if (cardSelected == undefined || playerSelected == undefined) {
+		if (cardSelected === undefined || playerSelected === undefined) {
 			alert('Select Card/Player to ask')
 		} else {
 			props.playAsk({
@@ -55,7 +55,7 @@ const AskCard = (props) => {
 					askCardSelect={askCardSelect}
 					style={{ left: 50, bottom: -50 }}
 				/>
-				{cardSelected != undefined ? (
+				{cardSelected !== undefined ? (
 					<div>
 						<p>Card Selected:{cardSelected.num}</p>
 						<select onChange={handleAskCardPlayerChange}>

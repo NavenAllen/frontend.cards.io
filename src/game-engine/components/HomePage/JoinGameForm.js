@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import classNames from 'classnames'
 
@@ -60,15 +60,17 @@ const styles = (theme) => ({
 			}
 		}
 	},
-	chipNumberFree: {
+	chipNumber: {
 		color: 'white',
-		backgroundColor: theme.palette.success.main,
 		borderRight: '2px solid black',
 		paddingLeft: theme.spacing(2),
 		paddingRight: theme.spacing(2)
 	},
+	chipNumberFree: {
+		backgroundColor: theme.palette.success.main
+	},
 	chipNumberBusy: {
-		backgroundColor: theme.palette.error.dark,
+		backgroundColor: theme.palette.error.dark
 	},
 	cardContent: {
 		padding: theme.spacing(0),
@@ -139,8 +141,8 @@ const JoinGameForm = (props) => {
 	return (
 			<>
 				<Grid container xs={12} xl={12} alignItems="center">
-					<Grid item xs={2}></Grid>
-					<Grid container item xs={7} justify="center">
+					<Grid item xs={0} sm={2}></Grid>
+					<Grid container item xs={9} sm={7} justify="center">
 						<TextField
 							label="kaunsa game?"
 							variant="outlined"
@@ -164,7 +166,13 @@ const JoinGameForm = (props) => {
 							onChange={handleGameCodeInputChange}
 						/>
 					</Grid>
-					<Grid item alignItems="center" xs={3} justify="center">
+					<Grid
+						item
+						alignItems="center"
+						xs={3}
+						sm={3}
+						justify="center"
+					>
 						<Button
 							size="small"
 							variant="contained"
@@ -203,13 +211,12 @@ const JoinGameForm = (props) => {
 								
 							>
 								<Box
-									className={
-										classNames(
-											classes.chipNumberFree,
-											player.name==='<Available>' 
-												? '' : classes.chipNumberBusy,
-										)
-									}
+									className={classNames(
+										classes.chipNumber,
+										player.name === '<Available>'
+											? classes.chipNumberFree
+											: classes.chipNumberBusy
+									)}
 								>
 										{player.position}
 									</Box>
