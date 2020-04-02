@@ -27,25 +27,16 @@ const styles = (theme) => ({
 	card: {
 		border: '3px solid',
 		borderRadius: '8px',
-<<<<<<< HEAD
-		margin: theme.spacing(0.5),
-		'& > *': {
-			padding: theme.spacing(1),
-			paddingBottom: 0,
-			'&:last-child': {
-				paddingBottom: theme.spacing(1)
-			}
-		},
-=======
 		margin: theme.spacing(0.8),
->>>>>>> Feat: Beautify HomePage
 		'&:hover': {
 			cursor: 'pointer'
 		}
 	},
 	chip: {
 		marginLeft: theme.spacing(0.5),
-		marginRight: theme.spacing(0.5)
+		marginRight: theme.spacing(0.5),
+		backgroundColor: theme.palette.secondary.light
+		// color: 'white'
 	},
 	itemGrid: {
 		alignContent: 'center'
@@ -66,17 +57,14 @@ const styles = (theme) => ({
 		paddingTop: 0,
 		paddingBottom: 0,
 		'&:last-child': {
-<<<<<<< HEAD
-			paddingBottom: theme.spacing(0)
-=======
 			paddingBottom: theme.spacing(1)
->>>>>>> Feat: Beautify HomePage
 		}
 	},
 	joinBtnContainer: {
 		marginTop: theme.spacing(2)
 	},
 	formButton: {
+		fontWeight: 'bold',
 		'&:focus': {
 			outline: 'none'
 		}
@@ -104,14 +92,9 @@ const CreateGameForm = (props) => {
 		if (game !== '') props.createGame(game)
 	}
 
-<<<<<<< HEAD
 	const handleCreateGameCardClick = (index) => {
 		setActiveCard(index)
 		setGame(createGameData[index])
-=======
-	handleCreateGameCardClick = (e) => {
-		console.log('card', e)
->>>>>>> Feat: Beautify HomePage
 	}
 
 	const handleCreateGameInfoClick = (e) => {
@@ -120,12 +103,18 @@ const CreateGameForm = (props) => {
 		console.log('info', e)
 	}
 
-<<<<<<< HEAD
 	const { classes, locked } = props
 	return (
 		<>
 			{createGameData.map((game, index) => (
-				<Grid item xl={4} sm={4} xs={12} className={classes.itemGrid}>
+				<Grid
+					item
+					xl={4}
+					md={4}
+					sm={6}
+					xs={12}
+					className={classes.itemGrid}
+				>
 					<Card
 						className={classes.card}
 						variant="outlined"
@@ -135,20 +124,23 @@ const CreateGameForm = (props) => {
 						onClick={() => handleCreateGameCardClick(index)}
 					>
 						<CardHeader
+							className={classes.cardHeader}
 							action={
 								<div>
 									<IconButton
 										aria-label="settings"
-										fontSize="small"
-										onClick={handleCreateGameInfoClick}
+										className={classes.infoButton}
+										onClick={
+											this.handleCreateGameInfoClick
+										}
 									>
-										<InfoIcon />
+										<InfoIcon fontSize="small" />
 									</IconButton>
 								</div>
 							}
 							title={game.name}
 						/>
-						<CardContent>
+						<CardContent className={classes.cardContent}>
 							{game.tags.map((tag, i) => (
 								<Chip
 									key={i}
@@ -159,72 +151,6 @@ const CreateGameForm = (props) => {
 							))}
 						</CardContent>
 					</Card>
-=======
-	render() {
-		const { classes, locked } = this.props
-		return (
-			<>
-				{createGameData.map((game) => (
-					<Grid
-						item
-						xl={4}
-						md={4}
-						sm={6}
-						xs={12}
-						className={classes.itemGrid}
-					>
-						<Card
-							className={classes.card}
-							variant="outlined"
-							onClick={this.handleCreateGameCardClick}
-						>
-							<CardHeader
-								className={classes.cardHeader}
-								action={
-									<div>
-										<IconButton
-											aria-label="settings"
-											className={classes.infoButton}
-											onClick={
-												this.handleCreateGameInfoClick
-											}
-										>
-											<InfoIcon fontSize="small" />
-										</IconButton>
-									</div>
-								}
-								title={game.name}
-							/>
-							<CardContent className={classes.cardContent}>
-								{game.tags.map((tag, i) => (
-									<Chip
-										key={i}
-										className={classes.chip}
-										size="small"
-										label={tag}
-									/>
-								))}
-							</CardContent>
-						</Card>
-					</Grid>
-				))}
-				<Grid
-					container
-					xs={12}
-					sm={12}
-					xl={12}
-					justify="center"
-					className={classes.joinBtnContainer}
-				>
-					<Button
-						className={classes.formButton}
-						size="small"
-						variant="contained"
-						color="primary"
-					>
-						Host
-					</Button>
->>>>>>> Feat: Beautify HomePage
 				</Grid>
 			))}
 			<Grid
@@ -236,18 +162,37 @@ const CreateGameForm = (props) => {
 				className={classes.joinBtnContainer}
 			>
 				<Button
+					className={classes.formButton}
 					size="small"
 					variant="contained"
 					color="primary"
-					onClick={handleCreateGameFormSubmit}
-					disabled={locked}
 				>
 					Host
 				</Button>
 			</Grid>
-		</>
+		))}
+		<Grid
+			container
+			xs={12}
+			sm={12}
+			xl={12}
+			justify="center"
+			className={classes.joinBtnContainer}
+		>
+			<Button
+				size="small"
+				variant="contained"
+				color="primary"
+				onClick={handleCreateGameFormSubmit}
+				disabled={locked}
+			>
+				Host
+			</Button>
+		</Grid>
+	</>
 	)
 }
+
 CreateGameForm.propTypes = {
 	createGame: PropTypes.func.isRequired,
 	locked: PropTypes.bool.isRequired
