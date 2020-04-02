@@ -226,10 +226,15 @@ const JoinGameForm = (props) => {
 				className={classes.joinListGrid}
 				spacing={0}
 			>
-				{props.players.map((player) => {
+				{props.players.map((player, index) => {
 					const isActive = position === player.position
 					return (
-						<Grid item xs={6} className={classes.nameTabGrid}>
+						<Grid
+							item
+							xs={6}
+							className={classes.nameTabGrid}
+							key={index}
+						>
 							<Card
 								className={classNames(
 									classes.nameTabCard,
