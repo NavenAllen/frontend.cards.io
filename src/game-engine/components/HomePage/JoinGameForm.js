@@ -1,4 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
+
+import classNames from 'classnames'
+
 import './HomePage.css'
 
 import { withStyles } from '@material-ui/core/styles'
@@ -57,19 +60,15 @@ const styles = (theme) => ({
 			}
 		}
 	},
-	chipNumberBusy: {
-		color: 'white',
-		backgroundColor: theme.palette.error.dark,
-		borderRight: '2px solid black',
-		paddingLeft: theme.spacing(2),
-		paddingRight: theme.spacing(2)
-	},
 	chipNumberFree: {
 		color: 'white',
 		backgroundColor: theme.palette.success.main,
 		borderRight: '2px solid black',
 		paddingLeft: theme.spacing(2),
 		paddingRight: theme.spacing(2)
+	},
+	chipNumberBusy: {
+		backgroundColor: theme.palette.error.dark,
 	},
 	cardContent: {
 		padding: theme.spacing(0),
@@ -102,7 +101,7 @@ const styles = (theme) => ({
 	},
 	notchedOutline: {
 		borderWidth: '2px',
-		borderColor: 'black !important'
+		borderColor: '#006db3 !important'
 	},
 	formButton: {
 		fontWeight: 'bold',
@@ -193,22 +192,25 @@ const JoinGameForm = (props) => {
 					{props.players.map((player) => {
 						const isActive = position === player.position
 						return (
-							<Grid item xs={6} className={classes.nameTabGrid}>
-								<Card
-									className={classes.nameTabCard}
-									// alignItems="center"
-									variant="outlined"
-									onClick={() =>
-										handlePositionInputChange(player.position)
+						<Grid item xs={6} className={classes.nameTabGrid}>
+							<Card
+								className={classes.nameTabCard}
+								// alignItems="center"
+								variant="outlined"
+								onClick={() =>
+									handlePositionInputChange(player.position)
+								}
+								
+							>
+								<Box
+									className={
+										classNames(
+											classes.chipNumberFree,
+											player.name==='<Available>' 
+												? '' : classes.chipNumberBusy,
+										)
 									}
 								>
-									<Box
-										className={
-											isActive
-												? classes.chipNumberFree
-												: classes.chipNumberBusy
-										}
-									>
 										{player.position}
 									</Box>
 									<div className={classes.detail}>

@@ -104,7 +104,7 @@ const styles = (theme) => ({
 	},
 	notchedOutline: {
 		borderWidth: '2px',
-		borderColor: 'black !important'
+		borderColor: '#006db3 !important'
 	}
 })
 

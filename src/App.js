@@ -5,10 +5,13 @@ import GamePage from './game-engine/components/GamePage/GamePage'
 import HomePage from './game-engine/components/HomePage/HomePage'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+
 
 const App = (props) => {
-	const theme = React.useMemo(() =>
+
+	const theme = (() =>
 		createMuiTheme({
 			palette: {
 				primary: {
