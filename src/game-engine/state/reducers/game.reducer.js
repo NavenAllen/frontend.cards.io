@@ -166,6 +166,7 @@ export function game(state = initialState, action) {
 		case gameConstants.RECONNECT_SUCCESS:
 			return {
 				...state,
+<<<<<<< HEAD
 				playerData: action.data.player,
 				gameData: action.data.game,
 				inGame: true
@@ -176,6 +177,18 @@ export function game(state = initialState, action) {
 				error: {
 					code: action.data.code,
 					message: action.data.message
+=======
+				playerData: {
+					id: action.data.player._id,
+					position: action.data.player.position,
+					name: action.data.player.name,
+					hand: action.data.player.hand
+				},
+				gameData: {
+					code: action.data.game.code,
+					players: action.data.game.players,
+					isActive: action.data.game.isActive
+>>>>>>> [feat] Add Waiting Room
 				}
 			}
 		case gameConstants.ADD_CARD: {
