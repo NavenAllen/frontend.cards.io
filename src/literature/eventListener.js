@@ -1,4 +1,4 @@
-import socket from '../util/socket-client'
+import { socket } from '../util/socket-client'
 import { literatureGameActions } from './state/actions'
 
 var startLiteratureGameEventListeners = (dispatch) => {

@@ -1,4 +1,4 @@
-import socket from '../../../util/socket-client'
+import { socket, openGameSocket } from '../../../util/socket-client'
 
 export const gameConstants = {
 	GET_PLAYERS_LIST_REQUEST: 'GET_PLAYERS_LIST_REQUEST',
@@ -66,7 +66,8 @@ export const gameActions = {
 function getPlayersList(gameCode) {
 	return (dispatch) => {
 		dispatch({ type: gameConstants.GET_PLAYERS_LIST_REQUEST })
-
+		let type = gameCode.split(':')[0]
+		openGameSocket(type)
 		socket.emit('probe', { code: gameCode })
 	}
 }
@@ -88,6 +89,7 @@ function createGame(user) {
 	return (dispatch) => {
 		dispatch({ type: gameConstants.CREATE_GAME_REQUEST })
 
+		openGameSocket(user.gameType)
 		socket.emit('create', {
 			type: user.gameType,
 			name: user.name,
@@ -98,6 +100,7 @@ function createGame(user) {
 
 function createGameSuccess(data) {
 	localStorage.setItem('playerId', data.pid)
+	localStorage.setItem('gameCode', data.gcode)
 	return (dispatch) =>
 		dispatch({ type: gameConstants.CREATE_GAME_SUCCESS, data })
 }
@@ -112,7 +115,9 @@ function createGameFailure(data) {
 
 function joinGameRequest(user) {
 	return (dispatch) => {
-		console.log(user)
+		localStorage.setItem('gameCode', user.gameCode)
+		let type = user.gameCode.split(':')[0]
+		openGameSocket(type)
 		socket.emit('join', {
 			code: user.gameCode,
 			name: user.name,
@@ -130,6 +135,7 @@ function joinGameSuccess(data) {
 }
 
 function joinGameFailure(data) {
+	localStorage.removeItem('gameCode')
 	return (dispatch) =>
 		dispatch({ type: gameConstants.JOIN_GAME_FAILURE, data })
 }

@@ -85,7 +85,12 @@ const styles = (theme) => ({
 })
 
 const createGameData = [
-	{ name: 'Literature', tags: ['Team', '6 to 8'], rules: 'link', type: 'literature' },
+	{
+		name: 'Literature',
+		tags: ['Team', '6 to 8'],
+		rules: 'link',
+		type: 'literature'
+	},
 	{ name: 'Ace', tags: ['4 to 8'], rules: 'link', type: 'ace' },
 	{ name: 'Hearts', tags: ['Team', 'Only 4'], rules: 'link', type: 'hearts' },
 	{ name: 'Bridge', tags: ['Team', '6 to 8'], rules: 'link', type: 'bridge' },
@@ -108,7 +113,6 @@ const CreateGameForm = (props) => {
 	const handleCreateGameInfoClick = (e) => {
 		// Stop click event propagation to parent(handleCreateGameCardClick)
 		e.stopPropagation()
-		console.log('info', e)
 	}
 
 	const { classes, locked } = props
@@ -117,6 +121,7 @@ const CreateGameForm = (props) => {
 			{createGameData.map((game, index) => (
 				<Grid
 					item
+					key={index}
 					xl={4}
 					md={4}
 					sm={6}
@@ -161,6 +166,7 @@ const CreateGameForm = (props) => {
 			))}
 			<Grid
 				container
+				item
 				xs={12}
 				sm={12}
 				xl={12}

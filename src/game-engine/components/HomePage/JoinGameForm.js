@@ -150,26 +150,23 @@ const JoinGameForm = (props) => {
 	}
 
 	const handleProbeGameSubmit = () => {
-		if (gameCode !== ''){ 
+		if (gameCode !== '') {
 			props.probeGameRequest(gameCode)
-		}
-		else 
-			setGameCodeError(true)
+		} else setGameCodeError(true)
 	}
 
 	const joinGame = () => {
 		if (!isNaN(position) && gameCode !== '')
 			props.joinGame(gameCode, position)
-		else if (!gameCode)
-			setGameCodeError(true)
+		else if (!gameCode) setGameCodeError(true)
 	}
 
 	const { classes } = props
 
 	return (
 		<>
-			<Grid container xs={12} xl={12} alignItems="center">
-				<Grid item xs={0} sm={2}></Grid>
+			<Grid container item xs={12} xl={12} alignItems="center">
+				<Grid item xs sm={2}></Grid>
 				<Grid container item xs={9} sm={7} justify="center">
 					<TextField
 						label="kaunsa game?"
@@ -195,7 +192,14 @@ const JoinGameForm = (props) => {
 						error={gameCodeError}
 					/>
 				</Grid>
-				<Grid item alignItems="center" xs={3} sm={3} justify="center">
+				<Grid
+					container
+					item
+					alignItems="center"
+					xs={3}
+					sm={3}
+					justify="center"
+				>
 					<Button
 						size="small"
 						variant="contained"
@@ -209,12 +213,14 @@ const JoinGameForm = (props) => {
 			</Grid>
 			<Grid
 				container
+				item
 				xs={12}
 				xl={12}
 				className={classes.centerChild}
 			></Grid>
 			<Grid
 				container
+				item
 				xs={12}
 				xl={12}
 				className={classes.joinListGrid}
@@ -241,10 +247,7 @@ const JoinGameForm = (props) => {
 										player.name === '<Available>'
 											? classes.chipNumberFree
 											: classes.chipNumberBusy,
-										isActive
-											? classes.chipNumberActive
-											: '',
-										
+										isActive ? classes.chipNumberActive : ''
 									)}
 								>
 									{player.position}
@@ -291,6 +294,7 @@ const JoinGameForm = (props) => {
 				)}
 				<Grid
 					container
+					item
 					xs={12}
 					sm={12}
 					xl={12}

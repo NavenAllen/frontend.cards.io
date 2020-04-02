@@ -1,4 +1,4 @@
-import socket from '../util/socket-client'
+import { socket } from '../util/socket-client'
 import { gameActions } from './state/actions'
 
 var startCoreGameEventListeners = (dispatch) => {
@@ -25,6 +25,7 @@ var startCoreGameEventListeners = (dispatch) => {
 		}
 	})
 	socket.on('game-updates', (response) => {
+		console.log(response)
 		switch (response.type) {
 			case 'CREATE':
 				if (response.code === 200) dispatch(createGameSuccess(response))

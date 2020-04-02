@@ -1,4 +1,4 @@
-import socket from '../../../util/socket-client'
+import { socket } from '../../../util/socket-client'
 
 export const literatureGameConstants = {
 	PLAY_ASK_REQUEST: 'PLAY_ASK_REQUEST',
