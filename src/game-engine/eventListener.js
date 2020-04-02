@@ -20,6 +20,7 @@ var startCoreGameEventListeners = (dispatch) => {
 	} = gameActions
 
 	socket.on('game-probe', (response) => {
+		console.log(response)
 		if (response.code === 200) {
 			dispatch(getPlayersListSuccess(response))
 		} else {
@@ -52,17 +53,18 @@ var startCoreGameEventListeners = (dispatch) => {
 				dispatch(updateGame(response.data))
 				break
 			case 'CONNECT':
-				if (response.code === 200) dispatch(reconnectSuccess(response))
-				else dispatch(reconnectFailure(response))
+				if (response.code !== 400) dispatch(reconnectSuccess(response))
 				break
 			default:
 				break
 		}
 	})
 	socket.on('game-data', (response) => {
+		console.log(response)
 		dispatch(updateGame(response.data))
 	})
 	socket.on('player-data', (response) => {
+		console.log(response)
 		dispatch(updatePlayer(response.data))
 	})
 }

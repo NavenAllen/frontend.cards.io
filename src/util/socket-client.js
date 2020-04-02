@@ -9,17 +9,21 @@ const setDispatch = (d) => {
 }
 
 const reconnectToGame = (gameType, playerId) => {
-	console.log('Reconnecting')
-	socket = io('http://localhost:3000/' + gameType, {
-		query: { pid: playerId }
-	})
-	startEventListeners(dispatch)
+	if (socket === undefined) {
+		console.log('Reconnecting')
+		socket = io('http://localhost:3000/' + gameType, {
+			query: { pid: playerId }
+		})
+		startEventListeners(dispatch)
+	}
 }
 
 const openGameSocket = (type) => {
-	console.log('Opening to ' + type)
-	socket = io('http://localhost:3000/' + type)
-	startEventListeners(dispatch)
+	if (socket === undefined) {
+		console.log('Opening to ' + type)
+		socket = io('http://localhost:3000/' + type)
+		startEventListeners(dispatch)
+	}
 }
 
 export { socket, openGameSocket, setDispatch, reconnectToGame }

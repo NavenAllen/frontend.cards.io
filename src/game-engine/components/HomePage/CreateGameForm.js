@@ -175,6 +175,7 @@ const CreateGameForm = (props) => {
 					size="small"
 					variant="contained"
 					color="primary"
+					className={classes.formButton}
 					onClick={handleCreateGameFormSubmit}
 					disabled={locked}
 				>
