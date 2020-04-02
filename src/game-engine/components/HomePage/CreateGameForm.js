@@ -98,16 +98,14 @@ const createGameData = [
 ]
 
 const CreateGameForm = (props) => {
-	const [game, setGame] = useState('literature')
 	const [activeCard, setActiveCard] = useState(0)
 
 	const handleCreateGameFormSubmit = () => {
-		if (game !== '') props.createGame(game)
+		if (activeCard >= 0) props.createGame(createGameData[activeCard].type)
 	}
 
 	const handleCreateGameCardClick = (index) => {
 		setActiveCard(index)
-		setGame(createGameData[index])
 	}
 
 	const handleCreateGameInfoClick = (e) => {

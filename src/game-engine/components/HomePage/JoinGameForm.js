@@ -132,7 +132,7 @@ const styles = (theme) => ({
 })
 
 const JoinGameForm = (props) => {
-	const [position, setPosition] = useState()
+	const [position, setPosition] = useState(-1)
 	const [gameCode, setGameCode] = useState('')
 	const [gameCodeError, setGameCodeError] = useState(false)
 
@@ -156,7 +156,7 @@ const JoinGameForm = (props) => {
 	}
 
 	const joinGame = () => {
-		if (!isNaN(position) && gameCode !== '')
+		if (!isNaN(position) && position > 0 && gameCode !== '')
 			props.joinGame(gameCode, position)
 		else if (!gameCode) setGameCodeError(true)
 	}
@@ -307,6 +307,7 @@ const JoinGameForm = (props) => {
 						variant="contained"
 						color="primary"
 						onClick={joinGame}
+						disabled={position <= 0 ? true : false}
 					>
 						Join
 					</Button>

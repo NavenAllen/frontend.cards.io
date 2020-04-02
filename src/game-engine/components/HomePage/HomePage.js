@@ -193,6 +193,7 @@ const HomePage = (props) => {
 	}
 
 	const handleNameInputChange = (e) => {
+		console.log(e.target.value)
 		setName(e.target.value)
 	}
 
@@ -283,7 +284,6 @@ const HomePage = (props) => {
 											inputMode: 'text'
 										}}
 										color="primary"
-										value={name}
 										onChange={handleNameInputChange}
 										error={nameError}
 									/>
