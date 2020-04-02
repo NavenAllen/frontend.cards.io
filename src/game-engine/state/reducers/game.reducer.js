@@ -184,6 +184,20 @@ export function game(state = initialState, action) {
 				cardSelected: action.data
 			}
 		}
+		case gameConstants.RECONNECT_SUCCESS:
+			return {
+				...state,
+				playerData: {
+					id: action.data.player._id,
+					position: action.data.player.position,
+					name: action.data.player.name,
+					hand: action.data.player.hand
+				},
+				gameData: {
+					code: action.data.game.code,
+					players: action.data.game.players
+				}
+			}
 		default:
 			return state
 	}

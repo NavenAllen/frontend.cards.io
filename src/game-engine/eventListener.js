@@ -14,7 +14,8 @@ var startCoreGameEventListeners = (dispatch) => {
 		startGameSuccess,
 		startGameFailure,
 		updateGame,
-		updatePlayer
+		updatePlayer,
+		reconnectSuccess
 	} = gameActions
 
 	socket.on('game-probe', (response) => {
@@ -51,7 +52,7 @@ var startCoreGameEventListeners = (dispatch) => {
 				dispatch(updateGame(response.data))
 				break
 			case 'CONNECT':
-				console.log(response)
+				if (response.code != 400) dispatch(reconnectSuccess(response))
 				break
 			default:
 				break
