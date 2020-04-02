@@ -12,43 +12,25 @@ const GamePage = (props) => {
 			(item) => item.position !== player.position
 		)
 	)
-	let { game } = Engine({ playerCards: player.hand, otherPlayers })
+	const onCardClick = (card) => {
+		let position = parseInt(prompt('Enter position'))
+		transferCard(card, player.position, position, () => {
+			// action to perform after animation
+			console.log('here')
+		})
+	}
+	let { game, transferCard } = Engine({
+		playerCards: player.hand,
+		otherPlayers,
+		onCardClick,
+		userPos: player.position
+	})
 	const [open, setOpen] = useState(false)
 	const handleClose = () => {
 		setOpen((prev) => !prev)
 	}
 	return (
 		<>
-			{/* <button
-				style={{
-					position: 'absolute',
-					left: '45vw',
-					top: '50vh'
-				}}
-				onClick={fold}
-			>
-				Fold all
-			</button>
-			<button
-				style={{
-					position: 'absolute',
-					left: '45vw',
-					top: '60vh'
-				}}
-				onClick={() => deal(4)}
-			>
-				Deal
-			</button>
-			<button
-				style={{
-					position: 'absolute',
-					left: '45vw',
-					top: '70vh'
-				}}
-				onClick={handleClose}
-			>
-				Declare
-			</button> */}
 			{game}
 			{open && <Declare open={open} handleClose={handleClose} />}
 		</>

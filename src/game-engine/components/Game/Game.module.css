@@ -13,7 +13,7 @@
     }
 }
 
-.upperhand, .lowerhand {
+.upperhand, .lowerhand, .userhand {
     justify-content: space-around;
 }
 
@@ -25,4 +25,10 @@
 .lowerhand {
     position: relative;
     top: 400px;
+}
+
+.userhand {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
 }

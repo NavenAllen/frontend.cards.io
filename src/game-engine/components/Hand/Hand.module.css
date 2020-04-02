@@ -31,9 +31,10 @@
 
 
 .handuser {
-    bottom: 20vh;
-    left: calc(50vw - 123px);
+    position: relative;
     transform: scale(1.2);
+    margin: auto;
+    margin-bottom: 250px;
 }
 
 .handother {
