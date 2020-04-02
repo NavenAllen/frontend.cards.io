@@ -198,6 +198,20 @@ export function game(state = initialState, action) {
 					players: action.data.game.players
 				}
 			}
+		case gameConstants.ADD_CARD: {
+			let prev = JSON.parse(JSON.stringify(state))
+			if (action.data.fromPos === state.playerData.position)
+				prev.playerData.hand.splice(
+					prev.playerData.hand.indexOf(action.data.card),
+					1
+				)
+			prev.gameData.players = prev.gameData.players.map((player) => {
+				if (player.position === action.data.fromPos) player.count--
+				else if (player.position === action.data.toPos) player.count++
+				return player
+			})
+			return prev
+		}
 		default:
 			return state
 	}
