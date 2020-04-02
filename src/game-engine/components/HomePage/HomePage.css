@@ -2,43 +2,43 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 body {
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    background-image: url("/img/background.png");
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    overflow-x: hidden;
-    overflow-y: scroll;
+	margin: 0;
+	padding: 0;
+	width: 100vw;
+	background-image: url("/img/background.png");
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	overflow-x: hidden;
+	overflow-y: scroll;
 }
 
 .split-layout__divider {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 0px 20px 0px;
-    
-    @media screen and (min-width: 30em) {
-     flex-direction: column; 
-    }
-  }
-  
-  .split-layout__label {
-    padding: 1em;
-    font-size: 1.3rem;
-    font-weight: 500;
-    font-family: 'Poppins';
-  }
-  
-  .split-layout__rule {
-    flex-grow: 1;
-    border-style: solid;
-    border-color: black;
-    border-width: 1px;
-    
-    @media screen and (min-width: 30em) {
-     border-width: 0 1px 0 0;
-    }
-  }
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 20px 0px 20px 0px;
+
+	@media screen and (min-width: 30em) {
+		flex-direction: column;
+	}
+}
+
+.split-layout__label {
+	padding: 1em;
+	font-size: 1.3rem;
+	font-weight: 500;
+	font-family: 'Poppins';
+}
+
+.split-layout__rule {
+	flex-grow: 1;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+
+	@media screen and (min-width: 30em) {
+		border-width: 0 1px 0 0;
+	}
+}

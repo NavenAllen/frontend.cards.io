@@ -9,19 +9,18 @@ import { gameActions } from '../../state/actions'
 
 import './HomePage.css'
 
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles'
 import {
 	AppBar,
 	Box,
 	Container,
-	Divider,
 	Grid,
 	Paper,
 	TextField,
 	Tab,
 	Tabs,
 	Typography
-} from '@material-ui/core';
+} from '@material-ui/core'
 
 const styles = (theme) => ({
 	root: {},
@@ -46,6 +45,7 @@ const styles = (theme) => ({
 		fontFamily: 'Poppins',
 		marginTop: theme.spacing(4),
 		fontWeight: 600,
+		fontSize: '1.1rem',
 		paddingLeft: theme.spacing(0.7),
 		paddingRight: theme.spacing(0.7),
 		borderRadius: '4px',
@@ -194,121 +194,91 @@ const HomePage = (props) => {
 					justify="center"
 					className={classes.mainGrid}
 				>
-					<Typography
-						variant="h2"
-						component="h2"
-						className={classes.title}
-					>
-						cards.io
-					</Typography>
-					<Paper
-						className={classes.mainPaper}
-						elevation={6}
-					>
-						<Mobile>
-							<AppBar position="static" color="default">
-								{console.log(tabValue)}
-								<Tabs
-									value={tabValue}
-									indicatorColor="secondary"
-									textColor="secondary"
-									centered
-									variant="fullWidth"
-									aria-label="full width tabs example"
-									onChange={handleTabChange}
-								>
-									<Tab label="Create Game" {...a11yProps(0)} />
-									<Tab label="Join Game" {...a11yProps(1)} />
-								</Tabs>
-							</AppBar>
-						</Mobile>
-						<Grid container className={classes.paperGridContainer}>
+					<Grid item container justify="center" alignContent="center">
+						<Typography
+							variant="h2"
+							component="h2"
+							className={classes.title}
+						>
+							cards.io
+						</Typography>
+					</Grid>
+					<Grid item container justify="center" alignContent="center">
+						<Paper className={classes.mainPaper} elevation={6}>
+							<Mobile>
+								<AppBar position="static" color="default">
+									{console.log(tabValue)}
+									<Tabs
+										value={tabValue}
+										indicatorColor="secondary"
+										textColor="secondary"
+										centered
+										variant="fullWidth"
+										aria-label="full width tabs example"
+										onChange={this.handleTabChange}
+									>
+										<Tab
+											label="Create Game"
+											{...a11yProps(0)}
+										/>
+										<Tab
+											label="Join Game"
+											{...a11yProps(1)}
+										/>
+									</Tabs>
+								</AppBar>
+							</Mobile>
 							<Grid
 								container
-								xs={12}
-								sm={12}
-								xl={12}
-								justify="center"
-								className={classes.joinBtnContainer}
+								className={classes.paperGridContainer}
 							>
-								<Grid item xs={2} sm={4} xl={4}></Grid>
 								<Grid
-									item
 									container
-									xs={8}
-									sm={4}
-									xl={4}
+									xs={12}
+									sm={12}
+									xl={12}
 									justify="center"
-									className={classes.nameInputContainer}
+									className={classes.nameBigContainer}
 								>
-									<TextField
-										label="who art thou?"
-										size="small"
-										variant="outlined"
-										className={classes.textField}
-										InputLabelProps={{
-											classes: {
-												root: classes.cssLabel,
-												focused: classes.cssFocused
-											}
-										}}
-										InputProps={{
-											classes: {
-												root: classes.cssOutlinedInput,
-												focused: classes.inputFocused,
-												notchedOutline:
-													classes.notchedOutline
-											},
-											inputMode: 'text'
-										}}
-										color="primary"
-										value={name}
-										onChange={handleNameInputChange}
-									/>
-								</Grid>
-								<Grid item xs={2} sm={4} xl={4}></Grid>
-							</Grid>
-							<Desktop>
-								<Grid container xs={12}>
+									<Grid item xs={2} sm={4} xl={4}></Grid>
 									<Grid
+										item
 										container
-										xs
-										className={classes.sectionGrid}
+										xs={8}
+										sm={4}
+										xl={4}
+										justify="center"
+										className={classes.nameInputContainer}
 									>
-										<CreateGameForm
-											createGame={
-												handleCreateGameFormSubmit
-											}
-											locked={locked}
+										<TextField
+											label="who art thou?"
+											size="small"
+											variant="outlined"
+											className={classes.textField}
+											InputLabelProps={{
+												classes: {
+													root: classes.cssLabel,
+													focused: classes.cssFocused
+												}
+											}}
+											InputProps={{
+												classes: {
+													root:
+														classes.cssOutlinedInput,
+													focused:
+														classes.inputFocused,
+													notchedOutline:
+														classes.notchedOutline
+												},
+												inputMode: 'text'
+											}}
+											color="primary"
 										/>
 									</Grid>
-									<Grid container justify="center" item xs={1}>
-										<div class="split-layout__divider">
-											<div class="split-layout__rule"></div>
-											<div class="split-layout__label">
-												OR
-											</div>
-											<div class="split-layout__rule"></div>
-										</div>
-									</Grid>
-									<Grid
-										container
-										xs
-										className={classes.sectionGrid}
-									>
-										<JoinGameForm
-											joinGame={handleJoinGameFormSubmit}
-											probeGameRequest={
-												props.probeGameRequest
-											}
-											players={props.players}
-										/>
-									</Grid>
+									<Grid item xs={2} sm={4} xl={4}></Grid>
 								</Grid>
-							</Desktop>
-							<Mobile>
-								<Grid container xs={12}>
-									<TabPanel value={tabValue} index={0}>
+								<Desktop>
+									<Grid container xs={12}>
 										<Grid
 											container
 											xs
@@ -321,8 +291,20 @@ const HomePage = (props) => {
 												locked={locked}
 											/>
 										</Grid>
-									</TabPanel>
-									<TabPanel value={tabValue} index={1}>
+										<Grid
+											container
+											justify="center"
+											item
+											xs={1}
+										>
+											<div class="split-layout__divider">
+												<div class="split-layout__rule"></div>
+												<div class="split-layout__label">
+													OR
+												</div>
+												<div class="split-layout__rule"></div>
+											</div>
+										</Grid>
 										<Grid
 											container
 											xs
@@ -336,18 +318,58 @@ const HomePage = (props) => {
 												players={props.players}
 											/>
 										</Grid>
-									</TabPanel>
-								</Grid>
-							</Mobile>
-						</Grid>
-					</Paper>
-					<Typography
-						variant="h6"
-						component="h6"
-						className={classes.footer}
-					>
-						{'Made With \u2764 By Delta Force'}
-					</Typography>
+									</Grid>
+								</Desktop>
+								<Mobile>
+									<Grid container xs={12}>
+										<TabPanel value={tabValue} index={0}>
+											<Grid
+												container
+												xs
+												className={classes.sectionGrid}
+											>
+												<CreateGameForm
+													createGame={
+														this
+															.handleCreateGameFormSubmit
+													}
+													locked={locked}
+												/>
+											</Grid>
+										</TabPanel>
+										<TabPanel value={tabValue} index={1}>
+											<Grid
+												container
+												xs
+												className={classes.sectionGrid}
+											>
+												<JoinGameForm
+													joinGame={
+														this
+															.handleJoinGameFormSubmit
+													}
+													probeGameRequest={
+														this.props
+															.probeGameRequest
+													}
+													players={this.props.players}
+												/>
+											</Grid>
+										</TabPanel>
+									</Grid>
+								</Mobile>
+							</Grid>
+						</Paper>
+					</Grid>
+					<Grid item container justify="center" alignContent="center">
+						<Typography
+							variant="h6"
+							component="h6"
+							className={classes.footer}
+						>
+							{'Made With \u2764 By Delta Force'}
+						</Typography>
+					</Grid>
 				</Grid>
 			</Container>
 	)

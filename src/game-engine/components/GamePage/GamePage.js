@@ -31,7 +31,7 @@ const GamePage = (props) => {
 				Deal
 			</button>
 			{game}
-			{props.cardSelected != undefined ? <AskCard /> : null}
+			{props.cardSelected !== undefined ? <AskCard /> : null}
 		</>
 	)
 }
