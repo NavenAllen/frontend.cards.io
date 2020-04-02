@@ -14,7 +14,13 @@ export function game(state = initialState, action) {
 			return {
 				...state,
 				gameData: {
-					code: action.data.gcode
+					code: action.data.gcode,
+					players: [
+						{
+							name: action.data.name,
+							position: 1
+						}
+					]
 				},
 				playerData: {
 					id: action.data.pid,
@@ -150,15 +156,11 @@ export function game(state = initialState, action) {
 				started: false
 			}
 		case gameConstants.ADD_PLAYER:
-			var players
-			if (state.players !== undefined)
-				players = [...this.state.players, action.data]
-
 			return {
 				...state,
 				gameData: {
 					...state.gameData,
-					players: players
+					players: [...state.gameData.players, action.data]
 				}
 			}
 		case gameConstants.UPDATE_GAME:

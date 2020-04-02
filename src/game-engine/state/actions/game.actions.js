@@ -111,12 +111,13 @@ function createGameFailure(data) {
 
 function joinGameRequest(user) {
 	return (dispatch) => {
+		console.log(user)
 		socket.emit('join', {
 			code: user.gameCode,
 			name: user.name,
 			position: user.position
 		})
-		dispatch({ type: gameConstants.JOIN_GAME_REQUEST, data: user.gameCode })
+		dispatch({ type: gameConstants.JOIN_GAME_REQUEST, data: user })
 	}
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './HomePage.css'
 import PropTypes from 'prop-types'
 import CreateGameForm from './CreateGameForm'
@@ -116,17 +116,27 @@ const styles = (theme) => ({
 })
 
 const HomePage = (props) => {
+	const [name, setName] = useState('')
 	useEffect(() => {
 		if (props.inGame) props.history.push('/game')
 	})
-	const handleCreateGameFormSubmit = (user) => {
-		props.createGame(user)
+	const handleCreateGameFormSubmit = (game) => {
+		props.createGame({
+			name,
+			type: game
+		})
 	}
-	const handleJoinGameFormSubmit = (user) => {
-		props.joinGame(user)
+	const handleJoinGameFormSubmit = (gameCode, position) => {
+		props.joinGame({
+			gameCode,
+			name,
+			position
+		})
+	}
+	const handleNameInputChange = (e) => {
+		setName(e.target.value)
 	}
 	const { classes, locked } = props
-
 	return (
 		<Container component="main" className={classes.mainContainer}>
 			<Grid
@@ -172,6 +182,8 @@ const HomePage = (props) => {
 									variant="outlined"
 									className={classes.textField}
 									color="primary"
+									value={name}
+									onChange={handleNameInputChange}
 								/>
 							</Grid>
 							<Grid item xs={2} sm={4} xl={4}></Grid>
@@ -200,6 +212,7 @@ const HomePage = (props) => {
 		</Container>
 	)
 }
+
 HomePage.propTypes = {
 	createGame: PropTypes.func.isRequired,
 	JoinGame: PropTypes.func.isRequired,
@@ -208,6 +221,7 @@ HomePage.propTypes = {
 	players: PropTypes.array,
 	inGame: PropTypes.bool.isRequired
 }
+
 const mapStateToProps = (state) => {
 	return {
 		locked: state.locked,
@@ -221,6 +235,7 @@ const mapDispatchToProps = (dispatch) => ({
 		dispatch(gameActions.getPlayersList(gameCode)),
 	joinGame: (user) => dispatch(gameActions.joinGameRequest(user))
 })
+
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps

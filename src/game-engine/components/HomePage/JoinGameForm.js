@@ -118,42 +118,27 @@ const styles = (theme) => ({
 	}
 })
 
-const joinGameData = [
-	{ position: 1, name: 'Bharath' },
-	{ position: 2, name: 'Bharath' },
-	{ position: 3, name: 'Bharath' },
-	{ position: 4, name: 'Bharath' },
-	{ position: 5, name: 'Bharath' },
-	{ position: 6, name: 'Bharath' }
-]
-
 const JoinGameForm = (props) => {
-	const [name, setName] = useState('')
-	const [position, setPosition] = useState(0)
+	const [position, setPosition] = useState()
 	const [gameCode, setGameCode] = useState('')
 
-	const handleNameInputChange = (e) => {
-		setName(e.target.value)
-	}
-
-	const handlePositionInputChange = (e) => {
-		setPosition(parseInt(e.target.value))
+	const handlePositionInputChange = (position) => {
+		let player = props.players.find(
+			(player) => player.position === position
+		)
+		if (player.name === '<Available>') setPosition(position)
 	}
 
 	const handleGameCodeInputChange = (e) => {
 		setGameCode(e.target.value)
 	}
 
-	const handleGameCodeSubmit = () => {
-		props.probeGameRequest(gameCode)
+	const handleProbeGameSubmit = () => {
+		if (gameCode !== '') props.probeGameRequest(gameCode)
 	}
 	const joinGame = () => {
-		if (position !== 0 && name !== '' && gameCode !== '')
-			props.joinGame({
-				name: name,
-				position: position,
-				gameCode: gameCode
-			})
+		if (!isNaN(position) && gameCode !== '')
+			props.joinGame(gameCode, position)
 	}
 
 	const { classes } = props
@@ -170,10 +155,17 @@ const JoinGameForm = (props) => {
 						fullWidth
 						color="secondary"
 						className={classes.textField}
+						value={gameCode}
+						onChange={handleGameCodeInputChange}
 					/>
 				</Grid>
 				<Grid item alignItems="center" xs={3} justify="center">
-					<Button size="small" variant="contained" color="secondary">
+					<Button
+						size="small"
+						variant="contained"
+						color="secondary"
+						onClick={handleProbeGameSubmit}
+					>
 						Peek
 					</Button>
 				</Grid>
@@ -182,39 +174,50 @@ const JoinGameForm = (props) => {
 				container
 				xs={12}
 				xl={12}
-				className={classes.centerChild}
-			></Grid>
-			<Grid
-				container
-				xs={12}
-				xl={12}
 				className={classes.joinListGrid}
 				spacing={2}
 			>
-				{joinGameData.map((player) => (
-					<Grid item xs={6} className={classes.nameTabGrid}>
-						<Card
-							className={classes.nameTabCard}
-							alignItems="center"
-							variant="outlined"
-						>
-							<Box className={classes.chipNumberBox}>
-								{player.position}
-							</Box>
-							<div className={classes.detail}>
-								<CardContent className={classes.cardContent}>
-									<Typography
-										color="textSecondary"
-										component="div"
-										gutterBottom
+				{props.players.map((player) => {
+					const isActive = position === player.position
+					return (
+						<Grid item xs={6} className={classes.nameTabGrid}>
+							<Card
+								className={classes.nameTabCard}
+								alignItems="center"
+								variant="outlined"
+								onClick={() =>
+									handlePositionInputChange(player.position)
+								}
+							>
+								<Box
+									className={classes.chipNumberBox}
+									style={{
+										backgroundColor: isActive ? 'green' : ''
+									}}
+								>
+									{player.position}
+								</Box>
+								<div className={classes.detail}>
+									<CardContent
+										className={classes.cardContent}
 									>
-										{player.name}
-									</Typography>
-								</CardContent>
-							</div>
-						</Card>
-					</Grid>
-				))}
+										<Typography
+											color={
+												isActive
+													? 'textPrimary'
+													: 'textSecondary'
+											}
+											component="div"
+											gutterBottom
+										>
+											{player.name}
+										</Typography>
+									</CardContent>
+								</div>
+							</Card>
+						</Grid>
+					)
+				})}
 				<Grid
 					container
 					xs={12}
@@ -223,7 +226,12 @@ const JoinGameForm = (props) => {
 					justify="center"
 					className={classes.joinBtnContainer}
 				>
-					<Button size="small" variant="contained" color="secondary">
+					<Button
+						size="small"
+						variant="contained"
+						color="secondary"
+						onClick={joinGame}
+					>
 						Join
 					</Button>
 				</Grid>

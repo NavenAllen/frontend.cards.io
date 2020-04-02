@@ -129,22 +129,16 @@ const createGameData = [
 	{ name: 'Rummy', tags: ['4 to 6'], rules: 'link' }
 ]
 const CreateGameForm = (props) => {
-	const [name, setName] = useState('')
-	const [position, setPosition] = useState(0)
 	const [game, setGame] = useState('literature')
+	const [activeCard, setActiveCard] = useState(0)
 
-	const handleNameInputChange = (e) => {
-		setName(e.target.value)
-	}
-	const handlePositionInputChange = (e) => {
-		setPosition(e.target.value)
-	}
 	const handleCreateGameFormSubmit = () => {
-		props.createGame({ name: name, position: position, game: game })
+		if (game !== '') props.createGame(game)
 	}
 
-	const handleCreateGameCardClick = (e) => {
-		console.log('card', e)
+	const handleCreateGameCardClick = (index) => {
+		setActiveCard(index)
+		setGame(createGameData[index])
 	}
 
 	const handleCreateGameInfoClick = (e) => {
@@ -156,12 +150,15 @@ const CreateGameForm = (props) => {
 	const { classes, locked } = props
 	return (
 		<>
-			{createGameData.map((game) => (
+			{createGameData.map((game, index) => (
 				<Grid item xl={4} sm={4} xs={12} className={classes.itemGrid}>
 					<Card
 						className={classes.card}
 						variant="outlined"
-						onClick={handleCreateGameCardClick}
+						style={{
+							borderColor: index === activeCard ? 'green' : ''
+						}}
+						onClick={() => handleCreateGameCardClick(index)}
 					>
 						<CardHeader
 							action={
@@ -198,7 +195,13 @@ const CreateGameForm = (props) => {
 				justify="center"
 				className={classes.joinBtnContainer}
 			>
-				<Button size="small" variant="contained" color="primary">
+				<Button
+					size="small"
+					variant="contained"
+					color="primary"
+					onClick={handleCreateGameFormSubmit}
+					disabled={locked}
+				>
 					Host
 				</Button>
 			</Grid>
