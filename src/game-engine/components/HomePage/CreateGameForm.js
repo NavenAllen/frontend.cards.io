@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+
+import classNames from 'classnames'
+
 import './HomePage.css'
 
 import { withStyles } from '@material-ui/core/styles'
@@ -31,6 +34,10 @@ const styles = (theme) => ({
 		'&:hover': {
 			cursor: 'pointer'
 		}
+	},
+	activeCard: {
+		borderColor: theme.palette.success.dark,
+		backgroundColor: theme.palette.success.light
 	},
 	chip: {
 		marginLeft: theme.spacing(0.5),
@@ -116,11 +123,11 @@ const CreateGameForm = (props) => {
 					className={classes.itemGrid}
 				>
 					<Card
-						className={classes.card}
 						variant="outlined"
-						style={{
-							borderColor: index === activeCard ? 'green' : ''
-						}}
+						className={classNames(
+							classes.card,
+							index === activeCard ? classes.activeCard : ''
+						)}
 						onClick={() => handleCreateGameCardClick(index)}
 					>
 						<CardHeader

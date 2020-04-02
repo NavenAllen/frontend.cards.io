@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import classNames from 'classnames'
+import { useMediaQuery } from 'react-responsive'
 
 import './HomePage.css'
 
@@ -32,9 +33,6 @@ const styles = (theme) => ({
 			'&:last-child': {
 				paddingBottom: theme.spacing(1)
 			}
-		},
-		'&:hover': {
-			cursor: 'pointer'
 		}
 	},
 	centerChild: {
@@ -43,6 +41,13 @@ const styles = (theme) => ({
 	joinListGrid: {
 		marginTop: theme.spacing(1),
 		marginLeft: 0
+	},
+	emptyRoomContainer: {
+		marginTop: theme.spacing(0.5)
+	},
+	emptyRoomImage: {
+		width: 'inherit',
+		height: 'inherit'
 	},
 	nameTabGrid: {},
 	nameTabCard: {
@@ -67,10 +72,19 @@ const styles = (theme) => ({
 		paddingRight: theme.spacing(2)
 	},
 	chipNumberFree: {
+		color: 'black',
+		borderColor: theme.palette.success.dark,
 		backgroundColor: theme.palette.success.main
 	},
 	chipNumberBusy: {
 		backgroundColor: theme.palette.error.dark
+	},
+	activeCard: {
+		color: theme.palette.success.dark,
+		backgroundColor: theme.palette.success.light,
+		'&:hover': {
+			cursor: 'pointer'
+		}
 	},
 	cardContent: {
 		padding: theme.spacing(0),
@@ -116,6 +130,8 @@ const styles = (theme) => ({
 const JoinGameForm = (props) => {
 	const [position, setPosition] = useState()
 	const [gameCode, setGameCode] = useState('')
+
+	const isMobile = useMediaQuery({ maxWidth: 400 })
 
 	const handlePositionInputChange = (position) => {
 		let player = props.players.find(
@@ -196,7 +212,10 @@ const JoinGameForm = (props) => {
 					return (
 						<Grid item xs={6} className={classes.nameTabGrid}>
 							<Card
-								className={classes.nameTabCard}
+								className={classNames(
+									classes.nameTabCard,
+									isActive ? classes.activeCard : ''
+								)}
 								// alignItems="center"
 								variant="outlined"
 								onClick={() =>
@@ -206,7 +225,7 @@ const JoinGameForm = (props) => {
 								<Box
 									className={classNames(
 										classes.chipNumber,
-										player.name === '<Available>'
+										isActive
 											? classes.chipNumberFree
 											: classes.chipNumberBusy
 									)}
@@ -234,6 +253,25 @@ const JoinGameForm = (props) => {
 						</Grid>
 					)
 				})}
+				{props.players.length <= 0 && (
+					<Grid
+						item
+						container
+						xs={12}
+						xl={12}
+						justify="center"
+						alignContent="center"
+						className={classes.emptyRoomContainer}
+					>
+						<img
+							src={`${'img/empty-room.png'}`}
+							alt="emtpy-room"
+							className={classNames(
+								isMobile ? classes.emptyRoomImage : ''
+							)}
+						></img>
+					</Grid>
+				)}
 				<Grid
 					container
 					xs={12}
