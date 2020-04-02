@@ -164,11 +164,13 @@ const HomePage = (props) => {
 	}
 
 	const handleCreateGameFormSubmit = (gameType) => {
-		if(name) {
+		if (name) {
 			props.createGame({
 				gameType,
 				name,
-				pid: localStorage.getItem('playerId') ? localStorage.getItem('playerId') : null
+				pid: localStorage.getItem('playerId')
+					? localStorage.getItem('playerId')
+					: null
 			})
 		} else {
 			setNameError(true)
@@ -176,12 +178,14 @@ const HomePage = (props) => {
 	}
 
 	const handleJoinGameFormSubmit = (gameCode, position) => {
-		if(name) {
+		if (name) {
 			props.joinGame({
 				gameCode,
 				name,
 				position,
-				pid: localStorage.getItem('playerId') ? localStorage.getItem('playerId') : null
+				pid: localStorage.getItem('playerId')
+					? localStorage.getItem('playerId')
+					: null
 			})
 		} else {
 			setNameError(true)
@@ -234,16 +238,14 @@ const HomePage = (props) => {
 										label="Create Game"
 										{...a11yProps(0)}
 									/>
-									<Tab 
-										label="Join Game" 
-										{...a11yProps(1)} 
-									/>
+									<Tab label="Join Game" {...a11yProps(1)} />
 								</Tabs>
 							</AppBar>
 						</Mobile>
 						<Grid container className={classes.paperGridContainer}>
 							<Grid
 								container
+								item
 								xs={12}
 								sm={12}
 								xl={12}
@@ -252,8 +254,8 @@ const HomePage = (props) => {
 							>
 								<Grid item xs={2} sm={4} xl={4}></Grid>
 								<Grid
-									item
 									container
+									item
 									xs={8}
 									sm={4}
 									xl={4}
@@ -289,9 +291,10 @@ const HomePage = (props) => {
 								<Grid item xs={2} sm={4} xl={4}></Grid>
 							</Grid>
 							<Desktop>
-								<Grid container xs={12}>
+								<Grid container item xs={12}>
 									<Grid
 										container
+										item
 										xs
 										className={classes.sectionGrid}
 									>
@@ -308,16 +311,17 @@ const HomePage = (props) => {
 										item
 										xs={1}
 									>
-										<div class="split-layout__divider">
-											<div class="split-layout__rule"></div>
-											<div class="split-layout__label">
+										<div className="split-layout__divider">
+											<div className="split-layout__rule"></div>
+											<div className="split-layout__label">
 												OR
 											</div>
-											<div class="split-layout__rule"></div>
+											<div className="split-layout__rule"></div>
 										</div>
 									</Grid>
 									<Grid
 										container
+										item
 										xs
 										className={classes.sectionGrid}
 									>
@@ -332,10 +336,11 @@ const HomePage = (props) => {
 								</Grid>
 							</Desktop>
 							<Mobile>
-								<Grid container xs={12}>
+								<Grid container item xs={12}>
 									<TabPanel value={tabValue} index={0}>
 										<Grid
 											container
+											item
 											xs
 											className={classes.sectionGrid}
 										>
@@ -350,6 +355,7 @@ const HomePage = (props) => {
 									<TabPanel value={tabValue} index={1}>
 										<Grid
 											container
+											item
 											xs
 											className={classes.sectionGrid}
 										>
@@ -385,7 +391,7 @@ const HomePage = (props) => {
 
 HomePage.propTypes = {
 	createGame: PropTypes.func.isRequired,
-	JoinGame: PropTypes.func.isRequired,
+	joinGame: PropTypes.func.isRequired,
 	locked: PropTypes.bool.isRequired,
 	probeGameRequest: PropTypes.func.isRequired,
 	players: PropTypes.array,
