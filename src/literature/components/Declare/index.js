@@ -24,7 +24,7 @@ export const Declare = ({ open, handleClose }) => {
 	const locked = useSelector((state) => state.locked)
 	const user = useSelector((state) => state.playerData)
 	const game = useSelector((state) => state.gameData)
-	const isEven = user.position % 2 == 0
+	const isEven = user.position % 2 === 0
 	const friends = game.players.filter(
 		(player) =>
 			player.position !== user.position &&
@@ -36,20 +36,16 @@ export const Declare = ({ open, handleClose }) => {
 		let ret = []
 		for (let i = order; i < order + 6; i++) {
 			ret.push({
-				num: nums[i],
-				shape: suit,
+				value: nums[i] + suit,
 				assignedTo: ''
 			})
 		}
-		ret = ret.filter(
-			(item) => userCards.indexOf(item.num + item.shape) === -1
-		)
+		ret = ret.filter((item) => userCards.indexOf(item.value) === -1)
 		setCards(ret)
-	}, [suit, order])
+	}, [suit, order, nums, userCards])
 	const assign = (card) => {
 		let prev = cards.map((item) => {
-			if (card.num === item.num && card.shape === item.shape)
-				item.assignedTo = selectedFriend
+			if (card.value === item.value) item.assignedTo = selectedFriend
 			return item
 		})
 		setCards(prev)
@@ -79,7 +75,7 @@ export const Declare = ({ open, handleClose }) => {
 				})
 			)
 		}
-	}, [dispatch])
+	}, [dispatch, cards, game.gameCode, user.playerId])
 
 	return (
 		<Dialog
