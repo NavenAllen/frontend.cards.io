@@ -139,67 +139,61 @@ const JoinGameForm = (props) => {
 	const { classes } = props
 
 	return (
-			<>
-				<Grid container xs={12} xl={12} alignItems="center">
-					<Grid item xs={0} sm={2}></Grid>
-					<Grid container item xs={9} sm={7} justify="center">
-						<TextField
-							label="kaunsa game?"
-							variant="outlined"
-							size="small"
-							InputLabelProps={{
-								classes: {
-									root: classes.cssLabel,
-									focused: classes.cssFocused
-								}
-							}}
-							InputProps={{
-								classes: {
-									root: classes.cssOutlinedInput,
-									focused: classes.inputFocused,
-									notchedOutline: classes.notchedOutline
-								},
-								inputMode: 'text'
-							}}
-							className={classes.textField}
-							value={gameCode}
-							onChange={handleGameCodeInputChange}
-						/>
-					</Grid>
-					<Grid
-						item
-						alignItems="center"
-						xs={3}
-						sm={3}
-						justify="center"
-					>
-						<Button
-							size="small"
-							variant="contained"
-							color="primary"
-							className={classes.formButton}
-							onClick={handleProbeGameSubmit}
-						>
-							Peek
-						</Button>
-					</Grid>
+		<>
+			<Grid container xs={12} xl={12} alignItems="center">
+				<Grid item xs={0} sm={2}></Grid>
+				<Grid container item xs={9} sm={7} justify="center">
+					<TextField
+						label="kaunsa game?"
+						variant="outlined"
+						size="small"
+						InputLabelProps={{
+							classes: {
+								root: classes.cssLabel,
+								focused: classes.cssFocused
+							}
+						}}
+						InputProps={{
+							classes: {
+								root: classes.cssOutlinedInput,
+								focused: classes.inputFocused,
+								notchedOutline: classes.notchedOutline
+							},
+							inputMode: 'text'
+						}}
+						className={classes.textField}
+						value={gameCode}
+						onChange={handleGameCodeInputChange}
+					/>
 				</Grid>
-				<Grid
-					container
-					xs={12}
-					xl={12}
-					className={classes.centerChild}
-				></Grid>
-				<Grid
-					container
-					xs={12}
-					xl={12}
-					className={classes.joinListGrid}
-					spacing={0}
-				>
-					{props.players.map((player) => {
-						const isActive = position === player.position
-						return (
+				<Grid item alignItems="center" xs={3} sm={3} justify="center">
+					<Button
+						size="small"
+						variant="contained"
+						color="primary"
+						className={classes.formButton}
+						onClick={handleProbeGameSubmit}
+					>
+						Peek
+					</Button>
+				</Grid>
+			</Grid>
+			<Grid
+				container
+				xs={12}
+				xl={12}
+				className={classes.centerChild}
+			></Grid>
+			<Grid
+				container
+				xs={12}
+				xl={12}
+				className={classes.joinListGrid}
+				spacing={0}
+			>
+				{props.players.map((player) => {
+					const isActive = position === player.position
+					return (
 						<Grid item xs={6} className={classes.nameTabGrid}>
 							<Card
 								className={classes.nameTabCard}
@@ -208,7 +202,6 @@ const JoinGameForm = (props) => {
 								onClick={() =>
 									handlePositionInputChange(player.position)
 								}
-								
 							>
 								<Box
 									className={classNames(
@@ -218,49 +211,49 @@ const JoinGameForm = (props) => {
 											: classes.chipNumberBusy
 									)}
 								>
-										{player.position}
-									</Box>
-									<div className={classes.detail}>
-										<CardContent
-											className={classes.cardContent}
+									{player.position}
+								</Box>
+								<div className={classes.detail}>
+									<CardContent
+										className={classes.cardContent}
+									>
+										<Typography
+											color={
+												isActive
+													? 'textPrimary'
+													: 'textSecondary'
+											}
+											component="div"
+											gutterBottom
 										>
-											<Typography
-												color={
-													isActive
-														? 'textPrimary'
-														: 'textSecondary'
-												}
-												component="div"
-												gutterBottom
-											>
-												{player.name}
-											</Typography>
-										</CardContent>
-									</div>
-								</Card>
-							</Grid>
-						)}
-					)}
-					<Grid
-						container
-						xs={12}
-						sm={12}
-						xl={12}
-						justify="center"
-						className={classes.joinBtnContainer}
+											{player.name}
+										</Typography>
+									</CardContent>
+								</div>
+							</Card>
+						</Grid>
+					)
+				})}
+				<Grid
+					container
+					xs={12}
+					sm={12}
+					xl={12}
+					justify="center"
+					className={classes.joinBtnContainer}
+				>
+					<Button
+						className={classes.formButton}
+						size="small"
+						variant="contained"
+						color="primary"
+						onClick={joinGame}
 					>
-						<Button
-							className={classes.formButton}
-							size="small"
-							variant="contained"
-							color="secondary"
-							onClick={joinGame}
-						>
-							Join
-						</Button>
-					</Grid>
+						Join
+					</Button>
 				</Grid>
-			</>
+			</Grid>
+		</>
 	)
 }
 
