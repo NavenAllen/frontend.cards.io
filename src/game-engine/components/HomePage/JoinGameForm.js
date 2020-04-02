@@ -57,9 +57,17 @@ const styles = (theme) => ({
 			}
 		}
 	},
-	chipNumberBox: {
+	chipNumberBusy: {
 		color: 'white',
-		backgroundColor: theme.palette.secondary.main,
+		backgroundColor: theme.palette.error.dark,
+		borderRight: '2px solid black',
+		paddingLeft: theme.spacing(2),
+		paddingRight: theme.spacing(2)
+	},
+	chipNumberFree: {
+		color: 'white',
+		backgroundColor: theme.palette.success.main,
+		borderRight: '2px solid black',
 		paddingLeft: theme.spacing(2),
 		paddingRight: theme.spacing(2)
 	},
@@ -75,22 +83,29 @@ const styles = (theme) => ({
 	},
 	cssLabel: {
 		color: 'black',
-		fontSize: '0.9rem'
+		fontWeight: 500
 	},
 	cssOutlinedInput: {
-		'&$cssFocused $notchedOutline': {
+		backgroundColor: 'rgba(255,255,255,1)',
+		'&$inputFocused $notchedOutline': {
 			borderWidth: '2px',
-			borderColor: `${theme.palette.secondary.main} !important`
+			borderColor: `${theme.palette.primary.dark} !important`
 		}
 	},
 	cssFocused: {
-		fontSize: '1rem'
+		color: 'black !important',
+		fontWeight: 500
+	},
+	inputFocused: {
+		fontSize: '1rem',
+		backgroundColor: 'rgba(255,255,255,0.6)'
 	},
 	notchedOutline: {
 		borderWidth: '2px',
 		borderColor: 'black !important'
 	},
 	formButton: {
+		fontWeight: 'bold',
 		'&:focus': {
 			outline: 'none'
 		}
@@ -128,7 +143,7 @@ const JoinGameForm = (props) => {
 					<Grid item xs={2}></Grid>
 					<Grid container item xs={7} justify="center">
 						<TextField
-							label="Game Code"
+							label="kaunsa game?"
 							variant="outlined"
 							size="small"
 							InputLabelProps={{
@@ -140,12 +155,11 @@ const JoinGameForm = (props) => {
 							InputProps={{
 								classes: {
 									root: classes.cssOutlinedInput,
-									focused: classes.cssFocused,
+									focused: classes.inputFocused,
 									notchedOutline: classes.notchedOutline
 								},
 								inputMode: 'text'
 							}}
-							color="secondary"
 							className={classes.textField}
 							value={gameCode}
 							onChange={handleGameCodeInputChange}
@@ -155,7 +169,8 @@ const JoinGameForm = (props) => {
 						<Button
 							size="small"
 							variant="contained"
-							color="secondary"
+							color="primary"
+							className={classes.formButton}
 							onClick={handleProbeGameSubmit}
 						>
 							Peek
@@ -176,45 +191,47 @@ const JoinGameForm = (props) => {
 					spacing={0}
 				>
 					{props.players.map((player) => {
-					const isActive = position === player.position
-					return (
-						<Grid item xs={6} className={classes.nameTabGrid}>
-							<Card
-								className={classes.nameTabCard}
-								alignItems="center"
-								variant="outlined"
-								onClick={() =>
-									handlePositionInputChange(player.position)
-								}
-							>
-								<Box
-									className={classes.chipNumberBox}
-									style={{
-										backgroundColor: isActive ? 'green' : ''
-									}}
+						const isActive = position === player.position
+						return (
+							<Grid item xs={6} className={classes.nameTabGrid}>
+								<Card
+									className={classes.nameTabCard}
+									// alignItems="center"
+									variant="outlined"
+									onClick={() =>
+										handlePositionInputChange(player.position)
+									}
 								>
-									{player.position}
-								</Box>
-								<div className={classes.detail}>
-									<CardContent
-										className={classes.cardContent}
+									<Box
+										className={
+											isActive
+												? classes.chipNumberFree
+												: classes.chipNumberBusy
+										}
 									>
-										<Typography
-											color={
-												isActive
-													? 'textPrimary'
-													: 'textSecondary'
-											}
-											component="div"
-											gutterBottom
+										{player.position}
+									</Box>
+									<div className={classes.detail}>
+										<CardContent
+											className={classes.cardContent}
 										>
-											{player.name}
-										</Typography>
-									</CardContent>
-								</div>
-							</Card>
-						</Grid>
-					))}
+											<Typography
+												color={
+													isActive
+														? 'textPrimary'
+														: 'textSecondary'
+												}
+												component="div"
+												gutterBottom
+											>
+												{player.name}
+											</Typography>
+										</CardContent>
+									</div>
+								</Card>
+							</Grid>
+						)}
+					)}
 					<Grid
 						container
 						xs={12}

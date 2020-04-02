@@ -9,10 +9,10 @@ import { gameActions } from '../../state/actions'
 import { withStyles } from '@material-ui/core/styles'
 import {
 	Container,
-	Divider,
 	Grid,
 	Paper,
 	TextField,
+	Typography
 } from '@material-ui/core'
 
 const styles = (theme) => ({
@@ -29,7 +29,21 @@ const styles = (theme) => ({
 		marginTop: theme.spacing(1)
 	},
 	title: {
-		fontFamily: 'Pacifico'
+		fontFamily: 'Poppins',
+		marginTop: theme.spacing(3),
+		fontWeight: 700,
+		color: theme.palette.text.primary
+	},
+	footer: {
+		fontFamily: 'Poppins',
+		marginTop: theme.spacing(4),
+		fontWeight: 600,
+		paddingLeft: theme.spacing(0.7),
+		paddingRight: theme.spacing(0.7),
+		borderRadius: '4px',
+		backgroundColor: 'rgba(255,255,255,0.6)',
+		backdropFilter: 'blur(4px)',
+		color: theme.palette.text.primary
 	},
 	paper: {
 		boxShadow: theme.shadows[9]
@@ -39,10 +53,11 @@ const styles = (theme) => ({
 		marginTop: theme.spacing(2)
 	},
 	mainPaper: {
-		marginTop: theme.spacing(19),
+		marginTop: theme.spacing(2),
+		borderRadius: '16px',
 		//minHeight: "70vh",
-		// backgroundColor: "#fff",
-		backgroundColor: 'rgba(255,255,255,0.65)',
+		// backgroundColor: 'rgba(0,0,0,0.1)',
+		backgroundColor: 'rgba(255,255,255,0.3)',
 		backdropFilter: 'blur(4px)'
 	},
 	paperGridContainer: {
@@ -61,16 +76,23 @@ const styles = (theme) => ({
 	},
 	cssLabel: {
 		color: 'black',
-		fontSize: '0.9rem'
+		fontWeight: 500
 	},
 	cssOutlinedInput: {
-		'&$cssFocused $notchedOutline': {
+		backgroundColor: 'rgba(255,255,255,1)',
+		'&$inputFocused $notchedOutline': {
 			borderWidth: '2px',
-			borderColor: `${theme.palette.primary.main} !important`
+			borderColor: `${theme.palette.primary.dark} !important`
 		}
 	},
 	cssFocused: {
-		fontSize: '1rem'
+		// color: `${theme.palette.primary.dark} !important`
+		color: 'black !important',
+		fontWeight: 500
+	},
+	inputFocused: {
+		fontSize: '1rem',
+		backgroundColor: 'rgba(255,255,255,0.6)'
 	},
 	notchedOutline: {
 		borderWidth: '2px',
@@ -111,17 +133,15 @@ const HomePage = (props) => {
 					justify="center"
 					className={classes.mainGrid}
 				>
+					<Typography
+						variant="h2"
+						component="h2"
+						className={classes.title}
+					>
+						cards.io
+					</Typography>
 					<Paper className={classes.mainPaper} elevation={6}>
 						<Grid container className={classes.paperGridContainer}>
-							{/* <Grid xs={12} className={classes.titleContainer}>
-								<Typography
-									variant="h3"
-									component="h3"
-									className={classes.title}
-								>
-									cards.io
-								</Typography>
-							</Grid> */}
 							<Grid
 								container
 								xs={12}
@@ -141,7 +161,7 @@ const HomePage = (props) => {
 									className={classes.nameInputContainer}
 								>
 									<TextField
-										label="Enter your name"
+										label="who art thou?"
 										size="small"
 										variant="outlined"
 										className={classes.textField}
@@ -154,7 +174,7 @@ const HomePage = (props) => {
 										InputProps={{
 											classes: {
 												root: classes.cssOutlinedInput,
-												focused: classes.cssFocused,
+												focused: classes.inputFocused,
 												notchedOutline:
 													classes.notchedOutline
 											},
@@ -181,11 +201,13 @@ const HomePage = (props) => {
 									/>
 								</Grid>
 								<Grid container justify="center" item xs={1}>
-									<Divider
-										orientation="vertical"
-										variant="middle"
-										flexItem
-									/>
+									<div class="split-layout__divider">
+										<div class="split-layout__rule"></div>
+										<div class="split-layout__label">
+											OR
+										</div>
+										<div class="split-layout__rule"></div>
+									</div>
 								</Grid>
 								<Grid
 									container
@@ -222,6 +244,13 @@ const HomePage = (props) => {
 							/>
 						</Grid>
 					</Paper>
+					<Typography
+						variant="h6"
+						component="h6"
+						className={classes.footer}
+					>
+						{'Made With \u2764 By Delta Force'}
+					</Typography>
 				</Grid>
 			</Container>
 	)
