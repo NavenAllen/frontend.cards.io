@@ -7,8 +7,8 @@ export const DisplayCards = ({ assign, cards, classes }) => {
 			{cards.map((card, ind1) => (
 				<Card
 					folded={false}
-					value={card}
-					key={card.shape + card.num}
+					value={card.value}
+					key={card.value}
 					onClick={() => assign(card)}
 					index={ind1}
 					cards={cards}
@@ -16,7 +16,7 @@ export const DisplayCards = ({ assign, cards, classes }) => {
 						left: 0,
 						position: 'relative',
 						display: 'inline-block',
-						opacity: card.assignedTo == '' ? 1 : 0.3,
+						opacity: card.assignedTo === '' ? 1 : 0.3,
 						margin: '10px 0'
 					}}
 				/>
