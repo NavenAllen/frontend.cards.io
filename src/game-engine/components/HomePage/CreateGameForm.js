@@ -130,9 +130,7 @@ const CreateGameForm = (props) => {
 									<IconButton
 										aria-label="settings"
 										className={classes.infoButton}
-										onClick={
-											this.handleCreateGameInfoClick
-										}
+										onClick={handleCreateGameInfoClick}
 									>
 										<InfoIcon fontSize="small" />
 									</IconButton>
@@ -162,34 +160,16 @@ const CreateGameForm = (props) => {
 				className={classes.joinBtnContainer}
 			>
 				<Button
-					className={classes.formButton}
 					size="small"
 					variant="contained"
 					color="primary"
+					onClick={handleCreateGameFormSubmit}
+					disabled={locked}
 				>
 					Host
 				</Button>
 			</Grid>
-		))}
-		<Grid
-			container
-			xs={12}
-			sm={12}
-			xl={12}
-			justify="center"
-			className={classes.joinBtnContainer}
-		>
-			<Button
-				size="small"
-				variant="contained"
-				color="primary"
-				onClick={handleCreateGameFormSubmit}
-				disabled={locked}
-			>
-				Host
-			</Button>
-		</Grid>
-	</>
+		</>
 	)
 }
 
