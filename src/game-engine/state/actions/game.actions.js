@@ -89,6 +89,7 @@ function createGame(user) {
 		dispatch({ type: gameConstants.CREATE_GAME_REQUEST })
 
 		socket.emit('create', {
+			type: user.gameType,
 			name: user.name,
 			pid: user.pid ? user.pid : null
 		})
@@ -115,7 +116,8 @@ function joinGameRequest(user) {
 		socket.emit('join', {
 			code: user.gameCode,
 			name: user.name,
-			position: user.position
+			position: user.position,
+			pid: user.pid ? user.pid : null
 		})
 		dispatch({ type: gameConstants.JOIN_GAME_REQUEST, data: user })
 	}

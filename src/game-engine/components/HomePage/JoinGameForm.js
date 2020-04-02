@@ -43,7 +43,8 @@ const styles = (theme) => ({
 		marginLeft: 0
 	},
 	emptyRoomContainer: {
-		marginTop: theme.spacing(0.5)
+		marginTop: theme.spacing(2),
+		marginBottom: theme.spacing(2)
 	},
 	emptyRoomImage: {
 		width: 'inherit',
@@ -71,13 +72,16 @@ const styles = (theme) => ({
 		paddingLeft: theme.spacing(2),
 		paddingRight: theme.spacing(2)
 	},
-	chipNumberFree: {
+	chipNumberActive: {
 		color: 'black',
 		borderColor: theme.palette.success.dark,
 		backgroundColor: theme.palette.success.main
 	},
 	chipNumberBusy: {
 		backgroundColor: theme.palette.error.dark
+	},
+	chipNumberFree: {
+		backgroundColor: theme.palette.success.main
 	},
 	activeCard: {
 		color: theme.palette.success.dark,
@@ -130,6 +134,7 @@ const styles = (theme) => ({
 const JoinGameForm = (props) => {
 	const [position, setPosition] = useState()
 	const [gameCode, setGameCode] = useState('')
+	const [gameCodeError, setGameCodeError] = useState(false)
 
 	const isMobile = useMediaQuery({ maxWidth: 400 })
 
@@ -145,11 +150,18 @@ const JoinGameForm = (props) => {
 	}
 
 	const handleProbeGameSubmit = () => {
-		if (gameCode !== '') props.probeGameRequest(gameCode)
+		if (gameCode !== ''){ 
+			props.probeGameRequest(gameCode)
+		}
+		else 
+			setGameCodeError(true)
 	}
+
 	const joinGame = () => {
 		if (!isNaN(position) && gameCode !== '')
 			props.joinGame(gameCode, position)
+		else if (!gameCode)
+			setGameCodeError(true)
 	}
 
 	const { classes } = props
@@ -180,6 +192,7 @@ const JoinGameForm = (props) => {
 						className={classes.textField}
 						value={gameCode}
 						onChange={handleGameCodeInputChange}
+						error={gameCodeError}
 					/>
 				</Grid>
 				<Grid item alignItems="center" xs={3} sm={3} justify="center">
@@ -225,9 +238,13 @@ const JoinGameForm = (props) => {
 								<Box
 									className={classNames(
 										classes.chipNumber,
-										isActive
+										player.name === '<Available>'
 											? classes.chipNumberFree
-											: classes.chipNumberBusy
+											: classes.chipNumberBusy,
+										isActive
+											? classes.chipNumberActive
+											: '',
+										
 									)}
 								>
 									{player.position}

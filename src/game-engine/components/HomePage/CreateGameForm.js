@@ -85,12 +85,13 @@ const styles = (theme) => ({
 })
 
 const createGameData = [
-	{ name: 'Literature', tags: ['Team', '6 to 8'], rules: 'link' },
-	{ name: 'Ace', tags: ['4 to 8'], rules: 'link' },
-	{ name: 'Hearts', tags: ['Team', 'Only 4'], rules: 'link' },
-	{ name: 'Bridge', tags: ['Team', '6 to 8'], rules: 'link' },
-	{ name: 'Rummy', tags: ['4 to 6'], rules: 'link' }
+	{ name: 'Literature', tags: ['Team', '6 to 8'], rules: 'link', type: 'literature' },
+	{ name: 'Ace', tags: ['4 to 8'], rules: 'link', type: 'ace' },
+	{ name: 'Hearts', tags: ['Team', 'Only 4'], rules: 'link', type: 'hearts' },
+	{ name: 'Bridge', tags: ['Team', '6 to 8'], rules: 'link', type: 'bridge' },
+	{ name: 'Rummy', tags: ['4 to 6'], rules: 'link', type: 'rummy' }
 ]
+
 const CreateGameForm = (props) => {
 	const [game, setGame] = useState('literature')
 	const [activeCard, setActiveCard] = useState(0)

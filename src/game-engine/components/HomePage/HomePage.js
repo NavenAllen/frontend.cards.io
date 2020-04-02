@@ -111,17 +111,12 @@ const styles = (theme) => ({
 
 const HomePage = (props) => {
 	const [name, setName] = useState('')
+	const [nameError, setNameError] = useState(false)
 	const [tabValue, setTabValue] = useState(0)
 
 	useEffect(() => {
 		if (props.inGame) props.history.push('/game')
 	})
-	const handleCreateGameFormSubmit = (game) => {
-		props.createGame({
-			name,
-			type: game
-		})
-	}
 
 	const Mobile = ({ children }) => {
 		const isMob1 = useMediaQuery({
@@ -144,7 +139,7 @@ const HomePage = (props) => {
 	}
 
 	// Functions for Tabs
-	function TabPanel(props) {
+	const TabPanel = (props) => {
 		const { children, value, index, ...other } = props
 
 		return (
@@ -161,20 +156,38 @@ const HomePage = (props) => {
 		)
 	}
 
-	function a11yProps(index) {
+	const a11yProps = (index) => {
 		return {
 			id: `full-width-tab-${index}`,
 			'aria-controls': `full-width-tabpanel-${index}`
 		}
 	}
 
-	const handleJoinGameFormSubmit = (gameCode, position) => {
-		props.joinGame({
-			gameCode,
-			name,
-			position
-		})
+	const handleCreateGameFormSubmit = (gameType) => {
+		if(name) {
+			props.createGame({
+				gameType,
+				name,
+				pid: localStorage.getItem('playerId') ? localStorage.getItem('playerId') : null
+			})
+		} else {
+			setNameError(true)
+		}
 	}
+
+	const handleJoinGameFormSubmit = (gameCode, position) => {
+		if(name) {
+			props.joinGame({
+				gameCode,
+				name,
+				position,
+				pid: localStorage.getItem('playerId') ? localStorage.getItem('playerId') : null
+			})
+		} else {
+			setNameError(true)
+		}
+	}
+
 	const handleNameInputChange = (e) => {
 		setName(e.target.value)
 	}
@@ -208,7 +221,6 @@ const HomePage = (props) => {
 					<Paper className={classes.mainPaper} elevation={6}>
 						<Mobile>
 							<AppBar position="static" color="default">
-								{console.log(tabValue)}
 								<Tabs
 									value={tabValue}
 									indicatorColor="secondary"
@@ -222,7 +234,10 @@ const HomePage = (props) => {
 										label="Create Game"
 										{...a11yProps(0)}
 									/>
-									<Tab label="Join Game" {...a11yProps(1)} />
+									<Tab 
+										label="Join Game" 
+										{...a11yProps(1)} 
+									/>
 								</Tabs>
 							</AppBar>
 						</Mobile>
@@ -266,6 +281,9 @@ const HomePage = (props) => {
 											inputMode: 'text'
 										}}
 										color="primary"
+										value={name}
+										onChange={handleNameInputChange}
+										error={nameError}
 									/>
 								</Grid>
 								<Grid item xs={2} sm={4} xl={4}></Grid>
