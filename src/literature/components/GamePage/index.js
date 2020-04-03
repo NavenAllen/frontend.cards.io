@@ -13,9 +13,10 @@ const GamePage = (props) => {
 		)
 	)
 	const onCardClick = (card) => {
+		if (player.hand.indexOf(card) === -1) return
 		let position = parseInt(prompt('Enter position'))
 		transferCard(card, player.position, position, () => {
-			// action to perform after animation
+			// action to perform after animation and transfer
 			console.log('here')
 		})
 	}

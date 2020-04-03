@@ -14,10 +14,13 @@
     left: 0;
 }
 .hand > div:hover {
-    left: 0;
-    top: -30px;
     cursor: pointer;
     box-shadow: inset 0 0 80px rgba(150, 100, 50, 0.3), 0 0 50px rgba(255, 255, 200, 0.8);
+}
+
+.hand > div[disableHover=false]:hover {
+    left: 0;
+    top: -30px;
 }
 
 @keyframes appear {
@@ -45,5 +48,9 @@
 @media (max-width: 700px) {
     .handother {
         transform: scale(0.8);
+    }
+    .handuser {
+        margin-bottom: 150px;
+        transform: scale(1.1);
     }
 }
