@@ -25,10 +25,6 @@ export const gameConstants = {
 	START_GAME_SUCCESS: 'START_GAME_SUCCESS',
 	START_GAME_FAILURE: 'START_GAME_FAILURE',
 
-	DESTROY_GAME_REQUEST: 'DESTROY_GAME_REQUEST',
-	DESTROY_GAME_SUCCESS: 'DESTROY_GAME_SUCCESS',
-	DESTROY_GAME_FAILURE: 'DESTROY_GAME_FAILURE',
-
 	ADD_PLAYER: 'ADD_PLAYER',
 
 	UPDATE_GAME: 'UPDATE_GAME',
@@ -60,9 +56,6 @@ export const gameActions = {
 	startGameSuccess,
 	startGameFailure,
 	destroyGameRequest,
-	destroyGameSuccess,
-	destroyGameFailure,
-	addPlayer,
 	updateGame,
 	updatePlayer,
 	cardSelected,
@@ -123,7 +116,7 @@ function createGameFailure(data) {
 
 function joinGameRequest(user) {
 	return (dispatch) => {
-		localStorage.setItem('gameCode', user.gameCode)
+		dispatch({ type: gameConstants.JOIN_GAME_REQUEST, data: user })
 		let type = user.gameCode.split(':')[0]
 		openGameSocket(type)
 		socket.emit('join', {
@@ -132,29 +125,28 @@ function joinGameRequest(user) {
 			position: user.position,
 			pid: user.pid ? user.pid : null
 		})
-		dispatch({ type: gameConstants.JOIN_GAME_REQUEST, data: user })
 	}
 }
 
 function joinGameSuccess(data) {
 	localStorage.setItem('playerId', data.pid)
+	localStorage.setItem('gameCode', data.gcode)
 	return (dispatch) =>
 		dispatch({ type: gameConstants.JOIN_GAME_SUCCESS, data: data })
 }
 
 function joinGameFailure(data) {
-	localStorage.removeItem('gameCode')
 	return (dispatch) =>
 		dispatch({ type: gameConstants.JOIN_GAME_FAILURE, data })
 }
 
 function leaveGameRequest(code, pid) {
 	return (dispatch) => {
+		dispatch({ type: gameConstants.LEAVE_GAME_REQUEST })
 		socket.emit('leave', {
 			code,
 			pid
 		})
-		dispatch({ type: gameConstants.LEAVE_GAME_REQUEST })
 	}
 }
 
@@ -190,27 +182,12 @@ function startGameFailure(data) {
 
 function destroyGameRequest(code, pid) {
 	return (dispatch) => {
-		socket.emit('start', {
+		localStorage.removeItem('gameCode')
+		socket.emit('destroy', {
 			code,
 			pid
 		})
-		dispatch({ type: gameConstants.DESTROY_GAME_REQUEST })
 	}
-}
-
-function destroyGameSuccess(data) {
-	return (dispatch) =>
-		dispatch({ type: gameConstants.DESTROY_GAME_SUCCESS, data })
-}
-
-function destroyGameFailure(data) {
-	return (dispatch) =>
-		dispatch({ type: gameConstants.DESTROY_GAME_FAILURE, data })
-}
-
-function addPlayer(name, position) {
-	return (dispatch) =>
-		dispatch({ type: gameConstants.ADD_PLAYER, data: { name, position } })
 }
 
 function updateGame(data) {

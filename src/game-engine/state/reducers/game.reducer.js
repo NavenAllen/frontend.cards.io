@@ -7,7 +7,6 @@ export function game(state = initialState, action) {
 		case gameConstants.CREATE_GAME_REQUEST:
 			return {
 				...state,
-				error: null,
 				locked: true
 			}
 		case gameConstants.CREATE_GAME_SUCCESS:
@@ -17,7 +16,7 @@ export function game(state = initialState, action) {
 					code: action.data.gcode,
 					players: [
 						{
-							name: action.data.name,
+							name: action.data.pname,
 							position: 1
 						}
 					]
@@ -27,10 +26,8 @@ export function game(state = initialState, action) {
 					name: action.data.pname,
 					position: 1
 				},
-				error: null,
 				locked: false,
-				inGame: true,
-				started: false
+				inGame: true
 			}
 		case gameConstants.CREATE_GAME_FAILURE:
 			return {
@@ -80,18 +77,12 @@ export function game(state = initialState, action) {
 		case gameConstants.JOIN_GAME_SUCCESS:
 			return {
 				...state,
-				playerData: {
-					...state.playerData,
-					id: action.data.pid
-				},
 				gameData: {
 					...state.gameData,
 					players: action.data.data
 				},
-				error: null,
 				locked: false,
-				inGame: true,
-				started: false
+				inGame: true
 			}
 		case gameConstants.JOIN_GAME_FAILURE:
 			return {
@@ -105,6 +96,11 @@ export function game(state = initialState, action) {
 				inGame: false
 			}
 		case gameConstants.LEAVE_GAME_REQUEST:
+			return {
+				...state,
+				locked: true
+			}
+		case gameConstants.LEAVE_GAME_SUCCESS:
 			return {
 				...state,
 				locked: true,
@@ -127,8 +123,7 @@ export function game(state = initialState, action) {
 		case gameConstants.START_GAME_SUCCESS:
 			return {
 				...state,
-				locked: false,
-				started: true
+				locked: false
 			}
 		case gameConstants.START_GAME_FAILURE:
 			return {
@@ -139,37 +134,10 @@ export function game(state = initialState, action) {
 				},
 				locked: false
 			}
-		case gameConstants.DESTROY_GAME_REQUEST:
-			return {
-				...state,
-				locked: true
-			}
-		case gameConstants.DESTROY_GAME_FAILURE:
-			return {
-				...state,
-				error: {
-					code: action.data.code,
-					message: action.data.message
-				},
-				locked: false,
-				inGame: false,
-				started: false
-			}
-		case gameConstants.ADD_PLAYER:
-			return {
-				...state,
-				gameData: {
-					...state.gameData,
-					players: [...state.gameData.players, action.data]
-				}
-			}
 		case gameConstants.UPDATE_GAME:
 			return {
 				...state,
-				gameData: {
-					...action.data,
-					players: state.gameData.players
-				},
+				gameData: action.data,
 				locked: false
 			}
 		case gameConstants.UPDATE_PLAYER:
@@ -187,16 +155,9 @@ export function game(state = initialState, action) {
 		case gameConstants.RECONNECT_SUCCESS:
 			return {
 				...state,
-				playerData: {
-					id: action.data.player._id,
-					position: action.data.player.position,
-					name: action.data.player.name,
-					hand: action.data.player.hand
-				},
-				gameData: {
-					code: action.data.game.code,
-					players: action.data.game.players
-				}
+				playerData: action.data.player,
+				gameData: action.data.game,
+				inGame: true
 			}
 		case gameConstants.RECONNECT_FAILURE:
 			return {
