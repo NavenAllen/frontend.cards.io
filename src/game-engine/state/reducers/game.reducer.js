@@ -13,19 +13,46 @@ export function game(state = initialState, action) {
 		case gameConstants.CREATE_GAME_SUCCESS:
 			return {
 				...state,
+				playerData: {
+					id: action.data.player._id,
+					position: action.data.player.position,
+					name: action.data.player.name,
+					hand: ['2S', '3D', 'KH', 'JC']
+				},
 				gameData: {
-					code: action.data.gcode,
+					code: action.data.game.code,
 					players: [
 						{
-							name: action.data.name,
-							position: 1
+							name: 'nandha',
+							position: 4,
+							count: 4
+						},
+						{
+							name: 'nandha',
+							position: 4,
+							count: 4
+						},
+						{
+							name: 'nandha',
+							position: 4,
+							count: 4
+						},
+						{
+							name: 'nandha',
+							position: 4,
+							count: 4
+						},
+						{
+							name: 'nandha',
+							position: 4,
+							count: 4
+						},
+						{
+							name: 'nandha',
+							position: 4,
+							count: 4
 						}
 					]
-				},
-				playerData: {
-					id: action.data.pid,
-					name: action.data.pname,
-					position: 1
 				},
 				error: null,
 				locked: false,
@@ -175,7 +202,10 @@ export function game(state = initialState, action) {
 		case gameConstants.UPDATE_PLAYER:
 			return {
 				...state,
-				playerData: action.data,
+				playerData: {
+					...action.data,
+					hand: ['2S', '3D', 'KH', 'JC']
+				},
 				locked: false
 			}
 		case gameConstants.CARD_SELECTED: {
@@ -191,11 +221,42 @@ export function game(state = initialState, action) {
 					id: action.data.player._id,
 					position: action.data.player.position,
 					name: action.data.player.name,
-					hand: action.data.player.hand
+					hand: ['2S', '3D', 'KH', 'JC']
 				},
 				gameData: {
 					code: action.data.game.code,
-					players: action.data.game.players
+					players: [
+						{
+							name: 'nandha',
+							position: 4,
+							count: 4
+						},
+						{
+							name: 'nandha',
+							position: 4,
+							count: 4
+						},
+						{
+							name: 'nandha',
+							position: 4,
+							count: 4
+						},
+						{
+							name: 'nandha',
+							position: 4,
+							count: 4
+						},
+						{
+							name: 'nandha',
+							position: 4,
+							count: 4
+						},
+						{
+							name: 'nandha',
+							position: 4,
+							count: 4
+						}
+					]
 				}
 			}
 		case gameConstants.RECONNECT_FAILURE:
