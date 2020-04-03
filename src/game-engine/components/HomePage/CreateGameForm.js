@@ -98,7 +98,7 @@ const createGameData = [
 ]
 
 const CreateGameForm = (props) => {
-	const [activeCard, setActiveCard] = useState(0)
+	const [activeCard, setActiveCard] = useState(-1)
 
 	const handleCreateGameFormSubmit = () => {
 		if (activeCard >= 0) props.createGame(createGameData[activeCard].type)
@@ -177,7 +177,7 @@ const CreateGameForm = (props) => {
 					color="primary"
 					className={classes.formButton}
 					onClick={handleCreateGameFormSubmit}
-					disabled={locked}
+					disabled={locked || activeCard < 0}
 				>
 					Host
 				</Button>
