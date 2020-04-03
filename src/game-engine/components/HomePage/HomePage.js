@@ -282,7 +282,6 @@ const HomePage = (props) => {
 											},
 											inputMode: 'text'
 										}}
-										onChange={handleNameInputChange}
 										color="primary"
 										onChange={handleNameInputChange}
 										error={nameError}

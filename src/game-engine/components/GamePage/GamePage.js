@@ -9,16 +9,13 @@ import { gameActions } from '../../state/actions'
 
 const GamePage = (props) => {
 	let { deal, fold, game } = Engine({})
-	const startGame = (playerId) => {
-		props.startGame(props.gameData.code, playerId)
-	}
 	return (
 		<>
 			{props.gameData.isActive != true ? (
 				<WaitingRoom
 					players={props.gameData.players}
+					gameCode={props.gameData.code}
 					playerData={props.playerData}
-					startGame={startGame}
 				/>
 			) : (
 				<div>
@@ -53,8 +50,7 @@ const GamePage = (props) => {
 GamePage.propTypes = {
 	gameData: PropTypes.object.isRequired,
 	cardSelected: PropTypes.object,
-	playerData: PropTypes.object,
-	startGame: PropTypes.func.isRequired
+	playerData: PropTypes.object
 }
 const mapStateToProps = (state) => {
 	return {
@@ -63,11 +59,5 @@ const mapStateToProps = (state) => {
 		playerData: state.playerData
 	}
 }
-const mapDispatchToProps = (dispatch) => {
-	return {
-		startGame: (code, pid) =>
-			dispatch(gameActions.startGameRequest(code, pid))
-	}
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(GamePage)
+export default connect(mapStateToProps, null)(GamePage)
