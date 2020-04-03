@@ -9,20 +9,24 @@ const Game = ({ players, playerCards, onCardClick, userPos }) => {
 	else num_players = 3
 	return (
 		<>
-			<div className={`${classes.handrow} ${classes.upperhand}`}>
-				{players.slice(0, num_players).map((player, index) => (
-					<Hand
-						position={player.position}
-						folded={false}
-						count={player.count}
-						key={player.name}
-						otherPlayers={players}
-						hide={true}
-						onCardClick={onCardClick}
-					/>
-				))}
+			<div className={`${classes.cards}`}>
+				<ul>
+					{players.map((player, index) => (
+						<li>
+							<Hand
+								position={player.position}
+								folded={false}
+								count={player.count}
+								key={player.name}
+								otherPlayers={players}
+								hide={true}
+								onCardClick={onCardClick}
+							/>
+						</li>
+					))}
+				</ul>
 			</div>
-			<div className={`${classes.handrow} ${classes.midhand}`}>
+			{/* <div className={`${classes.handrow} ${classes.midhand}`}>
 				{players
 					.slice(num_players, num_players + 2)
 					.map((player, index) => (
@@ -51,7 +55,7 @@ const Game = ({ players, playerCards, onCardClick, userPos }) => {
 							onCardClick={onCardClick}
 						/>
 					))}
-			</div>
+			</div> */}
 			<div className={classes.userhand}>
 				<Hand
 					position={userPos}

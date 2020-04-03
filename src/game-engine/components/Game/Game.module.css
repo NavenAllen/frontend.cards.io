@@ -35,10 +35,10 @@
 
 @media (max-height: 1100px) {
     .midhand {
-        top: 200px;
+        top: 600px;
     }
     .lowerhand {
-        top: 400px;
+        top: 600px;
     }
 }
 
@@ -56,7 +56,7 @@
         top: 100px;
     }
     .lowerhand {
-        top: 200px;
+        top: 600px;
     }
 }
 
@@ -68,3 +68,150 @@
         top: 160px;
     }
 }
+
+body {
+    background: rgb(0,174,239);
+    color: white;
+    font-family: "Arial", Helvetica;
+    text-shadow: 0 1px 1px rgba(0,0,0,.24);
+  }
+  
+  .cards {
+      height: 600px;
+      margin: 0 auto;
+      position: relative;
+      text-align: center;
+      width: 100px;
+      -webkit-transform-origin: center center;
+      -moz-transform-origin: center center;
+      -o-transform-origin: center center;
+      -ms-transform-origin: center center;
+      transform-origin: center center;
+  }
+  .cards ul {
+    list-style: none;
+      margin: 0;
+      padding: 0;
+  }
+      
+  .cards li {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 110px;
+    left: 50%;
+    margin-left: -60px;
+    position: absolute;
+    top: 15px;
+    width: 90px;
+    -webkit-transform-origin: center 40vw;
+    -moz-transform-origin: center 40vw;
+    -o-transform-origin: center 40vw;
+    -ms-transform-origin: center 40vw;
+    transform-origin: center 40vw;
+  }
+      
+  .cards li:nth-child(5) {
+    -webkit-transform: rotate(30deg);
+    -moz-transform: rotate(30deg);
+    -ms-transform: rotate(30deg);
+    -o-transform: rotate(30deg);
+    transform: rotate(30deg);
+  }
+  .cards li:nth-child(6) {
+    -webkit-transform: rotate(60deg);
+    -moz-transform: rotate(60deg);
+    -ms-transform: rotate(60deg);
+    -o-transform: rotate(60deg);
+    transform: rotate(60deg);
+  }
+  .cards li:nth-child(7) {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+  .cards li:nth-child(8) {
+    -webkit-transform: rotate(120deg);
+    -moz-transform: rotate(120deg);
+    -ms-transform: rotate(120deg);
+    -o-transform: rotate(120deg);
+    transform: rotate(120deg);
+  }
+  /* .cards li:nth-child(5) {
+    -webkit-transform: rotate(150deg);
+    -moz-transform: rotate(150deg);
+    -ms-transform: rotate(150deg);
+    -o-transform: rotate(150deg);
+    transform: rotate(150deg);
+  }
+  .cards li:nth-child(6) {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+  .cards li:nth-child(7) {
+    -webkit-transform: rotate(210deg);
+    -moz-transform: rotate(210deg);
+    -ms-transform: rotate(210deg);
+    -o-transform: rotate(210deg);
+    transform: rotate(210deg);
+  }
+  .cards li:nth-child(8) {
+    -webkit-transform: rotate(240deg);
+    -moz-transform: rotate(240deg);
+    -ms-transform: rotate(240deg);
+    -o-transform: rotate(240deg);
+    transform: rotate(240deg);
+  } */
+  .cards li:nth-child(1) {
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    transform: rotate(270deg);
+  }
+  .cards li:nth-child(2) {
+    -webkit-transform: rotate(300deg);
+    -moz-transform: rotate(300deg);
+    -ms-transform: rotate(300deg);
+    -o-transform: rotate(300deg);
+    transform: rotate(300deg);
+  }
+  .cards li:nth-child(3) {
+    -webkit-transform: rotate(330deg);
+    -moz-transform: rotate(330deg);
+    -ms-transform: rotate(330deg);
+    -o-transform: rotate(330deg);
+    transform: rotate(330deg);
+  }
+  .cards li:nth-child(4) {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+      
+  .cards p {
+    display: none;
+  }
+      
+  /* .cards li:hover p {
+    background: white;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.24);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,.24);
+    box-shadow: 0 1px 3px rgba(0,0,0,.24);
+    color: rgb(40,40,40);
+    display: block;
+    left: -100px;
+    position: absolute;
+    text-shadow: none;
+    width: 600px;
+  } */

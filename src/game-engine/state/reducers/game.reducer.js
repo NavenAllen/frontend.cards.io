@@ -51,6 +51,16 @@ export function game(state = initialState, action) {
 							name: 'nandha',
 							position: 4,
 							count: 4
+						},
+						{
+							name: 'nandha',
+							position: 4,
+							count: 4
+						},
+						{
+							name: 'nandha',
+							position: 4,
+							count: 4
 						}
 					]
 				},
@@ -226,6 +236,11 @@ export function game(state = initialState, action) {
 				gameData: {
 					code: action.data.game.code,
 					players: [
+						{
+							name: 'nandha',
+							position: 4,
+							count: 4
+						},
 						{
 							name: 'nandha',
 							position: 4,
