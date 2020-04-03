@@ -13,7 +13,7 @@ const Game = ({ players, playerCards, onCardClick, userPos }) => {
 				{players.slice(0, num_players).map((player, index) => (
 					<Hand
 						position={player.position}
-						folded={true}
+						folded={false}
 						cards={player}
 						key={player.name}
 						otherPlayers={players}
@@ -28,8 +28,8 @@ const Game = ({ players, playerCards, onCardClick, userPos }) => {
 					.map((player, index) => (
 						<Hand
 							position={player.position}
-							folded={true}
-							cards={players[index]}
+							folded={false}
+							cards={player}
 							key={player.name}
 							otherPlayers={players}
 							hide={true}
@@ -43,8 +43,8 @@ const Game = ({ players, playerCards, onCardClick, userPos }) => {
 					.map((player, index) => (
 						<Hand
 							position={player.position}
-							folded={true}
-							cards={players[index]}
+							folded={false}
+							cards={player}
 							key={player.name}
 							otherPlayers={players}
 							hide={true}

@@ -13,8 +13,9 @@ const Hand = (props) => {
 	const num_cards = Math.floor((props.cards.length || props.cards.count) / 2)
 	let cards
 	if (props.hide) {
-		cards = Array(props.cards.count)
-		cards.fill('blank', 0, props.cards.count)
+		cards = []
+		for (let i = 0; i < props.cards.count; i++)
+			cards.push(`${i}blank${props.cards.name}`)
 	} else cards = props.cards
 	const askCardSelect = (card) => {
 		props.askCardSelect(card)
