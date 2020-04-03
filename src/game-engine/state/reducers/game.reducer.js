@@ -14,13 +14,13 @@ export function game(state = initialState, action) {
 			return {
 				...state,
 				playerData: {
-					id: action.data.player._id,
-					position: action.data.player.position,
-					name: action.data.player.name,
+					id: action.data.pid,
+					position: 1,
+					name: action.data.pname,
 					hand: ['2S', '3D', 'KH', 'JC']
 				},
 				gameData: {
-					code: action.data.game.code,
+					code: action.data.gcode,
 					players: [
 						{
 							name: 'nandha',
