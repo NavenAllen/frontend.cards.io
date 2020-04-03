@@ -198,6 +198,14 @@ export function game(state = initialState, action) {
 					players: action.data.game.players
 				}
 			}
+		case gameConstants.RECONNECT_FAILURE:
+			return {
+				...state,
+				error: {
+					code: action.data.code,
+					message: action.data.message
+				}
+			}
 		case gameConstants.ADD_CARD: {
 			let prev = JSON.parse(JSON.stringify(state))
 			if (action.data.fromPos === state.playerData.position)

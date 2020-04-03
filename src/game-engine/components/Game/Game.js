@@ -14,7 +14,7 @@ const Game = ({ players, playerCards, onCardClick, userPos }) => {
 					<Hand
 						position={player.position}
 						folded={false}
-						cards={player}
+						count={player.count}
 						key={player.name}
 						otherPlayers={players}
 						hide={true}
@@ -29,7 +29,7 @@ const Game = ({ players, playerCards, onCardClick, userPos }) => {
 						<Hand
 							position={player.position}
 							folded={false}
-							cards={player}
+							count={player.count}
 							key={player.name}
 							otherPlayers={players}
 							hide={true}
@@ -44,7 +44,7 @@ const Game = ({ players, playerCards, onCardClick, userPos }) => {
 						<Hand
 							position={player.position}
 							folded={false}
-							cards={player}
+							count={player.count}
 							key={player.name}
 							otherPlayers={players}
 							hide={true}

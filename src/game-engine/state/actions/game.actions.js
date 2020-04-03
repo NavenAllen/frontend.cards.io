@@ -38,6 +38,8 @@ export const gameConstants = {
 	CARD_SELECTED: 'CARD_SELECTED',
 
 	RECONNECT_SUCCESS: 'RECONNECT_SUCCESS',
+	RECONNECT_FAILURE: 'RECONNECT_FAILURE',
+
 	ADD_CARD: 'ADD_CARD'
 }
 
@@ -65,6 +67,7 @@ export const gameActions = {
 	updatePlayer,
 	cardSelected,
 	reconnectSuccess,
+	reconnectFailure,
 	addCard
 }
 
@@ -217,14 +220,22 @@ function updateGame(data) {
 function updatePlayer(data) {
 	return (dispatch) => dispatch({ type: gameConstants.UPDATE_PLAYER, data })
 }
+
 function cardSelected(card) {
 	return (dispatch) =>
 		dispatch({ type: gameConstants.CARD_SELECTED, data: card })
 }
+
 function reconnectSuccess(data) {
 	return (dispatch) =>
 		dispatch({ type: gameConstants.RECONNECT_SUCCESS, data: data })
 }
+
+function reconnectFailure(data) {
+	return (dispatch) =>
+		dispatch({ type: gameConstants.RECONNECT_FAILURE, data: data })
+}
+
 function addCard(card, fromPos, toPos) {
 	return (dispatch) =>
 		dispatch({

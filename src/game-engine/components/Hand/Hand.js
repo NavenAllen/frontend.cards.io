@@ -10,12 +10,13 @@ const Hand = (props) => {
 	useEffect(() => {
 		if (!props.folded) setHover(false)
 	}, [props.folded])
-	const num_cards = Math.floor((props.cards.length || props.cards.count) / 2)
+	const num_cards = Math.floor((props.count || props.count) / 2)
+	console.log(props)
 	let cards
 	if (props.hide) {
 		cards = []
-		for (let i = 0; i < props.cards.count; i++)
-			cards.push(`${i}blank${props.cards.name}`)
+		for (let i = 0; i < props.count; i++)
+			cards.push(`${i}blank${props.name}`)
 	} else cards = props.cards
 	const askCardSelect = (card) => {
 		props.askCardSelect(card)

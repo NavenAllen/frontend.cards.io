@@ -5,6 +5,12 @@ import rootReducer from '../game-engine/state/reducers'
 
 const preloadedState = {
 	locked: false,
+	gameData: {
+		players: []
+	},
+	playerData: {
+		hand: []
+	},
 	error: null,
 	inGame: false,
 	isGameStarted: false

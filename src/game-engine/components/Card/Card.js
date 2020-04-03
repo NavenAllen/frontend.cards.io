@@ -35,13 +35,13 @@ export const Card = (props) => {
 					<img
 						alt={props.value}
 						height="100%"
-						srcSet="htps://raw.githubusercontent.com/htdebeer/SVG-cards/master/png/2x/back-aqua.png"
+						srcSet="https://raw.githubusercontent.com/htdebeer/SVG-cards/master/png/2x/back-aqua.png"
 					/>
 				) : (
 					<img
 						alt={props.value}
 						height="100%"
-						src={`htps://richardschneider.github.io/cardsJS/cards/${props.value}.svg`}
+						src={`https://richardschneider.github.io/cardsJS/cards/${props.value}.svg`}
 					/>
 				)}
 			</div>

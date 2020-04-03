@@ -15,7 +15,8 @@ var startCoreGameEventListeners = (dispatch) => {
 		startGameFailure,
 		updateGame,
 		updatePlayer,
-		reconnectSuccess
+		reconnectSuccess,
+		reconnectFailure
 	} = gameActions
 
 	socket.on('game-probe', (response) => {
@@ -26,7 +27,6 @@ var startCoreGameEventListeners = (dispatch) => {
 		}
 	})
 	socket.on('game-updates', (response) => {
-		console.log(response)
 		switch (response.type) {
 			case 'CREATE':
 				if (response.code === 200) dispatch(createGameSuccess(response))
@@ -52,7 +52,8 @@ var startCoreGameEventListeners = (dispatch) => {
 				dispatch(updateGame(response.data))
 				break
 			case 'CONNECT':
-				if (response.code != 400) dispatch(reconnectSuccess(response))
+				if (response.code === 200) dispatch(reconnectSuccess(response))
+				else dispatch(reconnectFailure(response))
 				break
 			default:
 				break
