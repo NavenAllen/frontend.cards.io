@@ -9,8 +9,8 @@ var startCoreGameEventListeners = (dispatch) => {
 		getPlayersListFailure,
 		joinGameSuccess,
 		joinGameFailure,
+		leaveGameSuccess,
 		leaveGameFailure,
-		addPlayer,
 		startGameSuccess,
 		startGameFailure,
 		updateGame,
@@ -28,32 +28,27 @@ var startCoreGameEventListeners = (dispatch) => {
 		}
 	})
 	socket.on('game-updates', (response) => {
+		console.log(response)
 		switch (response.type) {
 			case 'CREATE':
 				if (response.code === 200) dispatch(createGameSuccess(response))
 				else dispatch(createGameFailure(response))
 				break
-			case 'LIST':
+			case 'JOIN':
 				if (response.code === 200) dispatch(joinGameSuccess(response))
 				else dispatch(joinGameFailure(response))
 				break
-			case 'JOIN':
-				if (response.code === 200)
-					dispatch(addPlayer(response.pname, response.position))
-				else dispatch(joinGameFailure(response))
-				break
 			case 'LEAVE':
-				if (response.code !== 200) dispatch(leaveGameFailure(response))
+				if (response.code === 200) dispatch(leaveGameSuccess(response))
+				else dispatch(leaveGameFailure(response))
 				break
 			case 'START':
 				if (response.code === 200) dispatch(startGameSuccess())
 				else dispatch(startGameFailure(response))
 				break
-			case 'GAME':
-				dispatch(updateGame(response.data))
-				break
 			case 'CONNECT':
-				if (response.code !== 400) dispatch(reconnectSuccess(response))
+				if (response.code === 200) dispatch(reconnectSuccess(response))
+				else dispatch(reconnectFailure(response))
 				break
 			default:
 				break
