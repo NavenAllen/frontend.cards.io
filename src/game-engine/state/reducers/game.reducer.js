@@ -103,7 +103,10 @@ export function game(state = initialState, action) {
 		case gameConstants.LEAVE_GAME_SUCCESS:
 			return {
 				...state,
-				locked: true,
+				gameData: {
+					players: []
+				},
+				locked: false,
 				inGame: false
 			}
 		case gameConstants.LEAVE_GAME_FAILURE:
@@ -145,6 +148,14 @@ export function game(state = initialState, action) {
 				...state,
 				playerData: action.data,
 				locked: false
+			}
+		case gameConstants.DESTROY_GAME_REQUEST:
+			return {
+				...state,
+				gameData: {
+					players: []
+				},
+				inGame: false
 			}
 		case gameConstants.CARD_SELECTED: {
 			return {

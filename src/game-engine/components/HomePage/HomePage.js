@@ -193,7 +193,6 @@ const HomePage = (props) => {
 	}
 
 	const handleNameInputChange = (e) => {
-		console.log(e.target.value)
 		setName(e.target.value)
 	}
 
@@ -327,10 +326,9 @@ const HomePage = (props) => {
 									>
 										<JoinGameForm
 											joinGame={handleJoinGameFormSubmit}
-											probeGameRequest={
-												props.probeGameRequest
-											}
+											probeGame={props.probeGameRequest}
 											players={props.players}
+											locked={locked}
 										/>
 									</Grid>
 								</Grid>
@@ -363,10 +361,11 @@ const HomePage = (props) => {
 												joinGame={
 													handleJoinGameFormSubmit
 												}
-												probeGameRequest={
+												probeGame={
 													props.probeGameRequest
 												}
 												players={props.players}
+												locked={locked}
 											/>
 										</Grid>
 									</TabPanel>

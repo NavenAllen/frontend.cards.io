@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
 import classNames from 'classnames'
 import { useMediaQuery } from 'react-responsive'
@@ -151,7 +152,7 @@ const JoinGameForm = (props) => {
 
 	const handleProbeGameSubmit = () => {
 		if (gameCode !== '') {
-			props.probeGameRequest(gameCode)
+			props.probeGame(gameCode)
 		} else setGameCodeError(true)
 	}
 
@@ -161,7 +162,7 @@ const JoinGameForm = (props) => {
 		else if (!gameCode) setGameCodeError(true)
 	}
 
-	const { classes } = props
+	const { classes, locked } = props
 
 	return (
 		<>
@@ -206,6 +207,7 @@ const JoinGameForm = (props) => {
 						color="primary"
 						className={classes.formButton}
 						onClick={handleProbeGameSubmit}
+						disabled={locked}
 					>
 						Peek
 					</Button>
@@ -312,7 +314,7 @@ const JoinGameForm = (props) => {
 						variant="contained"
 						color="primary"
 						onClick={joinGame}
-						disabled={position <= 0 ? true : false}
+						disabled={locked || position <= 0}
 					>
 						Join
 					</Button>
@@ -320,6 +322,12 @@ const JoinGameForm = (props) => {
 			</Grid>
 		</>
 	)
+}
+
+JoinGameForm.propTypes = {
+	probeGame: PropTypes.func.isRequired,
+	joinGame: PropTypes.func.isRequired,
+	locked: PropTypes.bool.isRequired
 }
 
 export default withStyles(styles)(JoinGameForm)
