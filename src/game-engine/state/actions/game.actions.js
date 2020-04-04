@@ -83,7 +83,7 @@ function getPlayersListSuccess(data) {
 function getPlayersListFailure(data) {
 	return (dispatch) =>
 		dispatch({
-			type: gameConstants.GET_PLAYERS_LIST_REQUEST,
+			type: gameConstants.GET_PLAYERS_LIST_FAILURE,
 			data
 		})
 }

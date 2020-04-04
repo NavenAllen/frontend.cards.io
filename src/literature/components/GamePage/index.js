@@ -9,6 +9,9 @@ import { connect } from 'react-redux'
 import WaitingRoom from '../../../game-engine/components/WaitingRoom/WaitingRoom'
 import AskCard from '../AskCard/AskCard'
 import LoaderModal from '../../../game-engine/components/LoaderModal/LoaderModal'
+import { Collapse } from '@material-ui/core'
+import { Alert } from '@material-ui/lab'
+import { Redirect } from 'react-router-dom'
 
 const GamePage = (props) => {
 	const player = useSelector((state) => state.playerData)
@@ -32,40 +35,55 @@ const GamePage = (props) => {
 		userPos: player.position
 	})
 	const [open, setOpen] = useState(false)
-	const [gameLoaded, setGameLoaded] = useState(false)
+	const [errorOpen, setErrorOpen] = useState(false)
 	const handleClose = () => {
 		setOpen((prev) => !prev)
 	}
 	useEffect(() => {
-		if (props.inGame) setGameLoaded(true)
-	})
+		if (props.error) setErrorOpen(true)
+	}, [props.error])
 	return (
 		<>
-			{gameLoaded ? (
-				<div>
-					{!props.gameData.isActive ? (
-						<WaitingRoom
-							players={props.gameData.players}
-							gameCode={props.gameData.code}
-							playerData={props.playerData}
-						/>
+			{localStorage.getItem('gameCode') ? (
+				<>
+					{props.inGame ? (
+						<div>
+							{!props.gameData.isActive ? (
+								<WaitingRoom
+									players={props.gameData.players}
+									gameCode={props.gameData.code}
+									error={props.error}
+									minPlayers={props.gameData.minPlayers}
+									playerData={props.playerData}
+								/>
+							) : (
+								<>
+									{game}
+									{open && (
+										<Declare
+											open={open}
+											handleClose={handleClose}
+										/>
+									)}
+									{props.cardSelected !== undefined ? (
+										<AskCard />
+									) : null}
+								</>
+							)}
+						</div>
 					) : (
 						<>
-							{game}
-							{open && (
-								<Declare
-									open={open}
-									handleClose={handleClose}
-								/>
-							)}
-							{props.cardSelected != undefined ? (
-								<AskCard />
-							) : null}
+							<Collapse in={errorOpen}>
+								<Alert severity="error">
+									{props.error ? props.error.message : ''}
+								</Alert>
+							</Collapse>
+							<LoaderModal show={!errorOpen} />
 						</>
 					)}
-				</div>
+				</>
 			) : (
-				<LoaderModal show={true} />
+				<Redirect to="/home" />
 			)}
 		</>
 	)
@@ -74,11 +92,13 @@ GamePage.propTypes = {
 	gameData: PropTypes.object.isRequired,
 	cardSelected: PropTypes.object,
 	playerData: PropTypes.object,
-	inGame: PropTypes.bool.isRequired
+	inGame: PropTypes.bool.isRequired,
+	error: PropTypes.object
 }
 const mapStateToProps = (state) => {
 	return {
 		gameData: state.gameData,
+		error: state.error,
 		cardSelected: state.cardSelected,
 		playerData: state.playerData,
 		inGame: state.inGame
