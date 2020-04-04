@@ -7,6 +7,7 @@ import CreateGameForm from './CreateGameForm'
 import JoinGameForm from './JoinGameForm'
 import { connect } from 'react-redux'
 import { gameActions } from '../../state/actions'
+import LoaderModal from '../LoaderModal/LoaderModal'
 
 import './HomePage.css'
 
@@ -384,6 +385,7 @@ const HomePage = (props) => {
 					</Typography>
 				</Grid>
 			</Grid>
+			<LoaderModal show={locked} />
 		</Container>
 	)
 }

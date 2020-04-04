@@ -227,13 +227,14 @@ const WaitingRoom = (props) => {
 													(player) =>
 														player.position % 2 == 1
 												)
-												.map((player) => {
+												.map((player, index) => {
 													return (
 														<Card
 															className={
 																classes.nameTabCard
 															}
 															variant="outlined"
+															key={index}
 														>
 															<Box
 																className={classNames(
@@ -282,13 +283,14 @@ const WaitingRoom = (props) => {
 													(player) =>
 														player.position % 2 == 0
 												)
-												.map((player) => {
+												.map((player, index) => {
 													return (
 														<Card
 															className={
 																classes.nameTabCard
 															}
 															variant="outlined"
+															key={index}
 														>
 															<Box
 																className={classNames(
@@ -337,52 +339,57 @@ const WaitingRoom = (props) => {
 											xs={12}
 											className={classes.nameTabGrid}
 										>
-											{props.players.map((player) => {
-												return (
-													<Card
-														className={
-															classes.nameTabCard
-														}
-														variant="outlined"
-													>
-														<Box
-															className={classNames(
-																classes.chipNumber,
-																player.position %
-																	2 ==
-																	1
-																	? classes.chipNumberFree
-																	: classes.chipNumberBusy
-															)}
-														>
-															{player.position}
-														</Box>
-														<div
+											{props.players.map(
+												(player, index) => {
+													return (
+														<Card
 															className={
-																classes.detail
+																classes.nameTabCard
 															}
+															variant="outlined"
+															key={index}
 														>
-															<CardContent
+															<Box
+																className={classNames(
+																	classes.chipNumber,
+																	player.position %
+																		2 ==
+																		1
+																		? classes.chipNumberFree
+																		: classes.chipNumberBusy
+																)}
+															>
+																{
+																	player.position
+																}
+															</Box>
+															<div
 																className={
-																	classes.cardContent
+																	classes.detail
 																}
 															>
-																<Typography
-																	color={
-																		'textSecondary'
+																<CardContent
+																	className={
+																		classes.cardContent
 																	}
-																	component="div"
-																	gutterBottom
 																>
-																	{
-																		player.name
-																	}
-																</Typography>
-															</CardContent>
-														</div>
-													</Card>
-												)
-											})}
+																	<Typography
+																		color={
+																			'textSecondary'
+																		}
+																		component="div"
+																		gutterBottom
+																	>
+																		{
+																			player.name
+																		}
+																	</Typography>
+																</CardContent>
+															</div>
+														</Card>
+													)
+												}
+											)}
 										</Grid>
 									</Mobile>
 								</Grid>
@@ -411,9 +418,6 @@ const WaitingRoom = (props) => {
 												className={classes.leaveButton}
 												size="small"
 												variant="contained"
-												disabled={
-													props.players.length < 6
-												}
 												onClick={leaveGame}
 											>
 												Leave Game
@@ -431,7 +435,7 @@ const WaitingRoom = (props) => {
 }
 WaitingRoom.propTypes = {
 	players: PropTypes.array.isRequired,
-	gameCode: PropTypes.string.isRequired,
+	gameCode: PropTypes.string,
 	playerData: PropTypes.object.isRequired,
 	startGame: PropTypes.func.isRequired,
 	leaveGame: PropTypes.func.isRequired
