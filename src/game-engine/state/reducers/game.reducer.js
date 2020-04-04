@@ -7,6 +7,7 @@ export function game(state = initialState, action) {
 		case gameConstants.CREATE_GAME_REQUEST:
 			return {
 				...state,
+				error: null,
 				locked: true
 			}
 		case gameConstants.CREATE_GAME_SUCCESS:
@@ -41,6 +42,7 @@ export function game(state = initialState, action) {
 		case gameConstants.GET_PLAYERS_LIST_REQUEST:
 			return {
 				...state,
+				error: null,
 				locked: true
 			}
 		case gameConstants.GET_PLAYERS_LIST_SUCCESS:
@@ -64,6 +66,7 @@ export function game(state = initialState, action) {
 		case gameConstants.JOIN_GAME_REQUEST:
 			return {
 				...state,
+				error: null,
 				gameData: {
 					...state.gameData,
 					code: action.data.gameCode
@@ -98,6 +101,7 @@ export function game(state = initialState, action) {
 		case gameConstants.LEAVE_GAME_REQUEST:
 			return {
 				...state,
+				error: null,
 				locked: true
 			}
 		case gameConstants.LEAVE_GAME_SUCCESS:
@@ -121,6 +125,7 @@ export function game(state = initialState, action) {
 		case gameConstants.START_GAME_REQUEST:
 			return {
 				...state,
+				error: null,
 				locked: true
 			}
 		case gameConstants.START_GAME_SUCCESS:
@@ -166,6 +171,7 @@ export function game(state = initialState, action) {
 		case gameConstants.RECONNECT_SUCCESS:
 			return {
 				...state,
+				error: null,
 				playerData: action.data.player,
 				gameData: action.data.game,
 				inGame: true

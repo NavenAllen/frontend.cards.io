@@ -5,7 +5,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { gameActions } from '../../state/actions'
 import { useMediaQuery } from 'react-responsive'
+import { Alert } from '@material-ui/lab'
 import {
+	Collapse,
 	Container,
 	Grid,
 	Box,
@@ -22,18 +24,16 @@ const styles = (theme) => ({
 		flexGrow: 1
 	},
 	mainGrid: {
-		marginTop: theme.spacing(2),
 		height: '100vh'
 	},
 	title: {
 		fontFamily: 'Poppins',
-		marginTop: theme.spacing(3),
+		marginTop: theme.spacing(5),
 		fontWeight: 700,
 		color: '#fff'
 	},
 	gameCode: {
 		fontFamily: 'Poppins',
-		marginTop: theme.spacing(1),
 		fontWeight: 600
 	},
 	waitingText: {
@@ -44,14 +44,13 @@ const styles = (theme) => ({
 		marginTop: theme.spacing(2),
 		marginBottom: theme.spacing(2),
 		padding: theme.spacing(2),
-		minHeight: '50vh',
 		minWidth: '60%',
 		backgroundColor: 'rgba(255,255,255,0.6)',
 		backdropFilter: 'blur(4px)',
 		borderRadius: '16px'
 	},
 	innerGrid: {
-		minHeight: '50vh'
+		padding: theme.spacing(1)
 	},
 	playersListGrid: {
 		marginTop: theme.spacing(1),
@@ -93,6 +92,8 @@ const styles = (theme) => ({
 	},
 	formButton: {
 		marginTop: theme.spacing(2),
+		marginRight: theme.spacing(0.5),
+		marginLeft: theme.spacing(0.5),
 		fontWeight: 'bold',
 		'&:focus': {
 			outline: 'none'
@@ -100,17 +101,28 @@ const styles = (theme) => ({
 	},
 	leaveButton: {
 		marginTop: theme.spacing(2),
-		backgroundColor: theme.palette.error.dark,
+		marginRight: theme.spacing(0.5),
+		marginLeft: theme.spacing(0.5),
+		backgroundColor: theme.palette.error.main,
 		color: '#fff',
 		fontWeight: 'bold',
 		'&:focus': {
 			outline: 'none'
+		},
+		'&:hover': {
+			backgroundColor: theme.palette.error.dark
 		}
 	}
 })
 
 const WaitingRoom = (props) => {
 	const { classes } = props
+	const [errorOpen, setErrorOpen] = React.useState(false)
+
+	React.useEffect(() => {
+		if (props.error !== null) setErrorOpen(true)
+	}, [props.error])
+
 	const startGame = () => {
 		props.startGame(props.gameCode, props.playerData.id)
 	}
@@ -162,8 +174,8 @@ const WaitingRoom = (props) => {
 							<Grid
 								container
 								direction="column"
-								justify="space-evenly"
-								alignItems="stretch"
+								justify="center"
+								alignItems="center"
 								className={classes.innerGrid}
 							>
 								<Grid
@@ -175,11 +187,11 @@ const WaitingRoom = (props) => {
 									justify="center"
 								>
 									<Typography variant="h6" component="h6">
-										Code:
+										CODE
 									</Typography>
 									<Typography
-										variant="h4"
-										component="h4"
+										variant="h5"
+										component="h5"
 										className={classes.gameCode}
 									>
 										{props.gameCode}
@@ -193,7 +205,23 @@ const WaitingRoom = (props) => {
 									alignItems="center"
 									justify="center"
 								>
-									{props.playerData.position == 1 ? (
+									<Collapse in={errorOpen}>
+										<Alert severity="error">
+											{props.error
+												? props.error.message
+												: ''}
+										</Alert>
+									</Collapse>
+								</Grid>
+								<Grid
+									container
+									item
+									spacing={0}
+									direction="column"
+									alignItems="center"
+									justify="center"
+								>
+									{props.playerData.position === 1 ? (
 										<Typography
 											variant="h6"
 											component="h6"
@@ -225,7 +253,8 @@ const WaitingRoom = (props) => {
 											{props.players
 												.filter(
 													(player) =>
-														player.position % 2 == 1
+														player.position % 2 ===
+														1
 												)
 												.map((player, index) => {
 													return (
@@ -281,7 +310,8 @@ const WaitingRoom = (props) => {
 											{props.players
 												.filter(
 													(player) =>
-														player.position % 2 == 0
+														player.position % 2 ===
+														0
 												)
 												.map((player, index) => {
 													return (
@@ -353,7 +383,7 @@ const WaitingRoom = (props) => {
 																className={classNames(
 																	classes.chipNumber,
 																	player.position %
-																		2 ==
+																		2 ===
 																		1
 																		? classes.chipNumberFree
 																		: classes.chipNumberBusy
@@ -394,35 +424,38 @@ const WaitingRoom = (props) => {
 									</Mobile>
 								</Grid>
 
-								{props.playerData != undefined ? (
+								{props.playerData ? (
 									<Grid
 										container
 										direction="row"
 										justify="center"
 									>
-										{props.playerData.position == 1 ? (
+										{props.playerData.position === 1 ? (
 											<Button
 												className={classes.formButton}
 												size="small"
 												variant="contained"
 												color="primary"
 												disabled={
-													props.players.length < 6
+													props.players.length <
+													props.minPlayers
 												}
 												onClick={startGame}
 											>
 												Start Game
 											</Button>
 										) : (
-											<Button
-												className={classes.leaveButton}
-												size="small"
-												variant="contained"
-												onClick={leaveGame}
-											>
-												Leave Game
-											</Button>
+											<> </>
 										)}
+
+										<Button
+											className={classes.leaveButton}
+											size="small"
+											variant="contained"
+											onClick={leaveGame}
+										>
+											Leave Game
+										</Button>
 									</Grid>
 								) : null}
 							</Grid>
@@ -438,7 +471,8 @@ WaitingRoom.propTypes = {
 	gameCode: PropTypes.string,
 	playerData: PropTypes.object.isRequired,
 	startGame: PropTypes.func.isRequired,
-	leaveGame: PropTypes.func.isRequired
+	leaveGame: PropTypes.func.isRequired,
+	error: PropTypes.object
 }
 const mapDispatchToProps = (dispatch) => {
 	return {

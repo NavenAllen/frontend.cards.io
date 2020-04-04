@@ -6,17 +6,14 @@ import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
 
 import rootStore from './rootState/store'
-import { setDispatch, reconnectToGame } from './util/socket-client'
+import { setDispatch, openGameSocket } from './util/socket-client'
 
 setDispatch(rootStore.dispatch)
 if (
 	localStorage.getItem('playerId') !== null &&
 	localStorage.getItem('gameCode') !== null
 )
-	reconnectToGame(
-		localStorage.getItem('gameCode').split(':')[0],
-		localStorage.getItem('playerId')
-	)
+	openGameSocket(localStorage.getItem('gameCode').split(':')[0])
 
 render(
 	<Provider store={rootStore}>

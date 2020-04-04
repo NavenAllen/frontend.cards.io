@@ -12,9 +12,11 @@ import LoaderModal from '../LoaderModal/LoaderModal'
 import './HomePage.css'
 
 import { withStyles } from '@material-ui/core/styles'
+import { Alert } from '@material-ui/lab'
 import {
 	AppBar,
 	Box,
+	Collapse,
 	Container,
 	Grid,
 	Paper,
@@ -114,10 +116,12 @@ const HomePage = (props) => {
 	const [name, setName] = useState('')
 	const [nameError, setNameError] = useState(false)
 	const [tabValue, setTabValue] = useState(0)
+	const [errorOpen, setErrorOpen] = React.useState(false)
 
 	useEffect(() => {
 		if (props.inGame) props.history.push('/game')
-	})
+		if (props.error !== null) setErrorOpen(true)
+	}, [props.inGame, props.error])
 
 	const Mobile = ({ children }) => {
 		const isMob1 = useMediaQuery({
@@ -244,6 +248,20 @@ const HomePage = (props) => {
 							</AppBar>
 						</Mobile>
 						<Grid container className={classes.paperGridContainer}>
+							<Grid
+								container
+								item
+								xs={12}
+								sm={12}
+								xl={12}
+								justify="center"
+							>
+								<Collapse in={errorOpen}>
+									<Alert severity="error">
+										{props.error ? props.error.message : ''}
+									</Alert>
+								</Collapse>
+							</Grid>
 							<Grid
 								container
 								item
@@ -385,7 +403,12 @@ const HomePage = (props) => {
 					</Typography>
 				</Grid>
 			</Grid>
-			<LoaderModal show={locked} />
+			<LoaderModal
+				show={
+					!errorOpen &&
+					(locked || localStorage.getItem('gameCode') !== null)
+				}
+			/>
 		</Container>
 	)
 }
@@ -396,13 +419,15 @@ HomePage.propTypes = {
 	locked: PropTypes.bool.isRequired,
 	probeGameRequest: PropTypes.func.isRequired,
 	players: PropTypes.array,
-	inGame: PropTypes.bool.isRequired
+	inGame: PropTypes.bool.isRequired,
+	error: PropTypes.object
 }
 
 const mapStateToProps = (state) => {
 	return {
 		locked: state.locked,
 		players: state.gameData.players,
+		error: state.error,
 		inGame: state.inGame
 	}
 }
