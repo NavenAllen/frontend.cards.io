@@ -11,7 +11,7 @@ const GamePage = (props) => {
 	let { deal, fold, game } = Engine({})
 	return (
 		<>
-			{props.gameData.isActive != true ? (
+			{props.gameData.isActive !== true ? (
 				<WaitingRoom
 					players={props.gameData.players}
 					gameCode={props.gameData.code}
@@ -41,7 +41,7 @@ const GamePage = (props) => {
 						Deal
 					</button>
 					{game}
-					{props.cardSelected != undefined ? <AskCard /> : null}
+					{props.cardSelected !== undefined ? <AskCard /> : null}
 				</div>
 			)}
 		</>

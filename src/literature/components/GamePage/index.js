@@ -1,19 +1,31 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { Redirect } from 'react-router-dom'
+import { connect, useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 
-import './GamePage.css'
+import { gameActions } from '../../../game-engine/state/actions'
+
 import { Engine } from '../../../game-engine/engine'
 import { Declare } from '../Declare'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import WaitingRoom from '../../../game-engine/components/WaitingRoom/WaitingRoom'
 import AskCard from '../AskCard/AskCard'
 import LoaderModal from '../../../game-engine/components/LoaderModal/LoaderModal'
-import { Collapse } from '@material-ui/core'
-import { Alert } from '@material-ui/lab'
-import { Redirect } from 'react-router-dom'
+import DialogModal from '../../../game-engine/components/DialogModal/DialogModal'
+
+import './GamePage.css'
+
+import { makeStyles } from '@material-ui/core/styles'
+import { Button } from '@material-ui/core'
+
+const useStyles = makeStyles((theme) => ({
+	leaveButton: {
+		color: theme.palette.error.main
+	}
+}))
 
 const GamePage = (props) => {
+	const classes = useStyles()
+
 	const player = useSelector((state) => state.playerData)
 	const otherPlayers = useSelector((state) =>
 		state.gameData.players.filter(
@@ -39,9 +51,19 @@ const GamePage = (props) => {
 	const handleClose = () => {
 		setOpen((prev) => !prev)
 	}
+
+	const handleClickRetry = () => {
+		props.history.push('/')
+	}
+
+	const handleClickLeave = () => {
+		props.leaveGame(props.gameData.code, props.playerData.id)
+	}
+
 	useEffect(() => {
 		if (props.error) setErrorOpen(true)
 	}, [props.error])
+
 	return (
 		<>
 			{localStorage.getItem('gameCode') ? (
@@ -73,12 +95,26 @@ const GamePage = (props) => {
 						</div>
 					) : (
 						<>
-							<Collapse in={errorOpen}>
-								<Alert severity="error">
-									{props.error ? props.error.message : ''}
-								</Alert>
-							</Collapse>
 							<LoaderModal show={!errorOpen} />
+							<DialogModal
+								open={errorOpen}
+								title={'Uh-oh, something went wrong.'}
+								content={props.error ? props.error.message : ''}
+								actionButtons={[
+									<Button
+										color="primary"
+										onClick={handleClickRetry}
+									>
+										Retry
+									</Button>,
+									<Button
+										className={classes.leaveButton}
+										onClick={handleClickLeave}
+									>
+										Leave
+									</Button>
+								]}
+							/>
 						</>
 					)}
 				</>
@@ -105,4 +141,11 @@ const mapStateToProps = (state) => {
 	}
 }
 
-export default connect(mapStateToProps, null)(GamePage)
+const mapDispatchToProps = (dispatch) => {
+	return {
+		leaveGame: (code, pid) =>
+			dispatch(gameActions.leaveGameRequest(code, pid))
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GamePage)
