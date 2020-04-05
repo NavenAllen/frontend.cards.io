@@ -193,7 +193,10 @@ const GamePage = (props) => {
 											>
 												LITERATURE
 											</Typography>
-											<Button color="inherit">
+											<Button
+												color="inherit"
+												onClick={handleClickLeave}
+											>
 												Abandon Game
 											</Button>
 										</Toolbar>
@@ -242,6 +245,7 @@ const GamePage = (props) => {
 		</>
 	)
 }
+
 GamePage.propTypes = {
 	gameData: PropTypes.object.isRequired,
 	cardSelected: PropTypes.object,
@@ -249,6 +253,7 @@ GamePage.propTypes = {
 	inGame: PropTypes.bool.isRequired,
 	error: PropTypes.object
 }
+
 const mapStateToProps = (state) => {
 	return {
 		gameData: state.gameData,

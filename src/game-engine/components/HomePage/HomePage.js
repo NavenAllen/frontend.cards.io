@@ -11,7 +11,7 @@ import LoaderModal from '../LoaderModal/LoaderModal'
 
 import './HomePage.css'
 
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import { Alert } from '@material-ui/lab'
 import {
 	AppBar,
@@ -26,7 +26,7 @@ import {
 	Typography
 } from '@material-ui/core'
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
 	root: {},
 	flexGrow: {
 		flexGrow: 1
@@ -110,9 +110,11 @@ const styles = (theme) => ({
 		borderWidth: '2px',
 		borderColor: '#006db3 !important'
 	}
-})
+}))
 
 const HomePage = (props) => {
+	const classes = useStyles()
+
 	const [name, setName] = useState('')
 	const [nameError, setNameError] = useState(false)
 	const [tabValue, setTabValue] = useState(0)
@@ -205,7 +207,7 @@ const HomePage = (props) => {
 		setTabValue(1 - tabValue)
 	}
 
-	const { classes, locked } = props
+	const { locked } = props
 
 	return (
 		<Container component="main" className={classes.mainContainer}>
@@ -438,7 +440,4 @@ const mapDispatchToProps = (dispatch) => ({
 	joinGame: (user) => dispatch(gameActions.joinGameRequest(user))
 })
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(withStyles(styles)(HomePage))
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage)

@@ -5,7 +5,7 @@ import classNames from 'classnames'
 
 import './HomePage.css'
 
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import {
 	Button,
 	Card,
@@ -18,7 +18,7 @@ import {
 
 import { InfoOutlined as InfoIcon } from '@material-ui/icons'
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
 	root: {},
 	flexGrow: {
 		flexGrow: 1
@@ -82,7 +82,7 @@ const styles = (theme) => ({
 			outline: 'none'
 		}
 	}
-})
+}))
 
 const createGameData = [
 	{
@@ -98,6 +98,8 @@ const createGameData = [
 ]
 
 const CreateGameForm = (props) => {
+	const classes = useStyles()
+
 	const [activeCard, setActiveCard] = useState(-1)
 
 	const handleCreateGameFormSubmit = () => {
@@ -113,7 +115,7 @@ const CreateGameForm = (props) => {
 		e.stopPropagation()
 	}
 
-	const { classes, locked } = props
+	const { locked } = props
 	return (
 		<>
 			{createGameData.map((game, index) => (
@@ -191,4 +193,4 @@ CreateGameForm.propTypes = {
 	locked: PropTypes.bool.isRequired
 }
 
-export default withStyles(styles)(CreateGameForm)
+export default CreateGameForm
