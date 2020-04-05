@@ -6,7 +6,7 @@ import { useMediaQuery } from 'react-responsive'
 
 import './HomePage.css'
 
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import {
 	Box,
 	Button,
@@ -17,7 +17,7 @@ import {
 	Typography
 } from '@material-ui/core'
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
 	root: {},
 	flexGrow: {
 		flexGrow: 1
@@ -130,9 +130,11 @@ const styles = (theme) => ({
 			outline: 'none'
 		}
 	}
-})
+}))
 
 const JoinGameForm = (props) => {
+	const classes = useStyles()
+
 	const [position, setPosition] = useState(-1)
 	const [gameCode, setGameCode] = useState('')
 	const [gameCodeError, setGameCodeError] = useState(false)
@@ -162,7 +164,7 @@ const JoinGameForm = (props) => {
 		else if (!gameCode) setGameCodeError(true)
 	}
 
-	const { classes, locked } = props
+	const { locked } = props
 
 	return (
 		<>
@@ -330,4 +332,4 @@ JoinGameForm.propTypes = {
 	locked: PropTypes.bool.isRequired
 }
 
-export default withStyles(styles)(JoinGameForm)
+export default JoinGameForm
