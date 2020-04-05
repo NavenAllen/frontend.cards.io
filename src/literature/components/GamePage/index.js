@@ -15,9 +15,31 @@ import DialogModal from '../../../game-engine/components/DialogModal/DialogModal
 import './GamePage.css'
 
 import { makeStyles } from '@material-ui/core/styles'
-import { Button } from '@material-ui/core'
+import { AppBar, Button, Toolbar, Typography } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
+	appBar: {
+		flexGrow: 1,
+		backgroundColor: theme.palette.error.main
+	},
+	scoreContainer: {
+		flexGrow: 1
+	},
+	playerScore: {
+		marginRight: theme.spacing(0.8),
+		'&:hover': {
+			cursor: 'pointer'
+		}
+	},
+	opponentScore: {
+		marginLeft: theme.spacing(0.8),
+		'&:hover': {
+			cursor: 'pointer'
+		}
+	},
+	title: {
+		flexGrow: 1
+	},
 	leaveButton: {
 		color: theme.palette.error.main
 	}
@@ -25,6 +47,11 @@ const useStyles = makeStyles((theme) => ({
 
 const GamePage = (props) => {
 	const classes = useStyles()
+
+	const [playerTeamScore, setPlayerTeamScore] = useState(0)
+	const [opponentTeamScore, setOpponentTeamScore] = useState(0)
+	const [playerTeamLogs, setPlayerTeamLogs] = useState([])
+	const [opponentTeamLogs, setOpponentTeamLogs] = useState([])
 
 	const player = useSelector((state) => state.playerData)
 	const otherPlayers = useSelector((state) =>
@@ -53,16 +80,66 @@ const GamePage = (props) => {
 	}
 
 	const handleClickRetry = () => {
-		props.history.push('/')
+		window.location.reload()
 	}
 
 	const handleClickLeave = () => {
 		props.leaveGame(props.gameData.code, props.playerData.id)
 	}
 
+	const getPlayerPositionFromName = (players, name) => {
+		return players.filter((player) => player.name === name)[0]
+	}
+
 	useEffect(() => {
+		const updateScore = (gameData, playerData) => {
+			let evenScore = 0
+			let oddScore = 0
+
+			gameData.players.forEach((player, index) => {
+				if (player.position % 2 === 0) evenScore += player.score
+				else oddScore += player.score
+			})
+
+			if (playerData.position % 2 === 0) {
+				setPlayerTeamScore(evenScore)
+				setOpponentTeamScore(oddScore)
+			} else {
+				setPlayerTeamScore(oddScore)
+				setOpponentTeamScore(evenScore)
+			}
+		}
+
+		const updateTeamLogs = (gameData, playerData) => {
+			let evenTeamLogs = []
+			let oddTeamLogs = []
+
+			gameData.logs.forEach((log) => {
+				let actionData = log.split(':')
+				if (actionData[0] === 'DECLARE') {
+					let position = getPlayerPositionFromName(
+						gameData.players,
+						actionData[1]
+					)
+					if (position % 2 === 0) evenTeamLogs.push(actionData[2])
+					else oddTeamLogs.push(actionData[2])
+				}
+			})
+
+			if (playerData.position % 2 === 0) {
+				setPlayerTeamLogs(evenTeamLogs)
+				setOpponentTeamLogs(oddTeamLogs)
+			} else {
+				setPlayerTeamLogs(oddTeamLogs)
+				setOpponentTeamLogs(evenTeamLogs)
+			}
+		}
+
 		if (props.error) setErrorOpen(true)
-	}, [props.error])
+		updateScore(props.gameData, props.playerData)
+		if (props.gameData.logs)
+			updateTeamLogs(props.gameData, props.playerData)
+	}, [props.error, props.gameData, props.playerData])
 
 	return (
 		<>
@@ -80,6 +157,47 @@ const GamePage = (props) => {
 								/>
 							) : (
 								<>
+									<AppBar
+										position="static"
+										className={classes.appBar}
+									>
+										<Toolbar>
+											<Typography
+												className={
+													classes.scoreContainer
+												}
+											>
+												<Typography
+													variant="inherit"
+													className={
+														classes.playerScore
+													}
+												>
+													{playerTeamScore}
+												</Typography>
+												<Typography variant="inherit">
+													:
+												</Typography>
+												<Typography
+													variant="inherit"
+													className={
+														classes.opponentScore
+													}
+												>
+													{opponentTeamScore}
+												</Typography>
+											</Typography>
+											<Typography
+												variant="h6"
+												className={classes.title}
+											>
+												LITERATURE
+											</Typography>
+											<Button color="inherit">
+												Abandon Game
+											</Button>
+										</Toolbar>
+									</AppBar>
 									{game}
 									{open && (
 										<Declare
