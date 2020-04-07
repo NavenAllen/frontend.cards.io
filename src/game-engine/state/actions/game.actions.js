@@ -25,8 +25,6 @@ export const gameConstants = {
 	START_GAME_SUCCESS: 'START_GAME_SUCCESS',
 	START_GAME_FAILURE: 'START_GAME_FAILURE',
 
-	DESTROY_GAME_REQUEST: 'DESTROY_GAME_REQUEST',
-
 	ADD_PLAYER: 'ADD_PLAYER',
 
 	UPDATE_GAME: 'UPDATE_GAME',
@@ -57,7 +55,6 @@ export const gameActions = {
 	startGameRequest,
 	startGameSuccess,
 	startGameFailure,
-	destroyGameRequest,
 	updateGame,
 	updatePlayer,
 	cardSelected,
@@ -181,17 +178,6 @@ function startGameSuccess(data) {
 function startGameFailure(data) {
 	return (dispatch) =>
 		dispatch({ type: gameConstants.START_GAME_FAILURE, data })
-}
-
-function destroyGameRequest(code, pid) {
-	return (dispatch) => {
-		dispatch({ type: gameConstants.DESTROY_GAME_REQUEST })
-		localStorage.removeItem('gameCode')
-		socket.emit('destroy', {
-			code,
-			pid
-		})
-	}
 }
 
 function updateGame(data) {

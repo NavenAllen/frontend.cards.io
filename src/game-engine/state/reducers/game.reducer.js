@@ -154,14 +154,6 @@ export function game(state = initialState, action) {
 				playerData: action.data,
 				locked: false
 			}
-		case gameConstants.DESTROY_GAME_REQUEST:
-			return {
-				...state,
-				gameData: {
-					players: []
-				},
-				inGame: false
-			}
 		case gameConstants.CARD_SELECTED: {
 			return {
 				...state,

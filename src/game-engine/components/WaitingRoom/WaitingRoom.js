@@ -221,7 +221,8 @@ const WaitingRoom = (props) => {
 									alignItems="center"
 									justify="center"
 								>
-									{props.playerData.position === 1 ? (
+									{props.playerData.position ===
+									props.gameOwner ? (
 										<Typography
 											variant="h6"
 											component="h6"
@@ -430,7 +431,8 @@ const WaitingRoom = (props) => {
 										direction="row"
 										justify="center"
 									>
-										{props.playerData.position === 1 ? (
+										{props.playerData.position ===
+										props.gameOwner ? (
 											<Button
 												className={classes.formButton}
 												size="small"
@@ -469,6 +471,7 @@ const WaitingRoom = (props) => {
 WaitingRoom.propTypes = {
 	players: PropTypes.array.isRequired,
 	gameCode: PropTypes.string,
+	gameOwner: PropTypes.number,
 	playerData: PropTypes.object.isRequired,
 	startGame: PropTypes.func.isRequired,
 	leaveGame: PropTypes.func.isRequired,

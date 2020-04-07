@@ -1,81 +1,66 @@
-import React, { useState, useEffect } from 'react'
-import Card from '../Card/Card.js'
-import PropTypes from 'prop-types'
-import classes from './Hand.module.css'
-import { connect } from 'react-redux'
-import { gameActions } from '../../state/actions/index.js'
+import React, { useEffect } from 'react'
+import * as PIXI from 'pixi.js'
+
+import Card from '../Card/Card'
 
 const Hand = (props) => {
-	const [hover, setHover] = useState(false)
-	useEffect(() => {
-		if (!props.folded) setHover(false)
-	}, [props.folded])
-	const num_cards = Math.floor((props.count || props.count) / 2)
-	console.log(props)
-	let cards
-	if (props.hide) {
-		cards = []
-		for (let i = 0; i < props.count; i++)
-			cards.push(`${i}blank${props.name}`)
-	} else cards = props.cards
-	const askCardSelect = (card) => {
-		props.askCardSelect(card)
+	const { parent, cards, count, x, y, scale } = props
+	var children = []
+
+	const createHand = () => {
+		const container = new PIXI.Container()
+		parent.push(container)
+
+		if (x) container.x = x
+		if (y) container.y = y
+
+		children.forEach((item) => {
+			container.addChild(item)
+		})
+
+		container.pivot.set(container.width / 2, container.height / 2)
+
+		if (!cards) {
+			container.interactive = true
+			container.on('pointerover', () => {
+				container.y -= 20
+			})
+			container.on('pointerout', () => {
+				container.y += 20
+			})
+		}
 	}
+
+	useEffect(() => {
+		createHand()
+	})
+
 	return (
 		<>
-			<ul
-				id={`deck-${props.position}`}
-				className={`${classes.hand} ${
-					props.hide ? classes.handother : classes.handuser
-				}`}
-				onMouseEnter={() => setHover(true)}
-				onMouseLeave={() => setHover(false)}
-			>
-				{cards.map((card, index) =>
-					props.inAskCard ? (
+			{cards
+				? cards.map((value, index) => (
 						<Card
-							transfer_card={props.transfer_card}
-							folded={props.folded}
-							value={card}
-							key={card}
+							parent={children}
 							index={index}
-							hover={hover}
-							onClick={() => askCardSelect(card)}
-							cards={num_cards}
-							hide={props.hide}
+							key={index}
+							scale={scale}
+							onClick={(value) => {
+								console.log('Clicked value: ' + value)
+							}}
+							value={value}
 						/>
-					) : (
+				  ))
+				: [...Array(count)].map((value, index) => (
 						<Card
-							transfer_card={props.transfer_card}
-							folded={props.folded}
-							value={card}
-							key={card}
-							index={index}
-							hover={hover}
-							onClick={() => props.onCardClick(card)}
-							cards={num_cards}
-							hide={props.hide}
+							parent={children}
+							index={index - Math.floor(count / 2)}
+							key={index}
+							scale={scale}
+							hidden
 						/>
-					)
-				)}
-			</ul>
+				  ))}
 		</>
 	)
 }
 
-Hand.propTypes = {
-	cardSelected: PropTypes.object,
-	selectCard: PropTypes.func
-}
-const mapStateToProps = (state) => {
-	return {
-		cardSelected: state.cardSelected
-	}
-}
-const mapDispatchToProps = (dispatch) => {
-	return {
-		selectCard: (card) => dispatch(gameActions.cardSelected(card))
-	}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Hand)
+export default Hand
