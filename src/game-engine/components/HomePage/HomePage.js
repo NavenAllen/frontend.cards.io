@@ -123,7 +123,7 @@ const HomePage = (props) => {
 	useEffect(() => {
 		if (props.inGame) props.history.push('/game')
 		if (props.error !== null) setErrorOpen(true)
-	}, [props.inGame, props.error])
+	}, [props.history, props.inGame, props.error])
 
 	const Mobile = ({ children }) => {
 		const isMob1 = useMediaQuery({

@@ -1,52 +1,45 @@
-import React from 'react'
-import './Card.css'
+import React, { useEffect } from 'react'
+import * as PIXI from 'pixi.js'
 
-export const Card = (props) => {
-	let folded = { position: 'absolute', fontSize: props.fontSize }
-	if (!props.folded) {
-		folded = {
-			...folded,
-			left: props.index * 30,
-			transform: `rotate(${(props.index - props.cards) * 5}deg)`
+import { rendererLoader } from '../../renderer'
+
+const Card = (props) => {
+	const { parent, hidden, index, value, onClick } = props
+
+	const createCard = (props) => {
+		var url = hidden ? 'red.svg' : `${value}.svg`
+		const texture = rendererLoader.resources.cardData.textures[url]
+
+		const card = new PIXI.Sprite(texture)
+		const scale = props.scale || 1
+		card.scale.set(scale)
+
+		if (!hidden) {
+			card.interactive = true
+			card.x += index * 35
+			card.on('pointerover', () => {
+				card.y -= 15
+			})
+			card.on('pointerout', () => {
+				card.y += 15
+			})
+			card.on('pointerdown', () => {
+				onClick(value)
+			})
+		} else {
+			card.anchor.set(0, 1)
+			card.angle = index * 4
+			card.y = card.height * card.anchor.y
 		}
-	} else {
-		folded = {
-			...folded,
-			transform: `rotate(${(props.index - props.cards) * 3}deg)`
-		}
+
+		parent.push(card)
 	}
-	if (props.hover) {
-		folded = {
-			...folded,
-			transform: `rotate(${(props.index - props.cards) * 5}deg)`,
-			left: props.index * 30
-		}
-	}
-	return (
-		<>
-			<div
-				onClick={props.onClick}
-				id={props.value}
-				className={'card'}
-				disableHover={props.hide ? 'true' : 'false'}
-				style={{ ...folded, ...props.style }}
-			>
-				{props.hide ? (
-					<img
-						alt={props.value}
-						height="100%"
-						srcSet="https://raw.githubusercontent.com/htdebeer/SVG-cards/master/png/2x/back-aqua.png"
-					/>
-				) : (
-					<img
-						alt={props.value}
-						height="100%"
-						src={`https://richardschneider.github.io/cardsJS/cards/${props.value}.svg`}
-					/>
-				)}
-			</div>
-		</>
-	)
+
+	useEffect(() => {
+		createCard(props)
+	})
+
+	return <></>
 }
 
 export default Card

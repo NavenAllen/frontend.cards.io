@@ -1,7 +1,6 @@
-import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import Game from './components/Game/Game'
+//import Game from './components/Game/Game'
 import { gameActions } from './state/actions/'
 
 export const Engine = ({ otherPlayers, playerCards, onCardClick, userPos }) => {
@@ -43,14 +42,16 @@ export const Engine = ({ otherPlayers, playerCards, onCardClick, userPos }) => {
 		}, 100)
 	}
 	return {
-		game: (
-			<Game
-				players={otherPlayers}
-				playerCards={playerCards}
-				onCardClick={onCardClick}
-				userPos={userPos}
-			/>
-		),
+		game: {
+			/*
+				<Game
+					players={otherPlayers}
+					playerCards={playerCards}
+					onCardClick={onCardClick}
+					userPos={userPos}
+				/>
+			*/
+		},
 		transferCard
 	}
 }

@@ -5,10 +5,14 @@ import PropTypes from 'prop-types'
 
 import { gameActions } from '../../../game-engine/state/actions'
 
+import { GameRenderer } from '../../../game-engine/renderer'
 import { Engine } from '../../../game-engine/engine'
-import { Declare } from '../Declare'
+import GameView from '../../../game-engine/components/GameView/GameView'
+
+//import { Declare } from '../Declare'
+//import AskCard from '../AskCard/AskCard'
+
 import WaitingRoom from '../../../game-engine/components/WaitingRoom/WaitingRoom'
-import AskCard from '../AskCard/AskCard'
 import LoaderModal from '../../../game-engine/components/LoaderModal/LoaderModal'
 import DialogModal from '../../../game-engine/components/DialogModal/DialogModal'
 
@@ -16,6 +20,11 @@ import './GamePage.css'
 
 import { makeStyles } from '@material-ui/core/styles'
 import { AppBar, Button, Toolbar, Typography } from '@material-ui/core'
+
+// Initialize Renderer
+let renderer = new GameRenderer()
+renderer.initRenderer()
+renderer.totalPlayers = 8
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -48,10 +57,16 @@ const useStyles = makeStyles((theme) => ({
 const GamePage = (props) => {
 	const classes = useStyles()
 
+	const [isAssetsLoaded, setIsAssetsLoaded] = useState(false)
 	const [playerTeamScore, setPlayerTeamScore] = useState(0)
 	const [opponentTeamScore, setOpponentTeamScore] = useState(0)
 	const [playerTeamLogs, setPlayerTeamLogs] = useState([])
 	const [opponentTeamLogs, setOpponentTeamLogs] = useState([])
+
+	const loadGameView = () => setIsAssetsLoaded(true)
+
+	// Load renderer assets
+	renderer.loadRendererAssets(loadGameView)
 
 	const player = useSelector((state) => state.playerData)
 	const otherPlayers = useSelector((state) =>
@@ -67,7 +82,7 @@ const GamePage = (props) => {
 			console.log('here')
 		})
 	}
-	let { game, transferCard } = Engine({
+	let { transferCard } = Engine({
 		playerCards: player.hand,
 		otherPlayers,
 		onCardClick,
@@ -75,6 +90,7 @@ const GamePage = (props) => {
 	})
 	const [open, setOpen] = useState(false)
 	const [errorOpen, setErrorOpen] = useState(false)
+
 	const handleClose = () => {
 		setOpen((prev) => !prev)
 	}
@@ -92,6 +108,9 @@ const GamePage = (props) => {
 	}
 
 	useEffect(() => {
+		// Add renderer to game page
+		document.body.appendChild(renderer.app.view)
+
 		const updateScore = (gameData, playerData) => {
 			let evenScore = 0
 			let oddScore = 0
@@ -151,6 +170,7 @@ const GamePage = (props) => {
 								<WaitingRoom
 									players={props.gameData.players}
 									gameCode={props.gameData.code}
+									gameOwner={props.gameData.gameOwner}
 									error={props.error}
 									minPlayers={props.gameData.minPlayers}
 									playerData={props.playerData}
@@ -201,16 +221,22 @@ const GamePage = (props) => {
 											</Button>
 										</Toolbar>
 									</AppBar>
-									{game}
-									{open && (
-										<Declare
-											open={open}
-											handleClose={handleClose}
-										/>
+									{isAssetsLoaded ? (
+										<GameView renderer={renderer} />
+									) : (
+										<LoaderModal show={true} />
 									)}
-									{props.cardSelected !== undefined ? (
-										<AskCard />
-									) : null}
+									{/*
+										{open && (
+											<Declare
+												open={open}
+												handleClose={handleClose}
+											/>
+										)}
+										{props.cardSelected !== undefined ? (
+											<AskCard />
+										) : null}
+									*/}
 								</>
 							)}
 						</div>
