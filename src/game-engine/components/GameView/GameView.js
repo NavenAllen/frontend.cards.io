@@ -16,6 +16,7 @@ const GameView = (props) => {
 		findHandCoordinates(
 			renderer.app.screen.width,
 			renderer.app.screen.height,
+			renderer.cardsScale,
 			50,
 			50,
 			others.length
@@ -27,6 +28,7 @@ const GameView = (props) => {
 			findHandCoordinates(
 				renderer.app.screen.width,
 				renderer.app.screen.height,
+				renderer.cardsScale,
 				50,
 				50,
 				others.length
@@ -49,8 +51,8 @@ const GameView = (props) => {
 					count={player.count}
 					key={index}
 					scale={renderer.cardsScale}
-					x={coordinates[index].x}
-					y={coordinates[index].y}
+					x={coordinates.others[index].x}
+					y={coordinates.others[index].y}
 					disabled={disabled}
 					position={player.position}
 					name={player.name}
@@ -58,9 +60,9 @@ const GameView = (props) => {
 			))}
 			<Hand
 				parent={playerHands}
-				scale={0.8}
-				x={renderer.app.screen.width / 2}
-				y={renderer.app.screen.height}
+				scale={Math.max(renderer.cardsScale, 0.3)}
+				x={coordinates.player.x}
+				y={coordinates.player.y}
 				cards={player.hand}
 			/>
 		</>

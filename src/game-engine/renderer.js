@@ -31,7 +31,11 @@ export class GameRenderer {
 		})
 	}
 
-	// Camera Related Methods
+	resetRenderer = () => {
+		this.app.ticker.stop()
+		this.app.destroy(true)
+	}
+
 	autoResize = () => {
 		console.log('Auto resizing elements')
 

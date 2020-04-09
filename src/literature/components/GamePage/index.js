@@ -21,11 +21,6 @@ import './GamePage.css'
 import { makeStyles } from '@material-ui/core/styles'
 import { AppBar, Button, Toolbar, Typography } from '@material-ui/core'
 
-// Initialize Renderer
-let renderer = new GameRenderer(),
-	startedLoad = false
-renderer.initRenderer()
-
 const useStyles = makeStyles((theme) => ({
 	appBar: {
 		flexGrow: 1,
@@ -53,6 +48,11 @@ const useStyles = makeStyles((theme) => ({
 		color: theme.palette.error.main
 	}
 }))
+
+// Initialize Renderer
+let renderer = new GameRenderer(),
+	startedLoad = false
+renderer.initRenderer()
 
 const GamePage = (props) => {
 	const classes = useStyles()
@@ -105,6 +105,7 @@ const GamePage = (props) => {
 	}
 
 	const handleClickLeave = () => {
+		renderer.resetRenderer()
 		props.leaveGame(props.gameData.code, props.playerData.id)
 	}
 
@@ -115,6 +116,13 @@ const GamePage = (props) => {
 	useEffect(() => {
 		// Add renderer to game page
 		document.body.appendChild(renderer.app.view)
+
+		// Add component specific general tag classnames
+		document.body.classList.add('game-page')
+		if (document.getElementsByTagName('canvas')[0])
+			document
+				.getElementsByTagName('canvas')[0]
+				.classList.add('game-canvas')
 
 		const updateScore = (gameData, playerData) => {
 			let evenScore = 0
@@ -163,6 +171,14 @@ const GamePage = (props) => {
 		updateScore(props.gameData, props.playerData)
 		if (props.gameData.logs)
 			updateTeamLogs(props.gameData, props.playerData)
+
+		// Remove all component specifics on component unmount
+		return () => {
+			document.body.classList.remove('game-page')
+			document
+				.getElementsByTagName('canvas')[0]
+				.classList.remove('game-canvas')
+		}
 	}, [props.error, props.gameData, props.playerData])
 
 	return (
@@ -186,7 +202,7 @@ const GamePage = (props) => {
 										position="static"
 										className={classes.appBar}
 									>
-										<Toolbar>
+										<Toolbar variant="dense">
 											<Typography
 												className={
 													classes.scoreContainer

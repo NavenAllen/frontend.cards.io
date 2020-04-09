@@ -18,7 +18,7 @@ const bezierEqn = (points, t) => {
 	return result
 }
 
-const findHandCoordinates = (width, height, px, py, count) => {
+const findOtherHandCoordinates = (width, height, px, py, count) => {
 	let points = [],
 		results = []
 	width = width - 2 * px
@@ -41,6 +41,33 @@ const findHandCoordinates = (width, height, px, py, count) => {
 	}
 
 	return results
+}
+
+const findPlayerHandCoordinates = (width, height, cardScale) => {
+	let _w = window.screen.availWidth,
+		_h = window.screen.availHeight
+	let cardHeight = 249
+
+	let hFactor = 0.1
+	if (window.screen.orientation.type.includes('portrait')) {
+		if (_w <= 1024) hFactor = -0.1
+		if (_w <= 768) hFactor = 0.01
+		if (_w <= 500) hFactor = -0.1
+	} else {
+		if (_w <= 900 && _h <= 450) hFactor = 0
+	}
+
+	let x = width / 2,
+		y = height - cardHeight * cardScale + height * hFactor
+
+	return { x, y }
+}
+
+const findHandCoordinates = (width, height, cardScale, px, py, count) => {
+	return {
+		player: findPlayerHandCoordinates(width, height, cardScale),
+		others: findOtherHandCoordinates(width, height, px, py, count)
+	}
 }
 
 export { findHandCoordinates }
