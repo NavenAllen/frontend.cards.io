@@ -22,9 +22,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import { AppBar, Button, Toolbar, Typography } from '@material-ui/core'
 
 // Initialize Renderer
-let renderer = new GameRenderer()
+let renderer = new GameRenderer(),
+	startedLoad = false
 renderer.initRenderer()
-let startedLoad = false
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
