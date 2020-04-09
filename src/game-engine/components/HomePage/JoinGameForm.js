@@ -91,6 +91,11 @@ const useStyles = makeStyles((theme) => ({
 			cursor: 'pointer'
 		}
 	},
+	availableCard: {
+		'&:hover': {
+			cursor: 'pointer'
+		}
+	},
 	cardContent: {
 		padding: theme.spacing(0),
 		paddingBottom: 0,
@@ -242,7 +247,10 @@ const JoinGameForm = (props) => {
 							<Card
 								className={classNames(
 									classes.nameTabCard,
-									isActive ? classes.activeCard : ''
+									isActive ? classes.activeCard : '',
+									player.name === '<Available>'
+										? classes.availableCard
+										: ''
 								)}
 								// alignItems="center"
 								variant="outlined"

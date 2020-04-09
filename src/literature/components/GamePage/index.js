@@ -9,7 +9,7 @@ import { GameRenderer } from '../../../game-engine/renderer'
 import { Engine } from '../../../game-engine/engine'
 import GameView from '../../../game-engine/components/GameView/GameView'
 
-//import { Declare } from '../Declare'
+import { Declare } from '../Declare'
 //import AskCard from '../AskCard/AskCard'
 
 import WaitingRoom from '../../../game-engine/components/WaitingRoom/WaitingRoom'
@@ -24,7 +24,7 @@ import { AppBar, Button, Toolbar, Typography } from '@material-ui/core'
 // Initialize Renderer
 let renderer = new GameRenderer()
 renderer.initRenderer()
-renderer.totalPlayers = 8
+let startedLoad = false
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -63,10 +63,15 @@ const GamePage = (props) => {
 	const [playerTeamLogs, setPlayerTeamLogs] = useState([])
 	const [opponentTeamLogs, setOpponentTeamLogs] = useState([])
 
-	const loadGameView = () => setIsAssetsLoaded(true)
+	const loadGameView = () => {
+		setIsAssetsLoaded(true)
+	}
 
 	// Load renderer assets
-	renderer.loadRendererAssets(loadGameView)
+	if (!startedLoad) {
+		renderer.loadRendererAssets(loadGameView)
+		startedLoad = true
+	}
 
 	const player = useSelector((state) => state.playerData)
 	const otherPlayers = useSelector((state) =>
@@ -170,7 +175,7 @@ const GamePage = (props) => {
 								<WaitingRoom
 									players={props.gameData.players}
 									gameCode={props.gameData.code}
-									gameOwner={props.gameData.gameOwner}
+									gameOwner={props.gameData.owner}
 									error={props.error}
 									minPlayers={props.gameData.minPlayers}
 									playerData={props.playerData}
@@ -222,21 +227,25 @@ const GamePage = (props) => {
 										</Toolbar>
 									</AppBar>
 									{isAssetsLoaded ? (
-										<GameView renderer={renderer} />
+										<GameView
+											renderer={renderer}
+											others={otherPlayers}
+											player={props.playerData}
+											disabled
+										/>
 									) : (
 										<LoaderModal show={true} />
 									)}
-									{/*
-										{open && (
-											<Declare
-												open={open}
-												handleClose={handleClose}
-											/>
-										)}
-										{props.cardSelected !== undefined ? (
+									{open && (
+										<Declare
+											open={open}
+											handleClose={handleClose}
+										/>
+									)}
+									{/* {props.cardSelected !== undefined ? (
 											<AskCard />
 										) : null}
-									*/}
+									 */}
 								</>
 							)}
 						</div>
@@ -249,12 +258,14 @@ const GamePage = (props) => {
 								content={props.error ? props.error.message : ''}
 								actionButtons={[
 									<Button
+										key={0}
 										color="primary"
 										onClick={handleClickRetry}
 									>
 										Retry
 									</Button>,
 									<Button
+										key={1}
 										className={classes.leaveButton}
 										onClick={handleClickLeave}
 									>

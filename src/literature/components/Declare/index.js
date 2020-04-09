@@ -24,24 +24,24 @@ export const Declare = ({ open, handleClose }) => {
 	const locked = useSelector((state) => state.locked)
 	const user = useSelector((state) => state.playerData)
 	const game = useSelector((state) => state.gameData)
-	const isEven = user.position % 2 === 0
 	const friends = game.players.filter(
 		(player) =>
 			player.position !== user.position &&
-			(player.position % 2 === 0) === isEven
+			player.position % 2 === user.position % 2
 	)
 	const nums = ['2', '3', '4', '5', '6', '7', '9', '10', 'J', 'Q', 'K', 'A']
 	const [selectedFriend, setselectedFriend] = useState(friends[0].position)
 	useEffect(() => {
 		let ret = []
 		for (let i = order; i < order + 6; i++) {
-			ret.push({
-				value: nums[i] + suit,
-				assignedTo: ''
-			})
+			if (userCards.indexOf(nums[i] + suit) === -1)
+				ret.push({
+					value: nums[i] + suit,
+					assignedTo: ''
+				})
 		}
-		ret = ret.filter((item) => userCards.indexOf(item.value) === -1)
-		setCards(ret)
+		// ret = ret.filter((item) => userCards.indexOf(item.value) === -1)
+		// setCards(ret)
 	}, [suit, order, nums, userCards])
 	const assign = (card) => {
 		let prev = cards.map((item) => {
@@ -56,16 +56,23 @@ export const Declare = ({ open, handleClose }) => {
 			let declaration = [[]]
 			let last_num,
 				j = 0
+			// for (let i = order; i < order + 6; i++) {
+			// 	if (userCards.indexOf(nums[i] + suit) !== -1)
+			// 		cards.push({
+			// 			value: nums[i] + suit,
+			// 			assignedTo: user.position
+			// 		})
+			// }
 			cards.sort((a, b) => a.assignedTo - b.assignedTo)
 			last_num = parseInt(cards[0].assignedTo)
-			declaration[j].push(cards[0].num + cards[0].shape)
+			declaration[j].push(cards[0].value)
 			for (let i = 1; i < cards.length; i++) {
 				if (parseInt(cards[i].assignedTo) !== last_num) {
 					declaration.push([])
 					j++
 					last_num = parseInt(cards[i].assignedTo)
 				}
-				declaration[j].push(cards[i].num + cards[i].shape)
+				declaration[j].push(cards[i].value)
 			}
 			dispatch(
 				literatureGameActions.playDeclare({
@@ -78,13 +85,13 @@ export const Declare = ({ open, handleClose }) => {
 	}, [dispatch, cards, game.gameCode, user.playerId])
 
 	return (
-		<Dialog
-			open={open}
-			onHide={handleClose}
-			dialogClassName={classes.modal}
-		>
+		<Dialog open={open} onExit={handleClose} className={classes.modal}>
 			<DialogTitle>Declare cards</DialogTitle>
 			<DialogContent>
+				<p className={classes.p}>Select order</p>
+				<Order order={order} setOrder={setOrder} classes={classes} />
+				<p className={classes.p}>Select suit</p>
+				<Suits classes={classes} suit={suit} setSuit={setSuit} />
 				<p className={classes.p}>Select friend</p>
 				<Friends
 					selectedFriend={selectedFriend}
@@ -92,15 +99,15 @@ export const Declare = ({ open, handleClose }) => {
 					classes={classes}
 					friends={friends}
 				/>
-				<p className={classes.p}>Select order</p>
-				<Order order={order} setOrder={setOrder} classes={classes} />
-				<p className={classes.p}>Select suit</p>
-				<Suits classes={classes} suit={suit} setSuit={setSuit} />
-				<p className={classes.p}>Select cards</p>
-				<DisplayCards classes={classes} cards={cards} assign={assign} />
+				{/* <p className={classes.p}>Select cards</p>
+				<DisplayCards classes={classes} cards={cards} assign={assign} /> */}
 			</DialogContent>
 			<DialogActions>
-				<Button variant="secondary" onClick={handleClose}>
+				<Button
+					variant="contained"
+					color="secondary"
+					onClick={handleClose}
+				>
 					Close
 				</Button>
 				<Button

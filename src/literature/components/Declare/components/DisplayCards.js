@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card } from '../../../../game-engine/components/Card/Card'
+import Card from '../../../../game-engine/components/Card/Card'
 
 export const DisplayCards = ({ assign, cards, classes }) => {
 	return (

@@ -4,14 +4,13 @@ import * as PIXI from 'pixi.js'
 import { rendererLoader } from '../../renderer'
 
 const Card = (props) => {
-	const { parent, hidden, index, value, onClick } = props
+	const { parent, hidden, index, value, onClick, scale } = props
 
 	const createCard = (props) => {
 		var url = hidden ? 'red.svg' : `${value}.svg`
 		const texture = rendererLoader.resources.cardData.textures[url]
 
 		const card = new PIXI.Sprite(texture)
-		const scale = props.scale || 1
 		card.scale.set(scale)
 
 		if (!hidden) {

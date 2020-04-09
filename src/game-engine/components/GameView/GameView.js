@@ -30,14 +30,29 @@ const bezierEqn = (points, t) => {
 const findHandCoordinates = (width, height, px, py, count) => {
 	let points = [],
 		results = []
+
 	width = width - 2 * px
 	height = height - 2 * py
+
 	points.push({ x: 0, y: 0 })
-	points.push({ x: 0, y: (2 * height) / 3 })
-	points.push({ x: width / 3, y: height })
-	points.push({ x: width / 2, y: height })
-	points.push({ x: (2 * width) / 3, y: height })
-	points.push({ x: width, y: (2 * height) / 3 })
+	console.log(window.screen.orientation.type)
+	if (window.screen.orientation.type.startsWith('landscape')) {
+		points.push({ x: 0, y: (2 * height) / 3 })
+		points.push({ x: width / 3, y: height })
+		points.push({ x: width / 2, y: height })
+		points.push({ x: (2 * width) / 3, y: height })
+		points.push({ x: width, y: (2 * height) / 3 })
+	} else {
+		points.push({ x: 0, y: height / 2 })
+		points.push({ x: 0, y: (2 * height) / 3 })
+		points.push({ x: 0, y: (5 * height) / 6 })
+		points.push({ x: width / 3, y: height })
+		points.push({ x: width / 2, y: height })
+		points.push({ x: (2 * width) / 3, y: height })
+		points.push({ x: width, y: (5 * height) / 6 })
+		points.push({ x: width, y: (2 * height) / 3 })
+		points.push({ x: width, y: height / 2 })
+	}
 	points.push({ x: width, y: 0 })
 
 	let base = 1 / (count + 1)
@@ -53,15 +68,14 @@ const findHandCoordinates = (width, height, px, py, count) => {
 }
 
 const GameView = (props) => {
-	const { renderer } = props
-
+	const { renderer, player, others, disabled } = props
 	const [coordinates, setCoordinates] = useState(
 		findHandCoordinates(
 			renderer.app.screen.width,
 			renderer.app.screen.height,
 			50,
 			50,
-			renderer.totalPlayers - 1
+			others.length
 		)
 	)
 
@@ -72,7 +86,7 @@ const GameView = (props) => {
 				renderer.app.screen.height,
 				50,
 				50,
-				renderer.totalPlayers - 1
+				others.length
 			)
 		)
 
@@ -82,42 +96,29 @@ const GameView = (props) => {
 		playerHands.forEach((item) => {
 			renderer.playerContainer.addChild(item)
 		})
-	}, [renderer])
+	}, [renderer, others])
 
 	return (
 		<>
-			{[...Array(renderer.totalPlayers - 1)].map((value, index) => (
+			{others.map((player, index) => (
 				<Hand
 					parent={otherHands}
-					count={5}
+					count={player.count}
 					key={index}
 					scale={renderer.cardsScale}
 					x={coordinates[index].x}
 					y={coordinates[index].y}
+					disabled={disabled}
+					position={player.position}
+					name={player.name}
 				/>
 			))}
 			<Hand
 				parent={playerHands}
 				scale={0.8}
-				x={500}
-				y={500}
-				cards={[
-					'2S',
-					'3S',
-					'4S',
-					'5S',
-					'6S',
-					'2S',
-					'3S',
-					'4S',
-					'5S',
-					'6S',
-					'2S',
-					'3S',
-					'4S',
-					'5S',
-					'6S'
-				]}
+				x={renderer.app.screen.width / 2}
+				y={renderer.app.screen.height}
+				cards={player.hand}
 			/>
 		</>
 	)
