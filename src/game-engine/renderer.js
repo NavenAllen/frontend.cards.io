@@ -9,12 +9,12 @@ export class GameRenderer {
 		this.playerContainer = null
 
 		this.app = new PIXI.Application({
+			antialias: true,
 			autoDensity: true,
 			autoResize: true,
 			resolution: window.devicePixelRatio,
 			resizeTo: window,
-			transparent: true,
-			antialias: true
+			transparent: true
 		})
 	}
 
@@ -26,22 +26,14 @@ export class GameRenderer {
 			rendererLoader = loader
 			console.log('Renderer assets loaded')
 
+			this.autoResize()
 			callback()
 		})
 	}
 
 	// Camera Related Methods
 	autoResize = () => {
-		/*
-        let containerWidth = this.container.offsetWidth,
-            containerHeight = this.container.offsetHeight
-
-        if (this.app.renderer.width !== containerWidth || this.app.renderer.height !== containerHeight) {
-            this.app.renderer.resize(containerWidth, containerHeight)
-        }
-
-        return this
-        */
+		console.log('Auto resizing elements')
 
 		this.setScale()
 	}
@@ -69,11 +61,10 @@ export class GameRenderer {
 	initRenderer = () => {
 		this.initBaseContainers()
 
-		this.setScale()
+		window.onresize = this.autoResize
+		window.onorientationchange = this.autoResize
 
-		const animate = (delta) => {
-			this.autoResize()
-		}
+		const animate = (delta) => {}
 
 		this.app.ticker.add(animate)
 	}
