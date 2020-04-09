@@ -5,7 +5,6 @@ export let rendererLoader
 export class GameRenderer {
 	constructor() {
 		this.cardsScale = null
-		this.totalPlayers = null
 		this.otherContainer = null
 		this.playerContainer = null
 
