@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }))
 
-const DisplayCards = ({ assign, cards }) => {
+const DisplayCards = ({ onCardClick, cards }) => {
 	const classes = useStyles()
 
 	return (
@@ -29,7 +29,7 @@ const DisplayCards = ({ assign, cards }) => {
 						<DisplayCard
 							value={card.value}
 							key={card.value}
-							onClick={() => assign(card)}
+							onClick={() => onCardClick(card)}
 							index={index}
 							cards={cards}
 							style={{

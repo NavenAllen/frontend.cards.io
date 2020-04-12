@@ -15,7 +15,7 @@ import DisplayCards from './components/DisplayCards'
 import { Suits } from './components/Suits'
 import { Order } from './components/Order'
 
-export const Declare = ({ open, handleClose }) => {
+const Declare = ({ open, handleClose }) => {
 	const [suit, setSuit] = useState('H')
 	const [cards, setCards] = useState([])
 	const [order, setOrder] = useState(0)
@@ -136,7 +136,11 @@ export const Declare = ({ open, handleClose }) => {
 					friends={friends}
 				/>
 				<p className={classes.p}>Select cards</p>
-				<DisplayCards classes={classes} cards={cards} assign={assign} />
+				<DisplayCards
+					classes={classes}
+					cards={cards}
+					onCardClick={assign}
+				/>
 			</DialogContent>
 			<DialogActions>
 				<Button
@@ -158,3 +162,5 @@ export const Declare = ({ open, handleClose }) => {
 		</Dialog>
 	)
 }
+
+export default Declare

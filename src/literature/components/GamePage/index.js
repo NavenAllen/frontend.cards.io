@@ -9,8 +9,8 @@ import { GameRenderer } from '../../../game-engine/renderer'
 import { Engine } from '../../../game-engine/engine'
 import GameView from '../../../game-engine/components/GameView/GameView'
 
-import { Declare } from '../Declare'
-//import AskCard from '../AskCard/AskCard'
+import Declare from '../Declare'
+import AskCard from '../AskCard/AskCard'
 
 import WaitingRoom from '../../../game-engine/components/WaitingRoom/WaitingRoom'
 import LoaderModal from '../../../game-engine/components/LoaderModal/LoaderModal'
@@ -93,11 +93,16 @@ const GamePage = (props) => {
 		onCardClick,
 		userPos: player.position
 	})
-	const [open, setOpen] = useState(false)
+	const [declareOpen, setDeclareOpen] = useState(false)
+	const [askOpen, setAskOpen] = useState(false)
 	const [errorOpen, setErrorOpen] = useState(false)
 
-	const handleClose = () => {
-		setOpen((prev) => !prev)
+	const handleDeclareClose = () => {
+		setDeclareOpen((prev) => !prev)
+	}
+
+	const handleAskClose = () => {
+		setAskOpen((prev) => !prev)
 	}
 
 	const handleClickRetry = () => {
@@ -252,16 +257,18 @@ const GamePage = (props) => {
 									) : (
 										<LoaderModal show={true} />
 									)}
-									{open && (
+									{declareOpen && (
 										<Declare
-											open={open}
-											handleClose={handleClose}
+											open={declareOpen}
+											handleClose={handleDeclareClose}
 										/>
 									)}
-									{/* {props.cardSelected !== undefined ? (
-											<AskCard />
-										) : null}
-									 */}
+									{askOpen && (
+										<AskCard
+											open={askOpen}
+											handleClose={handleAskClose}
+										/>
+									)}
 								</>
 							)}
 						</div>
