@@ -25,6 +25,7 @@ const AskCard = ({ open, handleClose }) => {
 	const [avalaibleOrders, setAvailableOrders] = useState(
 		LiteratureConstants.orders
 	)
+	const [availableSets, setAvailableSets] = useState(LiteratureConstants.sets)
 
 	const dispatch = useDispatch()
 	const userCards = useSelector((state) => state.playerData.hand)
@@ -40,32 +41,47 @@ const AskCard = ({ open, handleClose }) => {
 	const [selectedOpponent, setselectedOpponent] = useState(
 		opponents[0].position
 	)
+
 	useEffect(() => {
 		const lowerRanks = ['2', '3', '4', '5', '6', '7']
 		userCards.forEach((card) => {
 			let cardValue = card[0]
 			let cardSuit = card[1]
-			if (lowerRanks.indexOf(cardValue) !== -1)
+			if (lowerRanks.indexOf(cardValue) !== -1) {
 				setAvailableOrders((previousOrders) => {
 					return previousOrders.map((order) => {
 						if (order.value === 0) order.present = true
 						return order
 					})
 				})
-			else
+				setAvailableSets((previousAvailableSets) => {
+					let updatedAvailableSets = previousAvailableSets
+					updatedAvailableSets['lower'] = updatedAvailableSets[
+						'lower'
+					].map((suit) => {
+						if (suit.value === cardSuit) suit.present = true
+						return suit
+					})
+					return updatedAvailableSets
+				})
+			} else {
 				setAvailableOrders((previousOrders) => {
-					console.log(previousOrders)
 					return previousOrders.map((order) => {
 						if (order.value === 6) order.present = true
 						return order
 					})
 				})
-			setAvailableSuits((previousSuits) => {
-				return previousSuits.map((suit) => {
-					if (suit.value === cardSuit) suit.present = true
-					return suit
+				setAvailableSets((previousAvailableSets) => {
+					let updatedAvailableSets = previousAvailableSets
+					updatedAvailableSets['higher'] = updatedAvailableSets[
+						'higher'
+					].map((suit) => {
+						if (suit.value === cardSuit) suit.present = true
+						return suit
+					})
+					return updatedAvailableSets
 				})
-			})
+			}
 		})
 	}, [userCards])
 	useEffect(() => {
@@ -80,22 +96,28 @@ const AskCard = ({ open, handleClose }) => {
 		ret = ret.filter((item) => userCards.indexOf(item.value) === -1)
 		setCards(ret)
 	}, [suit, order, userCards])
+	useEffect(() => {
+		if (order === 0) setAvailableSuits(availableSets['lower'])
+		else setAvailableSuits(availableSets['higher'])
+	}, [order, availableSets])
+
 	const assign = (card) => {
 		askCard(card.value)
 	}
 	const askCard = useCallback(
 		(card) => {
-			dispatch(
-				literatureGameActions.playAsk({
-					code: game.code,
-					fid: user.id,
-					tpos: selectedOpponent,
-					card
-				})
-			)
+			if (!locked)
+				dispatch(
+					literatureGameActions.playAsk({
+						code: game.code,
+						fid: user.id,
+						tpos: selectedOpponent,
+						card
+					})
+				)
 			handleClose()
 		},
-		[dispatch, game.code, user.id, selectedOpponent, handleClose]
+		[locked, dispatch, game.code, user.id, selectedOpponent, handleClose]
 	)
 
 	return (

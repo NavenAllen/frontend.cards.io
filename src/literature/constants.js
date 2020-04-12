@@ -30,4 +30,9 @@ const suits = [
 	}
 ]
 
-export { orders, ranks, suits }
+const sets = {
+	lower: suits,
+	higher: suits
+}
+
+export { orders, ranks, suits, sets }
