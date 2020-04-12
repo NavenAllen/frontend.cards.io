@@ -43,42 +43,55 @@ const AskCard = ({ open, handleClose }) => {
 	)
 
 	useEffect(() => {
-		const lowerRanks = ['2', '3', '4', '5', '6', '7']
 		userCards.forEach((card) => {
 			let cardValue = card[0]
-			let cardSuit = card[1]
-			if (lowerRanks.indexOf(cardValue) !== -1) {
-				setAvailableOrders((previousOrders) => {
-					return previousOrders.map((order) => {
-						if (order.value === 0) order.present = true
-						return order
+			if (card !== 'JOKER' && cardValue !== '8') {
+				let cardSuit = card[1]
+				if (LiteratureConstants.lowerRanks.indexOf(cardValue) !== -1) {
+					setAvailableOrders((previousOrders) => {
+						return previousOrders.map((order) => {
+							if (order.value === 0) order.present = true
+							return order
+						})
 					})
-				})
-				setAvailableSets((previousAvailableSets) => {
-					let updatedAvailableSets = previousAvailableSets
-					updatedAvailableSets['lower'] = updatedAvailableSets[
-						'lower'
-					].map((suit) => {
-						if (suit.value === cardSuit) suit.present = true
-						return suit
+					setAvailableSets((previousAvailableSets) => {
+						let updatedAvailableSets = previousAvailableSets
+						updatedAvailableSets['lower'] = updatedAvailableSets[
+							'lower'
+						].map((suit) => {
+							if (suit.value === cardSuit) suit.present = true
+							return suit
+						})
+						return updatedAvailableSets
 					})
-					return updatedAvailableSets
-				})
+				} else {
+					setAvailableOrders((previousOrders) => {
+						return previousOrders.map((order) => {
+							if (order.value === 1) order.present = true
+							return order
+						})
+					})
+					setAvailableSets((previousAvailableSets) => {
+						let updatedAvailableSets = previousAvailableSets
+						updatedAvailableSets['higher'] = updatedAvailableSets[
+							'higher'
+						].map((suit) => {
+							if (suit.value === cardSuit) suit.present = true
+							return suit
+						})
+						return updatedAvailableSets
+					})
+				}
 			} else {
 				setAvailableOrders((previousOrders) => {
 					return previousOrders.map((order) => {
-						if (order.value === 6) order.present = true
+						if (order.value === 2) order.present = true
 						return order
 					})
 				})
 				setAvailableSets((previousAvailableSets) => {
 					let updatedAvailableSets = previousAvailableSets
-					updatedAvailableSets['higher'] = updatedAvailableSets[
-						'higher'
-					].map((suit) => {
-						if (suit.value === cardSuit) suit.present = true
-						return suit
-					})
+					updatedAvailableSets['jokers'][0].present = true
 					return updatedAvailableSets
 				})
 			}
@@ -86,10 +99,33 @@ const AskCard = ({ open, handleClose }) => {
 	}, [userCards])
 	useEffect(() => {
 		let ret = []
-		for (let i = order; i < order + 6; i++) {
-			if (userCards.indexOf(LiteratureConstants.ranks[i] + suit) === -1)
+		if (order !== 2) {
+			for (let i = order * 6; i < order * 6 + 6; i++) {
+				if (
+					userCards.indexOf(LiteratureConstants.ranks[i] + suit) ===
+					-1
+				)
+					ret.push({
+						value: LiteratureConstants.ranks[i] + suit,
+						assignedTo: ''
+					})
+			}
+		} else {
+			let suits = ['H', 'C', 'D', 'S']
+			suits.forEach((suit) => {
+				if (userCards.indexOf('8' + suit) === -1)
+					ret.push({
+						value: '8' + suit,
+						assignedTo: ''
+					})
+			})
+			let jokerCount = 0
+			userCards.forEach((card) => {
+				if (card === 'JOKER') jokerCount++
+			})
+			for (let i = jokerCount; i < 2 - jokerCount; i++)
 				ret.push({
-					value: LiteratureConstants.ranks[i] + suit,
+					value: 'JOKER',
 					assignedTo: ''
 				})
 		}
@@ -98,8 +134,15 @@ const AskCard = ({ open, handleClose }) => {
 	}, [suit, order, userCards])
 	useEffect(() => {
 		if (order === 0) setAvailableSuits(availableSets['lower'])
-		else setAvailableSuits(availableSets['higher'])
-	}, [order, availableSets])
+		else if (order === 1) setAvailableSuits(availableSets['higher'])
+		else setAvailableSuits(availableSets['jokers'])
+
+		let initialSuit
+		avalaibleSuits.forEach((suit) => {
+			if (suit.present) initialSuit = suit.value
+		})
+		setSuit(initialSuit)
+	}, [order, availableSets, avalaibleSuits])
 
 	const assign = (card) => {
 		askCard(card.value)
