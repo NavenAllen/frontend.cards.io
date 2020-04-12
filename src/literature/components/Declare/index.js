@@ -11,7 +11,7 @@ import classes from './Declare.module.css'
 import { literatureGameActions } from '../../state/actions/game.actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { Friends } from './components/Friends'
-import { DisplayCards } from './components/DisplayCards'
+import DisplayCards from './components/DisplayCards'
 import { Suits } from './components/Suits'
 import { Order } from './components/Order'
 

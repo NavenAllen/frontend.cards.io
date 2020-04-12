@@ -18,8 +18,9 @@ export const DisplayCard = (props) => {
 				) : (
 					<img
 						alt={props.value}
-						height="100%"
-						src={`https://richardschneider.github.io/cardsJS/cards/${props.value}.svg`}
+						height="100px"
+						width="auto"
+						src={`cards/${props.value}.svg`}
 					/>
 				)}
 			</div>
