@@ -1,12 +1,11 @@
 import React from 'react'
-import Card from '../../../../game-engine/components/Card/Card'
+import DisplayCard from '../../../../game-engine/components/DisplayCard'
 
 export const DisplayCards = ({ assign, cards, classes }) => {
 	return (
 		<div className={classes.cardContainer}>
 			{cards.map((card, ind1) => (
-				<Card
-					folded={false}
+				<DisplayCard
 					value={card.value}
 					key={card.value}
 					onClick={() => assign(card)}

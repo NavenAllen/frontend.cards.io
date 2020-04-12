@@ -29,9 +29,22 @@ export const Declare = ({ open, handleClose }) => {
 			player.position !== user.position &&
 			player.position % 2 === user.position % 2
 	)
-	const nums = ['2', '3', '4', '5', '6', '7', '9', '10', 'J', 'Q', 'K', 'A']
 	const [selectedFriend, setselectedFriend] = useState(friends[0].position)
 	useEffect(() => {
+		const nums = [
+			'2',
+			'3',
+			'4',
+			'5',
+			'6',
+			'7',
+			'9',
+			'10',
+			'J',
+			'Q',
+			'K',
+			'A'
+		]
 		let ret = []
 		for (let i = order; i < order + 6; i++) {
 			if (userCards.indexOf(nums[i] + suit) === -1)
@@ -40,9 +53,9 @@ export const Declare = ({ open, handleClose }) => {
 					assignedTo: ''
 				})
 		}
-		// ret = ret.filter((item) => userCards.indexOf(item.value) === -1)
-		// setCards(ret)
-	}, [suit, order, nums, userCards])
+		ret = ret.filter((item) => userCards.indexOf(item.value) === -1)
+		setCards(ret)
+	}, [suit, order, userCards])
 	const assign = (card) => {
 		let prev = cards.map((item) => {
 			if (card.value === item.value) item.assignedTo = selectedFriend
@@ -51,18 +64,32 @@ export const Declare = ({ open, handleClose }) => {
 		setCards(prev)
 	}
 	const declare = useCallback(() => {
+		const nums = [
+			'2',
+			'3',
+			'4',
+			'5',
+			'6',
+			'7',
+			'9',
+			'10',
+			'J',
+			'Q',
+			'K',
+			'A'
+		]
 		if (cards.some((card) => card.assignedTo === '')) return
 		else {
 			let declaration = [[]]
 			let last_num,
 				j = 0
-			// for (let i = order; i < order + 6; i++) {
-			// 	if (userCards.indexOf(nums[i] + suit) !== -1)
-			// 		cards.push({
-			// 			value: nums[i] + suit,
-			// 			assignedTo: user.position
-			// 		})
-			// }
+			for (let i = order; i < order + 6; i++) {
+				if (userCards.indexOf(nums[i] + suit) !== -1)
+					cards.push({
+						value: nums[i] + suit,
+						assignedTo: user.position
+					})
+			}
 			cards.sort((a, b) => a.assignedTo - b.assignedTo)
 			last_num = parseInt(cards[0].assignedTo)
 			declaration[j].push(cards[0].value)
@@ -82,7 +109,16 @@ export const Declare = ({ open, handleClose }) => {
 				})
 			)
 		}
-	}, [dispatch, cards, game.gameCode, user.playerId])
+	}, [
+		dispatch,
+		cards,
+		order,
+		suit,
+		game.gameCode,
+		userCards,
+		user.position,
+		user.playerId
+	])
 
 	return (
 		<Dialog open={open} onExit={handleClose} className={classes.modal}>
@@ -99,8 +135,8 @@ export const Declare = ({ open, handleClose }) => {
 					classes={classes}
 					friends={friends}
 				/>
-				{/* <p className={classes.p}>Select cards</p>
-				<DisplayCards classes={classes} cards={cards} assign={assign} /> */}
+				<p className={classes.p}>Select cards</p>
+				<DisplayCards classes={classes} cards={cards} assign={assign} />
 			</DialogContent>
 			<DialogActions>
 				<Button
