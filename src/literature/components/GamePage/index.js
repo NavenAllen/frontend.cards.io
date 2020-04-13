@@ -19,7 +19,16 @@ import DialogModal from '../../../game-engine/components/DialogModal/DialogModal
 import './GamePage.css'
 
 import { makeStyles } from '@material-ui/core/styles'
-import { AppBar, Button, Toolbar, Typography } from '@material-ui/core'
+import {
+	AppBar,
+	Button,
+	Toolbar,
+	Typography,
+	Fab,
+	Menu,
+	MenuItem
+} from '@material-ui/core'
+import NavigationIcon from '@material-ui/icons/Navigation'
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -46,6 +55,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 	leaveButton: {
 		color: theme.palette.error.main
+	},
+	actionsFab: {
+		position: 'fixed',
+		bottom: 30,
+		right: 60
 	}
 }))
 
@@ -74,6 +88,7 @@ const GamePage = (props) => {
 	}
 
 	const player = useSelector((state) => state.playerData)
+	const game = useSelector((state) => state.gameData)
 	const otherPlayers = useSelector((state) =>
 		state.gameData.players.filter(
 			(item) => item.position !== player.position
@@ -96,13 +111,24 @@ const GamePage = (props) => {
 	const [declareOpen, setDeclareOpen] = useState(false)
 	const [askOpen, setAskOpen] = useState(false)
 	const [errorOpen, setErrorOpen] = useState(false)
+	const [actionsMenuOpen, setActionsMenuOpen] = useState(null)
 
 	const handleDeclareClose = () => {
 		setDeclareOpen((prev) => !prev)
+		setActionsMenuOpen(null)
 	}
 
 	const handleAskClose = () => {
 		setAskOpen((prev) => !prev)
+		setActionsMenuOpen(null)
+	}
+
+	const handleActionsFabClick = (event) => {
+		setActionsMenuOpen(event.currentTarget)
+	}
+
+	const handleActionsMenuClose = () => {
+		setActionsMenuOpen(null)
 	}
 
 	const handleClickRetry = () => {
@@ -248,12 +274,51 @@ const GamePage = (props) => {
 										</Toolbar>
 									</AppBar>
 									{isAssetsLoaded ? (
-										<GameView
-											renderer={renderer}
-											others={otherPlayers}
-											player={props.playerData}
-											disabled
-										/>
+										<>
+											<GameView
+												renderer={renderer}
+												others={otherPlayers}
+												player={props.playerData}
+												disabled
+											/>
+											<Fab
+												variant="extended"
+												color="primary"
+												aria-label="add"
+												className={classes.actionsFab}
+												disabled={
+													game.currentTurn !==
+													player.position
+												}
+												onClick={handleActionsFabClick}
+											>
+												<NavigationIcon
+													className={
+														classes.extendedIcon
+													}
+												/>
+												Actions
+											</Fab>
+
+											<Menu
+												id="simple-menu"
+												anchorEl={actionsMenuOpen}
+												keepMounted
+												open={Boolean(actionsMenuOpen)}
+												onClose={handleActionsMenuClose}
+											>
+												<MenuItem
+													onClick={handleAskClose}
+												>
+													Ask Card
+												</MenuItem>
+												<MenuItem
+													onClick={handleDeclareClose}
+												>
+													Declare a set
+												</MenuItem>
+											</Menu>
+										</>
 									) : (
 										<LoaderModal show={true} />
 									)}
