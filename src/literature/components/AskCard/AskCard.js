@@ -226,6 +226,9 @@ const AskCard = ({ open, handleClose }) => {
 					classes={classes}
 					cards={cards}
 					onCardClick={assign}
+					isCardOpaque={() => {
+						return true
+					}}
 				/>
 			</DialogContent>
 			<DialogActions>

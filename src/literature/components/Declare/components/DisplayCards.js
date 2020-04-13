@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }))
 
-const DisplayCards = ({ onCardClick, cards }) => {
+const DisplayCards = ({ onCardClick, cards, isCardOpaque }) => {
 	const classes = useStyles()
 
 	return (
@@ -36,7 +36,7 @@ const DisplayCards = ({ onCardClick, cards }) => {
 								left: 0,
 								position: 'relative',
 								display: 'inline-block',
-								opacity: card.assignedTo === '' ? 1 : 0.3,
+								opacity: isCardOpaque(card) ? 1 : 0.3,
 								margin: '10px 0'
 							}}
 						/>

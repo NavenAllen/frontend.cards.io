@@ -148,6 +148,11 @@ const Declare = ({ open, handleClose }) => {
 		})
 		setCards(prev)
 	}
+
+	const isCardOpaque = (card) => {
+		return card.assignedTo === selectedFriend
+	}
+
 	const declare = useCallback(() => {
 		const nums = [
 			'2',
@@ -189,7 +194,7 @@ const Declare = ({ open, handleClose }) => {
 			dispatch(
 				literatureGameActions.playDeclare({
 					code: game.code,
-					fid: user.id,
+					pid: user.id,
 					declaration
 				})
 			)
@@ -258,6 +263,7 @@ const Declare = ({ open, handleClose }) => {
 				<DisplayCards
 					classes={classes}
 					cards={cards}
+					isCardOpaque={isCardOpaque}
 					onCardClick={assign}
 				/>
 			</DialogContent>
