@@ -31,7 +31,7 @@ const Card = (props) => {
 			card.y = card.height * card.anchor.y
 		}
 
-		parent.push(card)
+		parent.addChild(card)
 	}
 
 	useEffect(() => {

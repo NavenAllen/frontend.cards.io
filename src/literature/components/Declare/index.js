@@ -18,12 +18,12 @@ import * as LiteratureConstants from '../../constants'
 
 const Declare = ({ open, handleClose }) => {
 	const [suit, setSuit] = useState('H')
-	const [avalaibleSuits, setAvailableSuits] = useState(
+	const [availableSuits, setAvailableSuits] = useState(
 		LiteratureConstants.suits
 	)
 	const [cards, setCards] = useState([])
 	const [order, setOrder] = useState(0)
-	const [avalaibleOrders, setAvailableOrders] = useState(
+	const [availableOrders, setAvailableOrders] = useState(
 		LiteratureConstants.orders
 	)
 	const [availableSets, setAvailableSets] = useState(LiteratureConstants.sets)
@@ -136,11 +136,11 @@ const Declare = ({ open, handleClose }) => {
 		else setAvailableSuits(availableSets['jokers'])
 
 		let initialSuit
-		avalaibleSuits.forEach((suit) => {
+		availableSuits.forEach((suit) => {
 			if (suit.present) initialSuit = suit.value
 		})
 		setSuit(initialSuit)
-	}, [order, availableSets, avalaibleSuits])
+	}, [order, availableSets, availableSuits])
 
 	const assign = (card) => {
 		let prev = cards.map((item) => {
@@ -218,10 +218,14 @@ const Declare = ({ open, handleClose }) => {
 					}}
 					onChange={(e, newVal) => setOrder(newVal)}
 				>
-					{avalaibleOrders.map((order) => {
+					{availableOrders.map((order) => {
 						if (order.present)
 							return (
-								<Tab value={order.value} label={order.name} />
+								<Tab
+									key={order.value}
+									value={order.value}
+									label={order.name}
+								/>
 							)
 						else return null
 					})}
@@ -234,9 +238,15 @@ const Declare = ({ open, handleClose }) => {
 					}}
 					onChange={(e, newVal) => setSuit(newVal)}
 				>
-					{avalaibleSuits.map((suit) => {
+					{availableSuits.map((suit) => {
 						if (suit.present)
-							return <Tab value={suit.value} label={suit.name} />
+							return (
+								<Tab
+									key={suit.value}
+									value={suit.value}
+									label={suit.name}
+								/>
+							)
 						else return null
 					})}
 				</Tabs>

@@ -178,7 +178,11 @@ const AskCard = ({ open, handleClose }) => {
 					{avalaibleOrders.map((order) => {
 						if (order.present)
 							return (
-								<Tab value={order.value} label={order.name} />
+								<Tab
+									key={order.value}
+									value={order.value}
+									label={order.name}
+								/>
 							)
 						else return null
 					})}
@@ -193,7 +197,13 @@ const AskCard = ({ open, handleClose }) => {
 				>
 					{avalaibleSuits.map((suit) => {
 						if (suit.present)
-							return <Tab value={suit.value} label={suit.name} />
+							return (
+								<Tab
+									key={suit.value}
+									value={suit.value}
+									label={suit.name}
+								/>
+							)
 						else return null
 					})}
 				</Tabs>
@@ -207,8 +217,8 @@ const AskCard = ({ open, handleClose }) => {
 				>
 					{opponents.map((opponent) => (
 						<Tab
-							value={opponent.position}
 							key={opponent.position}
+							value={opponent.position}
 							label={opponent.name}
 						></Tab>
 					))}

@@ -5,13 +5,13 @@ export let rendererLoader
 export class GameRenderer {
 	constructor() {
 		this.cardsScale = null
-		this.otherContainer = null
-		this.playerContainer = null
+		this.rootContainer = null
 
 		this.app = new PIXI.Application({
 			antialias: true,
 			autoDensity: true,
 			autoResize: true,
+			clearBeforeRender: false,
 			resolution: window.devicePixelRatio,
 			resizeTo: window,
 			transparent: true
@@ -32,8 +32,7 @@ export class GameRenderer {
 	}
 
 	resetRenderer = () => {
-		this.app.ticker.stop()
-		this.app.destroy(true)
+		this.app.stage.removeChildren()
 	}
 
 	autoResize = () => {
@@ -49,17 +48,7 @@ export class GameRenderer {
 	}
 
 	initBaseContainers = () => {
-		let rootContainer = this.app.stage
-
-		this.otherContainer = new PIXI.Container({
-			interactive: false
-		})
-		this.playerContainer = new PIXI.Container({
-			interactive: true
-		})
-
-		rootContainer.addChild(this.otherContainer)
-		rootContainer.addChild(this.playerContainer)
+		this.rootContainer = this.app.stage
 	}
 
 	initRenderer = () => {
@@ -71,5 +60,6 @@ export class GameRenderer {
 		const animate = (delta) => {}
 
 		this.app.ticker.add(animate)
+		this.app.ticker.start()
 	}
 }

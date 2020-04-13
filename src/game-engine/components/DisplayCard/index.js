@@ -6,7 +6,6 @@ export const DisplayCard = (props) => {
 			<div
 				onClick={props.onClick}
 				id={props.value}
-				disableHover={props.hide ? 'true' : 'false'}
 				style={{ ...props.style }}
 			>
 				{props.hide ? (

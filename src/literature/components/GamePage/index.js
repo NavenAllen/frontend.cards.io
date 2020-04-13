@@ -273,55 +273,43 @@ const GamePage = (props) => {
 											</Button>
 										</Toolbar>
 									</AppBar>
+									<Fab
+										variant="extended"
+										color="primary"
+										aria-label="add"
+										className={classes.actionsFab}
+										disabled={
+											game.currentTurn !== player.position
+										}
+										onClick={handleActionsFabClick}
+									>
+										<NavigationIcon
+											className={classes.extendedIcon}
+										/>
+										Actions
+									</Fab>
+									<Menu
+										id="simple-menu"
+										anchorEl={actionsMenuOpen}
+										keepMounted
+										open={Boolean(actionsMenuOpen)}
+										onClose={handleActionsMenuClose}
+									>
+										<MenuItem onClick={handleAskClose}>
+											Ask Card
+										</MenuItem>
+										<MenuItem onClick={handleDeclareClose}>
+											Declare a set
+										</MenuItem>
+									</Menu>
 									{isAssetsLoaded ? (
-										<>
-											<GameView
-												renderer={renderer}
-												others={otherPlayers}
-												player={props.playerData}
-												disabled
-											/>
-											<Fab
-												variant="extended"
-												color="primary"
-												aria-label="add"
-												className={classes.actionsFab}
-												disabled={
-													game.currentTurn !==
-													player.position
-												}
-												onClick={handleActionsFabClick}
-											>
-												<NavigationIcon
-													className={
-														classes.extendedIcon
-													}
-												/>
-												Actions
-											</Fab>
-
-											<Menu
-												id="simple-menu"
-												anchorEl={actionsMenuOpen}
-												keepMounted
-												open={Boolean(actionsMenuOpen)}
-												onClose={handleActionsMenuClose}
-											>
-												<MenuItem
-													onClick={handleAskClose}
-												>
-													Ask Card
-												</MenuItem>
-												<MenuItem
-													onClick={handleDeclareClose}
-												>
-													Declare a set
-												</MenuItem>
-											</Menu>
-										</>
-									) : (
-										<LoaderModal show={true} />
-									)}
+										<GameView
+											renderer={renderer}
+											others={otherPlayers}
+											player={props.playerData}
+											disabled
+										/>
+									) : null}
 									{declareOpen && (
 										<Declare
 											open={declareOpen}
