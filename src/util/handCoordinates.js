@@ -48,7 +48,7 @@ const findPlayerHandCoordinates = (width, height, cardScale) => {
 		_h = window.screen.availHeight
 	let cardHeight = 249
 
-	let hFactor = 0.1
+	let hFactor = 0.05
 	if (window.screen.orientation.type.includes('portrait')) {
 		if (_w <= 1024) hFactor = -0.1
 		if (_w <= 768) hFactor = 0.01

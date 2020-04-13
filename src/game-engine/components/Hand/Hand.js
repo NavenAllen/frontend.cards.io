@@ -5,7 +5,11 @@ import Card from '../Card/Card'
 
 const Hand = (props) => {
 	const { parent, cards, count, x, y, scale, position, disabled } = props
-	var children = []
+	const container = new PIXI.Container()
+	parent.addChild(container)
+
+	if (x) container.x = x
+	if (y) container.y = y
 
 	const createText = () => {
 		var textContainer = new PIXI.Container()
@@ -31,16 +35,6 @@ const Hand = (props) => {
 	}
 
 	const createHand = () => {
-		const container = new PIXI.Container()
-		parent.push(container)
-
-		if (x) container.x = x
-		if (y) container.y = y
-
-		children.forEach((item) => {
-			container.addChild(item)
-		})
-
 		container.pivot.set(container.width / 2, container.height / 2)
 
 		if (!cards) {
@@ -73,7 +67,7 @@ const Hand = (props) => {
 			{cards
 				? cards.map((value, index) => (
 						<Card
-							parent={children}
+							parent={container}
 							index={index}
 							key={index}
 							scale={scale}
@@ -85,7 +79,7 @@ const Hand = (props) => {
 				  ))
 				: [...Array(count)].map((value, index) => (
 						<Card
-							parent={children}
+							parent={container}
 							index={index - Math.floor(count / 2)}
 							key={index}
 							scale={scale}

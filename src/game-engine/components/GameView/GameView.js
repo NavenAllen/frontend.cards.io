@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import * as PIXI from 'pixi.js'
 
 import Hand from '../Hand/Hand'
 
 import { findHandCoordinates } from '../../../util/handCoordinates'
 
 import './GameView.css'
-
-let otherHands = []
-let playerHands = []
 
 const GameView = (props) => {
 	const { renderer, player, others, disabled } = props
@@ -23,7 +21,19 @@ const GameView = (props) => {
 		)
 	)
 
+	var otherContainer = new PIXI.Container({
+		interactive: false
+	})
+	var playerContainer = new PIXI.Container({
+		interactive: true
+	})
+
+	renderer.rootContainer.addChild(otherContainer)
+	renderer.rootContainer.addChild(playerContainer)
+
 	useEffect(() => {
+		if (renderer.app.ticker.started) renderer.app.ticker.start()
+		renderer.app.stage.removeChildren()
 		setCoordinates(
 			findHandCoordinates(
 				renderer.app.screen.width,
@@ -34,20 +44,13 @@ const GameView = (props) => {
 				others.length
 			)
 		)
-
-		otherHands.forEach((item) => {
-			renderer.otherContainer.addChild(item)
-		})
-		playerHands.forEach((item) => {
-			renderer.playerContainer.addChild(item)
-		})
 	}, [renderer, others])
 
 	return (
 		<>
 			{others.map((player, index) => (
 				<Hand
-					parent={otherHands}
+					parent={otherContainer}
 					count={player.count}
 					key={index}
 					scale={renderer.cardsScale}
@@ -59,7 +62,7 @@ const GameView = (props) => {
 				/>
 			))}
 			<Hand
-				parent={playerHands}
+				parent={playerContainer}
 				scale={Math.max(renderer.cardsScale, 0.3)}
 				x={coordinates.player.x}
 				y={coordinates.player.y}
