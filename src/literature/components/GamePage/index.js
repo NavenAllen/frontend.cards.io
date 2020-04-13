@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom'
 import { connect, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
+import { useMediaQuery } from 'react-responsive'
 import { gameActions } from '../../../game-engine/state/actions'
 
 import { GameRenderer } from '../../../game-engine/renderer'
@@ -23,13 +24,19 @@ import { makeStyles } from '@material-ui/core/styles'
 import {
 	AppBar,
 	Button,
-	Toolbar,
-	Typography,
 	Fab,
+	IconButton,
 	Menu,
-	MenuItem
+	MenuItem,
+	Snackbar,
+	Slide,
+	Toolbar,
+	Typography
 } from '@material-ui/core'
-import NavigationIcon from '@material-ui/icons/Navigation'
+import {
+	Close as CloseIcon,
+	Navigation as NavigationIcon
+} from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -61,8 +68,15 @@ const useStyles = makeStyles((theme) => ({
 		position: 'fixed',
 		bottom: 30,
 		right: 60
+	},
+	closeIcon: {
+		padding: theme.spacing(0.5)
 	}
 }))
+
+const TransitionUp = (props) => {
+	return <Slide {...props} direction="up" />
+}
 
 // Initialize Renderer
 let renderer = new GameRenderer(),
@@ -73,6 +87,8 @@ const GamePage = (props) => {
 	const classes = useStyles()
 
 	const [isAssetsLoaded, setIsAssetsLoaded] = useState(false)
+	const [isSnackbarOpen, setIsSnackbarOpen] = useState(false)
+
 	const [playerTeamScore, setPlayerTeamScore] = useState(0)
 	const [opponentTeamScore, setOpponentTeamScore] = useState(0)
 	const [playerTeamLogs, setPlayerTeamLogs] = useState([])
@@ -88,6 +104,13 @@ const GamePage = (props) => {
 		startedLoad = true
 	}
 
+	const isMobile = useMediaQuery({ maxDeviceWidth: 768 })
+
+	const handleSnackbarClose = () => {
+		setIsSnackbarOpen(false)
+	}
+
+	// Game specifics
 	const player = useSelector((state) => state.playerData)
 	const game = useSelector((state) => state.gameData)
 	const otherPlayers = useSelector((state) =>
@@ -155,6 +178,10 @@ const GamePage = (props) => {
 		// Add renderer to game page
 		document.body.appendChild(renderer.app.view)
 
+		if (window.screen.orientation.type.includes('portrait') && isMobile) {
+			setIsSnackbarOpen(true)
+		}
+
 		// Add component specific general tag classnames
 		document.body.classList.add('game-page')
 		if (document.getElementsByTagName('canvas')[0])
@@ -217,7 +244,7 @@ const GamePage = (props) => {
 				.getElementsByTagName('canvas')[0]
 				.classList.remove('game-canvas')
 		}
-	}, [props.error, props.gameData, props.playerData])
+	}, [props.error, props.gameData, props.playerData, isMobile])
 
 	return (
 		<>
@@ -280,6 +307,7 @@ const GamePage = (props) => {
 											</Button>
 										</Toolbar>
 									</AppBar>
+
 									<Fab
 										variant="extended"
 										color="primary"
@@ -312,6 +340,25 @@ const GamePage = (props) => {
 											Transfer Turn
 										</MenuItem>
 									</Menu>
+
+									<Snackbar
+										open={isSnackbarOpen}
+										onClose={handleSnackbarClose}
+										TransitionComponent={TransitionUp}
+										autoHideDuration={5000}
+										message="Rotate your screen and play in landscape mode for a better UI experience!"
+										action={
+											<IconButton
+												aria-label="close"
+												color="inherit"
+												className={classes.closeIcon}
+												onClick={handleSnackbarClose}
+											>
+												<CloseIcon />
+											</IconButton>
+										}
+									/>
+
 									{isAssetsLoaded ? (
 										<GameView
 											renderer={renderer}
@@ -320,6 +367,7 @@ const GamePage = (props) => {
 											disabled
 										/>
 									) : null}
+
 									{declareOpen && (
 										<Declare
 											open={declareOpen}

@@ -44,7 +44,7 @@ export class GameRenderer {
 	setScale = () => {
 		let sx = (0.6 * window.screen.width) / 1920,
 			sy = (0.6 * window.screen.height) / 1080
-		this.cardsScale = sx < sy ? sx : sy
+		this.cardsScale = Math.max(sx < sy ? sx : sy, 0.25)
 	}
 
 	initBaseContainers = () => {

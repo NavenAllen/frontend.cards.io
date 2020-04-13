@@ -23,13 +23,33 @@ const findOtherHandCoordinates = (width, height, px, py, count) => {
 		results = []
 	width = width - 2 * px
 	height = height - 2 * py
-	points.push({ x: 0, y: 0 })
-	points.push({ x: 0, y: (2 * height) / 3 })
-	points.push({ x: width / 3, y: height })
-	points.push({ x: width / 2, y: height })
-	points.push({ x: (2 * width) / 3, y: height })
-	points.push({ x: width, y: (2 * height) / 3 })
-	points.push({ x: width, y: 0 })
+	if (window.screen.orientation.type.includes('portrait')) {
+		points.push({ x: 0, y: 0 })
+		points.push({ x: 0, y: height / 6 })
+		points.push({ x: 0, y: height / 3 })
+		points.push({ x: 0, y: height / 2 })
+		points.push({ x: 0, y: (2 * height) / 3 })
+		points.push({ x: 0, y: (5 * height) / 6 })
+		points.push({ x: width / 6, y: height })
+		points.push({ x: width / 3, y: height })
+		points.push({ x: width / 2, y: height })
+		points.push({ x: (2 * width) / 3, y: height })
+		points.push({ x: (5 * width) / 6, y: height })
+		points.push({ x: width, y: (5 * height) / 6 })
+		points.push({ x: width, y: (2 * height) / 3 })
+		points.push({ x: width, y: height / 2 })
+		points.push({ x: width, y: height / 3 })
+		points.push({ x: width, y: height / 6 })
+		points.push({ x: width, y: 0 })
+	} else {
+		points.push({ x: 0, y: 0 })
+		points.push({ x: 0, y: (2 * height) / 3 })
+		points.push({ x: width / 3, y: height })
+		points.push({ x: width / 2, y: height })
+		points.push({ x: (2 * width) / 3, y: height })
+		points.push({ x: width, y: (2 * height) / 3 })
+		points.push({ x: width, y: 0 })
+	}
 
 	let base = 1 / (count + 1)
 	for (let i = 1; i < count + 1; i++) {
@@ -52,7 +72,7 @@ const findPlayerHandCoordinates = (width, height, cardScale) => {
 	if (window.screen.orientation.type.includes('portrait')) {
 		if (_w <= 1024) hFactor = -0.1
 		if (_w <= 768) hFactor = 0.01
-		if (_w <= 500) hFactor = -0.1
+		if (_w <= 500) hFactor = -0.05
 	} else {
 		if (_w <= 900 && _h <= 450) hFactor = 0
 	}
