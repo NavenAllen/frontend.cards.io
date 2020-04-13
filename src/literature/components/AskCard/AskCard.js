@@ -44,9 +44,9 @@ const AskCard = ({ open, handleClose }) => {
 
 	useEffect(() => {
 		userCards.forEach((card) => {
-			let cardValue = card[0]
+			let cardValue = card.slice(0, -1)
 			if (card !== 'JOKER' && cardValue !== '8') {
-				let cardSuit = card[1]
+				let cardSuit = card.slice(-1)
 				if (LiteratureConstants.lowerRanks.indexOf(cardValue) !== -1) {
 					setAvailableOrders((previousOrders) => {
 						return previousOrders.map((order) => {
@@ -123,13 +123,13 @@ const AskCard = ({ open, handleClose }) => {
 			userCards.forEach((card) => {
 				if (card === 'JOKER') jokerCount++
 			})
-			for (let i = jokerCount; i < 2 - jokerCount; i++)
+			for (let i = jokerCount; i < 2; i++) {
 				ret.push({
 					value: 'JOKER',
 					assignedTo: ''
 				})
+			}
 		}
-		ret = ret.filter((item) => userCards.indexOf(item.value) === -1)
 		setCards(ret)
 	}, [suit, order, userCards])
 	useEffect(() => {
@@ -137,11 +137,11 @@ const AskCard = ({ open, handleClose }) => {
 		else if (order === 1) setAvailableSuits(availableSets['higher'])
 		else setAvailableSuits(availableSets['jokers'])
 
-		let initialSuit
-		avalaibleSuits.forEach((suit) => {
-			if (suit.present) initialSuit = suit.value
-		})
-		setSuit(initialSuit)
+		for (let i = 0; i < avalaibleSuits.length; i++)
+			if (avalaibleSuits[i].present) {
+				setSuit(avalaibleSuits[i].value)
+				break
+			}
 	}, [order, availableSets, avalaibleSuits])
 
 	const assign = (card) => {
@@ -176,15 +176,14 @@ const AskCard = ({ open, handleClose }) => {
 					onChange={(e, newVal) => setOrder(newVal)}
 				>
 					{avalaibleOrders.map((order) => {
-						if (order.present)
-							return (
-								<Tab
-									key={order.value}
-									value={order.value}
-									label={order.name}
-								/>
-							)
-						else return null
+						return (
+							<Tab
+								key={order.value}
+								label={order.name}
+								value={order.value}
+								disabled={!order.present}
+							/>
+						)
 					})}
 				</Tabs>
 				<p className={classes.p}>Select suit</p>
@@ -196,15 +195,14 @@ const AskCard = ({ open, handleClose }) => {
 					onChange={(e, newVal) => setSuit(newVal)}
 				>
 					{avalaibleSuits.map((suit) => {
-						if (suit.present)
-							return (
-								<Tab
-									key={suit.value}
-									value={suit.value}
-									label={suit.name}
-								/>
-							)
-						else return null
+						return (
+							<Tab
+								key={suit.value}
+								label={suit.name}
+								value={suit.value}
+								disabled={!suit.present}
+							/>
+						)
 					})}
 				</Tabs>
 				<p className={classes.p}>Select Opponent</p>
