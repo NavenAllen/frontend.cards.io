@@ -11,6 +11,7 @@ import GameView from '../../../game-engine/components/GameView/GameView'
 
 import Declare from '../Declare'
 import AskCard from '../AskCard/AskCard'
+import Transfer from '../Transfer'
 
 import WaitingRoom from '../../../game-engine/components/WaitingRoom/WaitingRoom'
 import LoaderModal from '../../../game-engine/components/LoaderModal/LoaderModal'
@@ -110,6 +111,7 @@ const GamePage = (props) => {
 	})
 	const [declareOpen, setDeclareOpen] = useState(false)
 	const [askOpen, setAskOpen] = useState(false)
+	const [transferOpen, setTransferOpen] = useState(false)
 	const [errorOpen, setErrorOpen] = useState(false)
 	const [actionsMenuOpen, setActionsMenuOpen] = useState(null)
 
@@ -120,6 +122,11 @@ const GamePage = (props) => {
 
 	const handleAskClose = () => {
 		setAskOpen((prev) => !prev)
+		setActionsMenuOpen(null)
+	}
+
+	const handleTransferClose = () => {
+		setTransferOpen((prev) => !prev)
 		setActionsMenuOpen(null)
 	}
 
@@ -301,6 +308,9 @@ const GamePage = (props) => {
 										<MenuItem onClick={handleDeclareClose}>
 											Declare a set
 										</MenuItem>
+										<MenuItem onClick={handleTransferClose}>
+											Transfer Turn
+										</MenuItem>
 									</Menu>
 									{isAssetsLoaded ? (
 										<GameView
@@ -320,6 +330,12 @@ const GamePage = (props) => {
 										<AskCard
 											open={askOpen}
 											handleClose={handleAskClose}
+										/>
+									)}
+									{transferOpen && (
+										<Transfer
+											open={transferOpen}
+											handleClose={handleTransferClose}
 										/>
 									)}
 								</>

@@ -198,6 +198,7 @@ const Declare = ({ open, handleClose }) => {
 					declaration
 				})
 			)
+			handleClose()
 		}
 	}, [
 		dispatch,
@@ -207,7 +208,8 @@ const Declare = ({ open, handleClose }) => {
 		game.code,
 		userCards,
 		user.position,
-		user.id
+		user.id,
+		handleClose
 	])
 
 	return (
