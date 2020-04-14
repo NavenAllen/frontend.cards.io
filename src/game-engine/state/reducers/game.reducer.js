@@ -2,6 +2,17 @@ import { gameConstants } from '../actions'
 
 const initialState = {}
 
+const sortPlayers = (players, position) => {
+	let sortedPlayers = players.sort((a, b) => {
+		return a.position - b.position
+	})
+	if (players.length >= 6)
+		sortedPlayers = players
+			.slice(position - 1)
+			.concat(players.slice(0, position - 1))
+	return sortedPlayers
+}
+
 export function game(state = initialState, action) {
 	switch (action.type) {
 		case gameConstants.CREATE_GAME_REQUEST:
@@ -82,7 +93,10 @@ export function game(state = initialState, action) {
 				...state,
 				gameData: {
 					...state.gameData,
-					players: action.data.data
+					players: sortPlayers(
+						action.data.data,
+						state.playerData.position
+					)
 				},
 				locked: false,
 				inGame: true
@@ -148,7 +162,13 @@ export function game(state = initialState, action) {
 		case gameConstants.UPDATE_GAME:
 			return {
 				...state,
-				gameData: action.data,
+				gameData: {
+					...action.data,
+					players: sortPlayers(
+						action.data.players,
+						state.playerData.position
+					)
+				},
 				locked: false
 			}
 		case gameConstants.UPDATE_PLAYER:
@@ -168,7 +188,13 @@ export function game(state = initialState, action) {
 				...state,
 				error: null,
 				playerData: action.data.player,
-				gameData: action.data.game,
+				gameData: {
+					...action.data.game,
+					players: sortPlayers(
+						action.data.game.players,
+						action.data.player.position
+					)
+				},
 				inGame: true
 			}
 		case gameConstants.RECONNECT_FAILURE:
