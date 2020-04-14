@@ -117,13 +117,14 @@ const Declare = ({ open, handleClose }) => {
 						assignedTo: ''
 					})
 			})
-			let jokerCount = 0
+			let jokerCount = 0,
+				jokerColors = ['R', 'B']
 			userCards.forEach((card) => {
 				if (card === 'JOKER') jokerCount++
 			})
 			for (let i = jokerCount; i < 2; i++)
 				ret.push({
-					value: 'JOKER',
+					value: jokerColors[i - jokerCount] + 'JOKER',
 					assignedTo: ''
 				})
 		}
@@ -173,12 +174,35 @@ const Declare = ({ open, handleClose }) => {
 			let declaration = [[]]
 			let last_num,
 				j = 0
-			for (let i = order; i < order + 6; i++) {
-				if (userCards.indexOf(nums[i] + suit) !== -1)
+			if (order !== 2)
+				for (let i = order * 6; i < order * 6 + 6; i++) {
+					if (userCards.indexOf(nums[i] + suit) !== -1)
+						cards.push({
+							value: nums[i] + suit,
+							assignedTo: user.position
+						})
+				}
+			else {
+				let suits = ['H', 'C', 'D', 'S']
+				suits.forEach((suit) => {
+					if (userCards.indexOf('8' + suit) !== -1)
+						cards.push({
+							value: '8' + suit,
+							assignedTo: user.position
+						})
+				})
+				let jokerCount = 0
+				userCards.forEach((card) => {
+					if (card === 'JOKER') jokerCount++
+				})
+				for (let i = 0; i < jokerCount; i++)
 					cards.push({
-						value: nums[i] + suit,
+						value: 'JOKER',
 						assignedTo: user.position
 					})
+				cards.forEach((card) => {
+					if (card.value.includes('JOKER')) card.value = 'JOKER'
+				})
 			}
 			cards.sort((a, b) => a.assignedTo - b.assignedTo)
 			last_num = parseInt(cards[0].assignedTo)

@@ -101,7 +101,7 @@ const logParser = (log) => {
 			break
 		case 'LEAVE':
 			parsedLog.title = 'Player left'
-			parsedLog.message = splitLog[1] + 'has left the game!'
+			parsedLog.message = splitLog[1] + ' has left the game!'
 			parsedLog.type = 'info'
 			break
 		default:

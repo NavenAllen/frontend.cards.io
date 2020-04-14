@@ -110,6 +110,9 @@ export function game(state = initialState, action) {
 				gameData: {
 					players: []
 				},
+				playerData: {
+					hand: []
+				},
 				locked: false,
 				inGame: false
 			}
