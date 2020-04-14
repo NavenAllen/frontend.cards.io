@@ -1,6 +1,8 @@
 import React from 'react'
 import './App.css'
+import 'react-notifications-component/dist/theme.css'
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
+import ReactNotification from 'react-notifications-component'
 import GamePage from './literature/components/GamePage'
 import HomePage from './game-engine/components/HomePage/HomePage'
 import PropTypes from 'prop-types'
@@ -43,6 +45,7 @@ const App = (props) => {
 
 	return (
 		<ThemeProvider theme={theme}>
+			<ReactNotification />
 			<BrowserRouter>
 				<Switch>
 					<Route path="/home" component={HomePage} />

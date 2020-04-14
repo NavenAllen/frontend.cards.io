@@ -215,7 +215,7 @@ const Declare = ({ open, handleClose }) => {
 	return (
 		<Dialog open={open} onExit={handleClose} className={classes.modal}>
 			<DialogTitle>Declare cards</DialogTitle>
-			<DialogContent>
+			<DialogContent dividers>
 				<p className={classes.p}>Select order</p>
 				<Tabs
 					value={order}

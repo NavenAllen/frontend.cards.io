@@ -43,7 +43,7 @@ const Transfer = ({ open, handleClose }) => {
 	return (
 		<Dialog open={open} onExit={handleClose} className={classes.modal}>
 			<DialogTitle>Transfer Turn</DialogTitle>
-			<DialogContent>
+			<DialogContent dividers>
 				<p className={classes.p}>Select player</p>
 				<FormControl variant="outlined" className={classes.formControl}>
 					<Select

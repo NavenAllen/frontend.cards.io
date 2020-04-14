@@ -13,6 +13,7 @@ import GameView from '../../../game-engine/components/GameView/GameView'
 import Declare from '../Declare'
 import AskCard from '../AskCard/AskCard'
 import Transfer from '../Transfer'
+import LogDisplay from '../LogDisplay'
 
 import WaitingRoom from '../../../game-engine/components/WaitingRoom/WaitingRoom'
 import LoaderModal from '../../../game-engine/components/LoaderModal/LoaderModal'
@@ -135,6 +136,7 @@ const GamePage = (props) => {
 	const [declareOpen, setDeclareOpen] = useState(false)
 	const [askOpen, setAskOpen] = useState(false)
 	const [transferOpen, setTransferOpen] = useState(false)
+	const [logDisplayOpen, setLogDisplayOpen] = useState(false)
 	const [errorOpen, setErrorOpen] = useState(false)
 	const [actionsMenuOpen, setActionsMenuOpen] = useState(null)
 
@@ -151,6 +153,10 @@ const GamePage = (props) => {
 	const handleTransferClose = () => {
 		setTransferOpen((prev) => !prev)
 		setActionsMenuOpen(null)
+	}
+
+	const handleLogDisplayClose = () => {
+		setLogDisplayOpen((prev) => !prev)
 	}
 
 	const handleActionsFabClick = (event) => {
@@ -301,6 +307,12 @@ const GamePage = (props) => {
 											</Typography>
 											<Button
 												color="inherit"
+												onClick={handleLogDisplayClose}
+											>
+												Previous Logs
+											</Button>
+											<Button
+												color="inherit"
 												onClick={handleClickLeave}
 											>
 												Abandon Game
@@ -384,6 +396,12 @@ const GamePage = (props) => {
 										<Transfer
 											open={transferOpen}
 											handleClose={handleTransferClose}
+										/>
+									)}
+									{logDisplayOpen && (
+										<LogDisplay
+											open={logDisplayOpen}
+											handleClose={handleLogDisplayClose}
 										/>
 									)}
 								</>
