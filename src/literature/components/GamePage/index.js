@@ -32,8 +32,12 @@ import {
 	Snackbar,
 	Slide,
 	Toolbar,
-	Typography
+	Typography,
+	Drawer,
+	ListItem,
+	List
 } from '@material-ui/core'
+import MenuIcon from '@material-ui/icons/Menu'
 import {
 	Close as CloseIcon,
 	Navigation as NavigationIcon
@@ -94,6 +98,8 @@ const GamePage = (props) => {
 	const [opponentTeamScore, setOpponentTeamScore] = useState(0)
 	const [playerTeamLogs, setPlayerTeamLogs] = useState([])
 	const [opponentTeamLogs, setOpponentTeamLogs] = useState([])
+
+	const [drawerOpen, setDrawerOpen] = useState(false)
 
 	const loadGameView = () => {
 		setIsAssetsLoaded(true)
@@ -270,53 +276,139 @@ const GamePage = (props) => {
 							) : (
 								<>
 									<AppBar
-										position="static"
+										position="sticky"
 										className={classes.appBar}
 									>
 										<Toolbar variant="dense">
-											<Typography
-												className={
-													classes.scoreContainer
-												}
-											>
-												<Typography
-													variant="inherit"
-													className={
-														classes.playerScore
-													}
-												>
-													{playerTeamScore}
-												</Typography>
-												<Typography variant="inherit">
-													:
-												</Typography>
-												<Typography
-													variant="inherit"
-													className={
-														classes.opponentScore
-													}
-												>
-													{opponentTeamScore}
-												</Typography>
-											</Typography>
-											<Typography
-												variant="h6"
-												className={classes.title}
-											>
-												LITERATURE
-											</Typography>
-											<Button
-												color="inherit"
-												onClick={handleLogDisplayClose}
-											>
-												Previous Logs
-											</Button>
-											<Button
-												color="inherit"
-												onClick={handleClickLeave}
-											>
-												Abandon Game
-											</Button>
+											{window.innerWidth < 600 ? (
+												<>
+													<Typography
+														className={
+															classes.scoreContainer
+														}
+													>
+														<Typography
+															variant="inherit"
+															className={
+																classes.playerScore
+															}
+														>
+															{playerTeamScore}
+														</Typography>
+														<Typography variant="inherit">
+															:
+														</Typography>
+														<Typography
+															variant="inherit"
+															className={
+																classes.opponentScore
+															}
+														>
+															{opponentTeamScore}
+														</Typography>
+													</Typography>
+													<Typography
+														variant="h6"
+														className={
+															classes.title
+														}
+													>
+														LITERATURE
+													</Typography>
+													<IconButton
+														color="inherit"
+														aria-label="open drawer"
+														onClick={() =>
+															setDrawerOpen(true)
+														}
+														edge="start"
+													>
+														<MenuIcon />
+													</IconButton>
+													<Drawer
+														anchor="right"
+														open={drawerOpen}
+														onClose={() =>
+															setDrawerOpen(false)
+														}
+													>
+														<List>
+															<ListItem>
+																<Button
+																	color="inherit"
+																	onClick={
+																		handleLogDisplayClose
+																	}
+																>
+																	Previous
+																	Logs
+																</Button>
+															</ListItem>
+															<ListItem>
+																<Button color="inherit">
+																	Abandon Game
+																	onClick=
+																	{
+																		handleClickLeave
+																	}
+																</Button>
+															</ListItem>
+														</List>
+													</Drawer>
+												</>
+											) : (
+												<>
+													<Typography
+														className={
+															classes.scoreContainer
+														}
+													>
+														<Typography
+															variant="inherit"
+															className={
+																classes.playerScore
+															}
+														>
+															{playerTeamScore}
+														</Typography>
+														<Typography variant="inherit">
+															:
+														</Typography>
+														<Typography
+															variant="inherit"
+															className={
+																classes.opponentScore
+															}
+														>
+															{opponentTeamScore}
+														</Typography>
+													</Typography>
+													<Typography
+														variant="h6"
+														className={
+															classes.title
+														}
+													>
+														LITERATURE
+													</Typography>
+													<Button
+														color="inherit"
+														onClick={
+															handleLogDisplayClose
+														}
+													>
+														Previous Logs
+													</Button>
+													<Button
+														color="inherit"
+														onClick={
+															handleClickLeave
+														}
+													>
+														Abandon Game
+													</Button>
+												</>
+											)}
 										</Toolbar>
 									</AppBar>
 
