@@ -23,7 +23,7 @@ const literatureHandleStateChange = (rootStore) => {
 
 	if (!checkArrayIdentical(nextState, currentState)) {
 		currentState = nextState
-		if (currentState) {
+		if (currentState && currentState.length) {
 			let parsedLog = logParser(currentState[currentState.length - 1])
 			if (currentNotificationId)
 				notificationsStore.removeNotification(currentNotificationId)
@@ -35,6 +35,10 @@ const literatureHandleStateChange = (rootStore) => {
 				container: 'top-right',
 				animationIn: ['animated', 'fadeIn'],
 				animationOut: ['animated', 'fadeOut'],
+				dismiss: {
+					showIcon: true,
+					duration: 20000
+				},
 				dismissable: true
 			})
 		}
