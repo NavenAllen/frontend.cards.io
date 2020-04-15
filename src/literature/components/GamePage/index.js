@@ -31,14 +31,11 @@ import {
 	IconButton,
 	Menu,
 	MenuItem,
-	Snackbar,
-	Slide,
 	Toolbar,
 	Typography
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import {
-	Close as CloseIcon,
 	Navigation as NavigationIcon,
 	VideogameAsset as VideogameAssetIcon
 } from '@material-ui/icons'
@@ -79,10 +76,6 @@ const useStyles = makeStyles((theme) => ({
 	}
 }))
 
-const TransitionUp = (props) => {
-	return <Slide {...props} direction="up" />
-}
-
 // Initialize Renderer
 let renderer = new GameRenderer(),
 	startedLoad = false
@@ -94,7 +87,6 @@ const GamePage = (props) => {
 	const classes = useStyles()
 
 	const [isAssetsLoaded, setIsAssetsLoaded] = useState(false)
-	const [isSnackbarOpen, setIsSnackbarOpen] = useState(false)
 
 	const [playerTeamScore, setPlayerTeamScore] = useState(0)
 	const [opponentTeamScore, setOpponentTeamScore] = useState(0)
@@ -110,10 +102,6 @@ const GamePage = (props) => {
 	}
 
 	const isMobile = useMediaQuery({ maxDeviceWidth: 768 })
-
-	const handleSnackbarClose = () => {
-		setIsSnackbarOpen(false)
-	}
 
 	// Game specifics
 	const player = useSelector((state) => state.playerData)
@@ -203,10 +191,6 @@ const GamePage = (props) => {
 		// Add renderer to game page
 		document.body.appendChild(renderer.app.view)
 
-		if (window.screen.orientation.type.includes('portrait') && isMobile) {
-			setIsSnackbarOpen(true)
-		}
-
 		// Add component specific general tag classnames
 		document.body.classList.add('game-page')
 		if (document.getElementsByTagName('canvas')[0])
@@ -266,49 +250,124 @@ const GamePage = (props) => {
 										className={classes.appBar}
 									>
 										<Toolbar variant="dense">
-											<Typography
-												className={
-													classes.scoreContainer
-												}
-											>
+											<Desktop>
 												<Typography
-													variant="inherit"
 													className={
-														classes.playerScore
+														classes.scoreContainer
 													}
 												>
-													{playerTeamScore}
-												</Typography>
-												<Typography variant="inherit">
-													:
+													<Typography
+														variant="inherit"
+														className={
+															classes.playerScore
+														}
+													>
+														{playerTeamScore}
+													</Typography>
+													<Typography variant="inherit">
+														:
+													</Typography>
+													<Typography
+														variant="inherit"
+														className={
+															classes.opponentScore
+														}
+													>
+														{opponentTeamScore}
+													</Typography>
 												</Typography>
 												<Typography
-													variant="inherit"
-													className={
-														classes.opponentScore
+													variant="h6"
+													className={classes.title}
+												>
+													LITERATURE
+												</Typography>
+												<Button
+													color="inherit"
+													onClick={
+														handleLogDisplayClose
 													}
 												>
-													{opponentTeamScore}
+													Logs
+												</Button>
+												<Button
+													color="inherit"
+													onClick={
+														handleClickAbandonGame
+													}
+												>
+													Abandon Game
+												</Button>
+											</Desktop>
+											<Mobile>
+												<Typography
+													className={
+														classes.scoreContainer
+													}
+												>
+													<Typography
+														variant="inherit"
+														className={
+															classes.playerScore
+														}
+													>
+														{playerTeamScore}
+													</Typography>
+													<Typography variant="inherit">
+														:
+													</Typography>
+													<Typography
+														variant="inherit"
+														className={
+															classes.opponentScore
+														}
+													>
+														{opponentTeamScore}
+													</Typography>
 												</Typography>
-											</Typography>
-											<Typography
-												variant="h6"
-												className={classes.title}
-											>
-												LITERATURE
-											</Typography>
-											<Button
-												color="inherit"
-												onClick={handleLogDisplayClose}
-											>
-												Logs
-											</Button>
-											<Button
-												color="inherit"
-												onClick={handleClickAbandonGame}
-											>
-												Abandon Game
-											</Button>
+												<Typography
+													variant="h6"
+													className={classes.title}
+												>
+													LITERATURE
+												</Typography>
+												<IconButton
+													color="inherit"
+													aria-label="open drawer"
+													onClick={
+														handleAppBarMenuClick
+													}
+													edge="start"
+												>
+													<MenuIcon />
+												</IconButton>
+												<Menu
+													id="simple-menu"
+													anchorEl={appBarMenuOpen}
+													keepMounted
+													open={Boolean(
+														appBarMenuOpen
+													)}
+													onClose={
+														handleAppBarMenuClose
+													}
+												>
+													<MenuItem
+														onClick={
+															handleLogDisplayClose
+														}
+													>
+														Logs
+													</MenuItem>
+													<MenuItem
+														onClick={
+															handleClickAbandonGame
+														}
+													>
+														Abandon Game
+													</MenuItem>
+												</Menu>
+											</Mobile>
 										</Toolbar>
 									</AppBar>
 
@@ -349,26 +408,6 @@ const GamePage = (props) => {
 											Transfer Turn
 										</MenuItem>
 									</Menu>
-
-									{/*
-									<Snackbar
-										open={isSnackbarOpen}
-										onClose={handleSnackbarClose}
-										TransitionComponent={TransitionUp}
-										autoHideDuration={5000}
-										message="Rotate your screen and play in landscape mode for a better UI experience!"
-										action={
-											<IconButton
-												aria-label="close"
-												color="inherit"
-												className={classes.closeIcon}
-												onClick={handleSnackbarClose}
-											>
-												<CloseIcon />
-											</IconButton>
-										}
-									/>
-									*/}
 
 									<DialogModal
 										open={abandonOpen}
