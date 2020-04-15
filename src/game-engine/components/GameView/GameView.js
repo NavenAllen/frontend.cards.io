@@ -8,7 +8,7 @@ import { findHandCoordinates } from '../../../util/handCoordinates'
 import './GameView.css'
 
 const GameView = (props) => {
-	const { renderer, player, others, disabled } = props
+	const { renderer, player, others, currentTurn, disabled } = props
 
 	const [coordinates, setCoordinates] = useState(
 		findHandCoordinates(
@@ -59,6 +59,7 @@ const GameView = (props) => {
 					disabled={disabled}
 					position={player.position}
 					name={player.name}
+					currentTurn={player.position === currentTurn}
 				/>
 			))}
 			<Hand

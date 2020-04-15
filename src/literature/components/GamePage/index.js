@@ -32,10 +32,7 @@ import {
 	Snackbar,
 	Slide,
 	Toolbar,
-	Typography,
-	Drawer,
-	ListItem,
-	List
+	Typography
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import {
@@ -96,10 +93,6 @@ const GamePage = (props) => {
 
 	const [playerTeamScore, setPlayerTeamScore] = useState(0)
 	const [opponentTeamScore, setOpponentTeamScore] = useState(0)
-	const [playerTeamLogs, setPlayerTeamLogs] = useState([])
-	const [opponentTeamLogs, setOpponentTeamLogs] = useState([])
-
-	const [drawerOpen, setDrawerOpen] = useState(false)
 
 	const loadGameView = () => {
 		setIsAssetsLoaded(true)
@@ -145,6 +138,7 @@ const GamePage = (props) => {
 	const [logDisplayOpen, setLogDisplayOpen] = useState(false)
 	const [errorOpen, setErrorOpen] = useState(false)
 	const [actionsMenuOpen, setActionsMenuOpen] = useState(null)
+	const [appBarMenuOpen, setAppBarMenuOpen] = useState(null)
 
 	const handleDeclareClose = () => {
 		setDeclareOpen((prev) => !prev)
@@ -163,6 +157,7 @@ const GamePage = (props) => {
 
 	const handleLogDisplayClose = () => {
 		setLogDisplayOpen((prev) => !prev)
+		setAppBarMenuOpen(null)
 	}
 
 	const handleActionsFabClick = (event) => {
@@ -173,6 +168,14 @@ const GamePage = (props) => {
 		setActionsMenuOpen(null)
 	}
 
+	const handleAppBarMenuClick = (event) => {
+		setAppBarMenuOpen(event.currentTarget)
+	}
+
+	const handleAppBarMenuClose = () => {
+		setAppBarMenuOpen(null)
+	}
+
 	const handleClickRetry = () => {
 		window.location.reload()
 	}
@@ -180,10 +183,6 @@ const GamePage = (props) => {
 	const handleClickLeave = () => {
 		renderer.resetRenderer()
 		props.leaveGame(props.gameData.code, props.playerData.id)
-	}
-
-	const getPlayerPositionFromName = (players, name) => {
-		return players.filter((player) => player.name === name)[0]
 	}
 
 	useEffect(() => {
@@ -219,35 +218,8 @@ const GamePage = (props) => {
 			}
 		}
 
-		const updateTeamLogs = (gameData, playerData) => {
-			let evenTeamLogs = []
-			let oddTeamLogs = []
-
-			gameData.logs.forEach((log) => {
-				let actionData = log.split(':')
-				if (actionData[0] === 'DECLARE') {
-					let position = getPlayerPositionFromName(
-						gameData.players,
-						actionData[1]
-					)
-					if (position % 2 === 0) evenTeamLogs.push(actionData[2])
-					else oddTeamLogs.push(actionData[2])
-				}
-			})
-
-			if (playerData.position % 2 === 0) {
-				setPlayerTeamLogs(evenTeamLogs)
-				setOpponentTeamLogs(oddTeamLogs)
-			} else {
-				setPlayerTeamLogs(oddTeamLogs)
-				setOpponentTeamLogs(evenTeamLogs)
-			}
-		}
-
 		if (props.error) setErrorOpen(true)
 		updateScore(props.gameData, props.playerData)
-		if (props.gameData.logs)
-			updateTeamLogs(props.gameData, props.playerData)
 
 		// Remove all component specifics on component unmount
 		return () => {
@@ -318,43 +290,41 @@ const GamePage = (props) => {
 													<IconButton
 														color="inherit"
 														aria-label="open drawer"
-														onClick={() =>
-															setDrawerOpen(true)
+														onClick={
+															handleAppBarMenuClick
 														}
 														edge="start"
 													>
 														<MenuIcon />
 													</IconButton>
-													<Drawer
-														anchor="right"
-														open={drawerOpen}
-														onClose={() =>
-															setDrawerOpen(false)
+													<Menu
+														id="simple-menu"
+														anchorEl={
+															appBarMenuOpen
+														}
+														keepMounted
+														open={Boolean(
+															appBarMenuOpen
+														)}
+														onClose={
+															handleAppBarMenuClose
 														}
 													>
-														<List>
-															<ListItem>
-																<Button
-																	color="inherit"
-																	onClick={
-																		handleLogDisplayClose
-																	}
-																>
-																	Previous
-																	Logs
-																</Button>
-															</ListItem>
-															<ListItem>
-																<Button color="inherit">
-																	Abandon Game
-																	onClick=
-																	{
-																		handleClickLeave
-																	}
-																</Button>
-															</ListItem>
-														</List>
-													</Drawer>
+														<MenuItem
+															onClick={
+																handleLogDisplayClose
+															}
+														>
+															Logs
+														</MenuItem>
+														<MenuItem
+															onClick={
+																handleClickLeave
+															}
+														>
+															Abandon Game
+														</MenuItem>
+													</Menu>
 												</>
 											) : (
 												<>
@@ -468,6 +438,9 @@ const GamePage = (props) => {
 											renderer={renderer}
 											others={otherPlayers}
 											player={props.playerData}
+											currentTurn={
+												props.gameData.currentTurn
+											}
 											disabled
 										/>
 									) : null}

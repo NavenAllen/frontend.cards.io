@@ -1,11 +1,23 @@
 import React, { useEffect } from 'react'
 import * as PIXI from 'pixi.js'
+import { OutlineFilter } from '@pixi/filter-outline'
 
 import Card from '../Card/Card'
 
 const Hand = (props) => {
-	const { parent, cards, count, x, y, scale, position, disabled } = props
+	const {
+		parent,
+		cards,
+		count,
+		x,
+		y,
+		scale,
+		position,
+		currentTurn,
+		disabled
+	} = props
 	const container = new PIXI.Container()
+	if (currentTurn) container.filters = [new OutlineFilter(4, 0xf7c4c8, 0.5)]
 	parent.addChild(container)
 
 	if (x) container.x = x
