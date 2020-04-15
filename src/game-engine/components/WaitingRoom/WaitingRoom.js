@@ -1,10 +1,15 @@
 import React from 'react'
-import './WaitingRoom.css'
-import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+
+import classNames from 'classnames'
+
 import { gameActions } from '../../state/actions'
-import { useMediaQuery } from 'react-responsive'
+
+import { Desktop, Mobile } from '../../../util/device'
+
+import './WaitingRoom.css'
+
 import { Alert } from '@material-ui/lab'
 import {
 	Collapse,
@@ -114,26 +119,6 @@ const styles = (theme) => ({
 		}
 	}
 })
-
-const Mobile = ({ children }) => {
-	const isMob1 = useMediaQuery({
-		maxDeviceHeight: 619
-	})
-	let isMob2 = useMediaQuery({ maxDeviceWidth: 767 })
-	isMob2 = useMediaQuery({ maxDeviceHeight: 1020 }) && isMob2
-
-	return isMob1 || isMob2 ? children : null
-}
-
-const Desktop = ({ children }) => {
-	const isMob1 = useMediaQuery({
-		maxDeviceHeight: 619
-	})
-	let isMob2 = useMediaQuery({ maxDeviceWidth: 767 })
-	isMob2 = useMediaQuery({ maxDeviceHeight: 1020 }) && isMob2
-
-	return isMob1 || isMob2 ? null : children
-}
 
 const WaitingRoom = (props) => {
 	const { classes } = props

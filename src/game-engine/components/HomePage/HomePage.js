@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-
-import { useMediaQuery } from 'react-responsive'
 
 import CreateGameForm from './CreateGameForm'
 import JoinGameForm from './JoinGameForm'
-import { connect } from 'react-redux'
 import { gameActions } from '../../state/actions'
 import LoaderModal from '../LoaderModal/LoaderModal'
+
+import { Desktop, Mobile } from '../../../util/device'
 
 import './HomePage.css'
 
@@ -111,26 +111,6 @@ const useStyles = makeStyles((theme) => ({
 		borderColor: '#006db3 !important'
 	}
 }))
-
-const Mobile = ({ children }) => {
-	const isMob1 = useMediaQuery({
-		maxDeviceHeight: 619
-	})
-	let isMob2 = useMediaQuery({ maxDeviceWidth: 767 })
-	isMob2 = useMediaQuery({ maxDeviceHeight: 1020 }) && isMob2
-
-	return isMob1 || isMob2 ? children : null
-}
-
-const Desktop = ({ children }) => {
-	const isMob1 = useMediaQuery({
-		maxDeviceHeight: 619
-	})
-	let isMob2 = useMediaQuery({ maxDeviceWidth: 767 })
-	isMob2 = useMediaQuery({ maxDeviceHeight: 1020 }) && isMob2
-
-	return isMob1 || isMob2 ? null : children
-}
 
 const HomePage = (props) => {
 	const classes = useStyles()

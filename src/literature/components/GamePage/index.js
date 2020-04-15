@@ -10,6 +10,8 @@ import { GameRenderer } from '../../../game-engine/renderer'
 import { Engine } from '../../../game-engine/engine'
 import GameView from '../../../game-engine/components/GameView/GameView'
 
+import { Desktop, Mobile } from '../../../util/device'
+
 import Declare from '../Declare'
 import AskCard from '../AskCard/AskCard'
 import Transfer from '../Transfer'
@@ -37,7 +39,8 @@ import {
 import MenuIcon from '@material-ui/icons/Menu'
 import {
 	Close as CloseIcon,
-	Navigation as NavigationIcon
+	Navigation as NavigationIcon,
+	VideogameAsset as VideogameAssetIcon
 } from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
@@ -69,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
 	actionsFab: {
 		position: 'fixed',
 		bottom: 30,
-		right: 60
+		right: 40
 	},
 	closeIcon: {
 		padding: theme.spacing(0.5)
@@ -136,6 +139,7 @@ const GamePage = (props) => {
 	const [askOpen, setAskOpen] = useState(false)
 	const [transferOpen, setTransferOpen] = useState(false)
 	const [logDisplayOpen, setLogDisplayOpen] = useState(false)
+	const [abandonOpen, setAbandonOpen] = useState(false)
 	const [errorOpen, setErrorOpen] = useState(false)
 	const [actionsMenuOpen, setActionsMenuOpen] = useState(null)
 	const [appBarMenuOpen, setAppBarMenuOpen] = useState(null)
@@ -178,6 +182,14 @@ const GamePage = (props) => {
 
 	const handleClickRetry = () => {
 		window.location.reload()
+	}
+
+	const handleClickAbandonGame = () => {
+		setAbandonOpen(true)
+	}
+
+	const handleCloseAbandonDialog = () => {
+		setAbandonOpen(false)
 	}
 
 	const handleClickLeave = () => {
@@ -252,133 +264,49 @@ const GamePage = (props) => {
 										className={classes.appBar}
 									>
 										<Toolbar variant="dense">
-											{window.innerWidth < 600 ? (
-												<>
-													<Typography
-														className={
-															classes.scoreContainer
-														}
-													>
-														<Typography
-															variant="inherit"
-															className={
-																classes.playerScore
-															}
-														>
-															{playerTeamScore}
-														</Typography>
-														<Typography variant="inherit">
-															:
-														</Typography>
-														<Typography
-															variant="inherit"
-															className={
-																classes.opponentScore
-															}
-														>
-															{opponentTeamScore}
-														</Typography>
-													</Typography>
-													<Typography
-														variant="h6"
-														className={
-															classes.title
-														}
-													>
-														LITERATURE
-													</Typography>
-													<IconButton
-														color="inherit"
-														aria-label="open drawer"
-														onClick={
-															handleAppBarMenuClick
-														}
-														edge="start"
-													>
-														<MenuIcon />
-													</IconButton>
-													<Menu
-														id="simple-menu"
-														anchorEl={
-															appBarMenuOpen
-														}
-														keepMounted
-														open={Boolean(
-															appBarMenuOpen
-														)}
-														onClose={
-															handleAppBarMenuClose
-														}
-													>
-														<MenuItem
-															onClick={
-																handleLogDisplayClose
-															}
-														>
-															Logs
-														</MenuItem>
-														<MenuItem
-															onClick={
-																handleClickLeave
-															}
-														>
-															Abandon Game
-														</MenuItem>
-													</Menu>
-												</>
-											) : (
-												<>
-													<Typography
-														className={
-															classes.scoreContainer
-														}
-													>
-														<Typography
-															variant="inherit"
-															className={
-																classes.playerScore
-															}
-														>
-															{playerTeamScore}
-														</Typography>
-														<Typography variant="inherit">
-															:
-														</Typography>
-														<Typography
-															variant="inherit"
-															className={
-																classes.opponentScore
-															}
-														>
-															{opponentTeamScore}
-														</Typography>
-													</Typography>
-													<Typography
-														variant="h6"
-														className={
-															classes.title
-														}
-													>
-														LITERATURE
-													</Typography>
-													<Button
-														color="inherit"
-														onClick={
-															handleLogDisplayClose
-														}
-													>
-														Previous Logs
-													</Button>
-													<Button
-														color="inherit"
-														onClick={
-															handleClickLeave
-														}
-													>
-														Abandon Game
-													</Button>
-												</>
-											)}
+											<Typography
+												className={
+													classes.scoreContainer
+												}
+											>
+												<Typography
+													variant="inherit"
+													className={
+														classes.playerScore
+													}
+												>
+													{playerTeamScore}
+												</Typography>
+												<Typography variant="inherit">
+													:
+												</Typography>
+												<Typography
+													variant="inherit"
+													className={
+														classes.opponentScore
+													}
+												>
+													{opponentTeamScore}
+												</Typography>
+											</Typography>
+											<Typography
+												variant="h6"
+												className={classes.title}
+											>
+												LITERATURE
+											</Typography>
+											<Button
+												color="inherit"
+												onClick={handleLogDisplayClose}
+											>
+												Logs
+											</Button>
+											<Button
+												color="inherit"
+												onClick={handleClickAbandonGame}
+											>
+												Abandon Game
+											</Button>
 										</Toolbar>
 									</AppBar>
 
@@ -392,10 +320,15 @@ const GamePage = (props) => {
 										}
 										onClick={handleActionsFabClick}
 									>
-										<NavigationIcon
-											className={classes.extendedIcon}
-										/>
-										Actions
+										<Desktop>
+											<NavigationIcon
+												className={classes.extendedIcon}
+											/>
+											Actions
+										</Desktop>
+										<Mobile>
+											<VideogameAssetIcon />
+										</Mobile>
 									</Fab>
 									<Menu
 										id="simple-menu"
@@ -415,6 +348,7 @@ const GamePage = (props) => {
 										</MenuItem>
 									</Menu>
 
+									{/*
 									<Snackbar
 										open={isSnackbarOpen}
 										onClose={handleSnackbarClose}
@@ -431,6 +365,33 @@ const GamePage = (props) => {
 												<CloseIcon />
 											</IconButton>
 										}
+									/>
+									*/}
+
+									<DialogModal
+										open={abandonOpen}
+										title={
+											'Are you sure you want to abandon the game?'
+										}
+										content={''}
+										actionButtons={[
+											<Button
+												key={0}
+												className={classes.leaveButton}
+												onClick={handleClickLeave}
+											>
+												Leave
+											</Button>,
+											<Button
+												key={1}
+												color="primary"
+												onClick={
+													handleCloseAbandonDialog
+												}
+											>
+												Close
+											</Button>
+										]}
 									/>
 
 									{isAssetsLoaded ? (
