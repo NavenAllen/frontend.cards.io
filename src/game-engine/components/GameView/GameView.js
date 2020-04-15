@@ -15,8 +15,6 @@ const GameView = (props) => {
 			renderer.app.screen.width,
 			renderer.app.screen.height,
 			renderer.cardsScale,
-			50,
-			50,
 			others.length
 		)
 	)
@@ -39,8 +37,6 @@ const GameView = (props) => {
 				renderer.app.screen.width,
 				renderer.app.screen.height,
 				renderer.cardsScale,
-				50,
-				50,
 				others.length
 			)
 		)

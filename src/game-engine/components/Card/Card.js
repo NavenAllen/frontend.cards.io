@@ -14,8 +14,13 @@ const Card = (props) => {
 		card.scale.set(scale)
 
 		if (!hidden) {
+			// Separation between player cards
+			let gapFactor = 35
+			if (window.screen.orientation.type.includes('portrait'))
+				gapFactor = 27
 			card.interactive = true
-			card.x += index * 35
+
+			card.x += index * gapFactor
 			card.on('pointerover', () => {
 				card.y -= 15
 			})
