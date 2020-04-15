@@ -112,6 +112,26 @@ const useStyles = makeStyles((theme) => ({
 	}
 }))
 
+const Mobile = ({ children }) => {
+	const isMob1 = useMediaQuery({
+		maxDeviceHeight: 619
+	})
+	let isMob2 = useMediaQuery({ maxDeviceWidth: 767 })
+	isMob2 = useMediaQuery({ maxDeviceHeight: 1020 }) && isMob2
+
+	return isMob1 || isMob2 ? children : null
+}
+
+const Desktop = ({ children }) => {
+	const isMob1 = useMediaQuery({
+		maxDeviceHeight: 619
+	})
+	let isMob2 = useMediaQuery({ maxDeviceWidth: 767 })
+	isMob2 = useMediaQuery({ maxDeviceHeight: 1020 }) && isMob2
+
+	return isMob1 || isMob2 ? null : children
+}
+
 const HomePage = (props) => {
 	const classes = useStyles()
 
@@ -124,26 +144,6 @@ const HomePage = (props) => {
 		if (props.inGame) props.history.push('/game')
 		if (props.error !== null) setErrorOpen(true)
 	}, [props.history, props.inGame, props.error])
-
-	const Mobile = ({ children }) => {
-		const isMob1 = useMediaQuery({
-			maxDeviceHeight: 619
-		})
-		let isMob2 = useMediaQuery({ maxDeviceWidth: 767 })
-		isMob2 = useMediaQuery({ maxDeviceHeight: 1020 }) && isMob2
-
-		return isMob1 || isMob2 ? children : null
-	}
-
-	const Desktop = ({ children }) => {
-		const isMob1 = useMediaQuery({
-			maxDeviceHeight: 619
-		})
-		let isMob2 = useMediaQuery({ maxDeviceWidth: 767 })
-		isMob2 = useMediaQuery({ maxDeviceHeight: 1020 }) && isMob2
-
-		return isMob1 || isMob2 ? null : children
-	}
 
 	// Functions for Tabs
 	const TabPanel = (props) => {
