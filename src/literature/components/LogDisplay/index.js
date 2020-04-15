@@ -27,7 +27,7 @@ const LogDisplay = ({ open, handleClose }) => {
 			<DialogTitle>Previous logs</DialogTitle>
 			<DialogContent dividers>
 				<List>
-					{gameLogs.reverse().map((log) => {
+					{gameLogs.map((log) => {
 						let parsedLog = logParser(log)
 						return (
 							<>

@@ -88,6 +88,8 @@ let renderer = new GameRenderer(),
 	startedLoad = false
 renderer.initRenderer()
 
+window.onorientationchange = () => window.location.reload()
+
 const GamePage = (props) => {
 	const classes = useStyles()
 
