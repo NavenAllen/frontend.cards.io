@@ -43,7 +43,8 @@ import {
 const useStyles = makeStyles((theme) => ({
 	appBar: {
 		flexGrow: 1,
-		backgroundColor: theme.palette.error.main
+		backgroundColor: 'rgb(0,0,0,0.7)',
+		backdropFilter: 'blur(4px)'
 	},
 	scoreContainer: {
 		flexGrow: 1
@@ -183,6 +184,8 @@ const GamePage = (props) => {
 	}
 
 	const handleClickLeave = () => {
+		if (localStorage.getItem('gameCode'))
+			localStorage.removeItem('gameCode')
 		renderer.resetRenderer()
 		props.leaveGame(props.gameData.code, props.playerData.id)
 	}

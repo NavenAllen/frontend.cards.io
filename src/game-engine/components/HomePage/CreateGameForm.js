@@ -39,6 +39,14 @@ const useStyles = makeStyles((theme) => ({
 		borderColor: theme.palette.success.dark,
 		backgroundColor: theme.palette.success.light
 	},
+	gameDisabled: {
+		borderColor: '#2f2f2d',
+		backgroundColor: '#EBEBE4',
+		'&:hover': {
+			cursor: 'default'
+		},
+		opacity: '0.8'
+	},
 	chip: {
 		marginLeft: theme.spacing(0.5),
 		marginRight: theme.spacing(0.5),
@@ -89,12 +97,37 @@ const createGameData = [
 		name: 'Literature',
 		tags: ['Team', '6 to 8'],
 		rules: 'link',
-		type: 'literature'
+		type: 'literature',
+		disabled: false
 	},
-	{ name: 'Ace', tags: ['4 to 8'], rules: 'link', type: 'ace' },
-	{ name: 'Hearts', tags: ['Team', 'Only 4'], rules: 'link', type: 'hearts' },
-	{ name: 'Bridge', tags: ['Team', '6 to 8'], rules: 'link', type: 'bridge' },
-	{ name: 'Rummy', tags: ['4 to 6'], rules: 'link', type: 'rummy' }
+	{
+		name: 'Ace',
+		tags: ['4 to 8'],
+		rules: 'link',
+		type: 'ace',
+		disabled: true
+	},
+	{
+		name: 'Hearts',
+		tags: ['Team', 'Only 4'],
+		rules: 'link',
+		type: 'hearts',
+		disabled: true
+	},
+	{
+		name: 'Bridge',
+		tags: ['Team', '6 to 8'],
+		rules: 'link',
+		type: 'bridge',
+		disabled: true
+	},
+	{
+		name: 'Rummy',
+		tags: ['4 to 6'],
+		rules: 'link',
+		type: 'rummy',
+		disabled: true
+	}
 ]
 
 const CreateGameForm = (props) => {
@@ -106,11 +139,11 @@ const CreateGameForm = (props) => {
 		if (activeCard >= 0) props.createGame(createGameData[activeCard].type)
 	}
 
-	const handleCreateGameCardClick = (index) => {
-		setActiveCard(index)
+	const handleCreateGameCardClick = (gameDisabled, index) => {
+		if (!gameDisabled) setActiveCard(index)
 	}
 
-	const handleCreateGameInfoClick = (e) => {
+	const handleCreateGameInfoClick = (e, index) => {
 		// Stop click event propagation to parent(handleCreateGameCardClick)
 		e.stopPropagation()
 	}
@@ -132,9 +165,12 @@ const CreateGameForm = (props) => {
 						variant="outlined"
 						className={classNames(
 							classes.card,
-							index === activeCard ? classes.activeCard : ''
+							index === activeCard ? classes.activeCard : '',
+							game.disabled ? classes.gameDisabled : ''
 						)}
-						onClick={() => handleCreateGameCardClick(index)}
+						onClick={() =>
+							handleCreateGameCardClick(game.disabled, index)
+						}
 					>
 						<CardHeader
 							className={classes.cardHeader}
@@ -143,7 +179,10 @@ const CreateGameForm = (props) => {
 									<IconButton
 										aria-label="settings"
 										className={classes.infoButton}
-										onClick={handleCreateGameInfoClick}
+										disabled={game.disabled}
+										onClick={(e) =>
+											handleCreateGameInfoClick(e, index)
+										}
 									>
 										<InfoIcon fontSize="small" />
 									</IconButton>

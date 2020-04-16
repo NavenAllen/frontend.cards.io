@@ -7,7 +7,7 @@ const Card = (props) => {
 	const { parent, hidden, index, value, onClick, scale } = props
 
 	const createCard = (props) => {
-		var url = hidden ? 'red.svg' : `${value}.svg`
+		var url = hidden ? 'blue.svg' : `${value}.svg`
 		const texture = rendererLoader.resources.cardData.textures[url]
 
 		const card = new PIXI.Sprite(texture)

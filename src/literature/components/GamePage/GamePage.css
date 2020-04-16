@@ -1,4 +1,9 @@
-body.game-page{
+body.game-page {
+    background-image: url("/img/background-game.png");
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+    background-attachment: fixed;
     overflow-y: hidden;
 }
 
@@ -15,4 +20,10 @@ div#rendererContainer {
 .playerCards {
     position: absolute;
     bottom: 0px;
+}
+
+@media only screen and (max-width: 500px) {
+    body.game-page {
+        background-image: url("/img/background-game-mob.png");
+    }
 }
