@@ -36,6 +36,11 @@ export const gameConstants = {
 	RECONNECT_SUCCESS: 'RECONNECT_SUCCESS',
 	RECONNECT_FAILURE: 'RECONNECT_FAILURE',
 
+	SEND_CHAT: 'SEND_CHAT',
+	SEND_CHAT_FAILURE: 'SEND_CHAT_FAILURE',
+
+	ADD_CHAT: 'ADD_CHAT',
+
 	ADD_CARD: 'ADD_CARD'
 }
 
@@ -60,6 +65,9 @@ export const gameActions = {
 	cardSelected,
 	reconnectSuccess,
 	reconnectFailure,
+	sendChat,
+	sendChatFailure,
+	addChat,
 	addCard
 }
 
@@ -201,6 +209,22 @@ function reconnectSuccess(data) {
 function reconnectFailure(data) {
 	return (dispatch) =>
 		dispatch({ type: gameConstants.RECONNECT_FAILURE, data: data })
+}
+
+function sendChat(data) {
+	return (dispatch) => {
+		dispatch({ type: gameConstants.SEND_CHAT, data: data })
+		socket.emit('chat', data)
+	}
+}
+
+function sendChatFailure(data) {
+	return (dispatch) =>
+		dispatch({ type: gameConstants.SEND_CHAT_FAILURE, data: data })
+}
+
+function addChat(data) {
+	return (dispatch) => dispatch({ type: gameConstants.ADD_CHAT, data: data })
 }
 
 function addCard(card, fromPos, toPos) {

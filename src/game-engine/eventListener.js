@@ -16,7 +16,9 @@ var startCoreGameEventListeners = (dispatch) => {
 		updateGame,
 		updatePlayer,
 		reconnectSuccess,
-		reconnectFailure
+		reconnectFailure,
+		sendChatFailure,
+		addChat
 	} = gameActions
 
 	socket.on('game-probe', (response) => {
@@ -61,6 +63,10 @@ var startCoreGameEventListeners = (dispatch) => {
 	socket.on('player-data', (response) => {
 		console.log(response)
 		dispatch(updatePlayer(response.data))
+	})
+	socket.on('chat', (response) => {
+		if (response.code === 200) dispatch(addChat(response.data))
+		else dispatch(sendChatFailure(response))
 	})
 }
 

@@ -205,6 +205,19 @@ export function game(state = initialState, action) {
 					message: action.data.message
 				}
 			}
+		case gameConstants.SEND_CHAT_FAILURE:
+			return {
+				...state,
+				error: {
+					code: action.data.code,
+					message: action.data.message
+				}
+			}
+		case gameConstants.ADD_CHAT:
+			return {
+				...state,
+				chats: state.chats.concat(action.data)
+			}
 		case gameConstants.ADD_CARD: {
 			let prev = JSON.parse(JSON.stringify(state))
 			if (action.data.fromPos === state.playerData.position)

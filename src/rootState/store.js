@@ -12,6 +12,7 @@ const preloadedState = {
 	playerData: {
 		hand: []
 	},
+	chats: [],
 	error: null,
 	inGame: false,
 	isGameStarted: false
