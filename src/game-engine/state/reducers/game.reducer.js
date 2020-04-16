@@ -197,6 +197,7 @@ export function game(state = initialState, action) {
 						action.data.player.position
 					)
 				},
+				chats: action.data.chats,
 				inGame: true
 			}
 		case gameConstants.RECONNECT_FAILURE:

@@ -39,6 +39,7 @@ import {
 	Navigation as NavigationIcon,
 	VideogameAsset as VideogameAssetIcon
 } from '@material-ui/icons'
+import { ChatBox } from '../../../game-engine/components/ChatBox'
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -478,6 +479,7 @@ const GamePage = (props) => {
 									)}
 								</>
 							)}
+							<ChatBox />
 						</div>
 					) : (
 						<>
