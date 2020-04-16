@@ -31,7 +31,8 @@ export function game(state = initialState, action) {
 							name: action.data.pname,
 							position: 1
 						}
-					]
+					],
+					owner: 1
 				},
 				playerData: {
 					id: action.data.pid,

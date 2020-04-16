@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
@@ -33,7 +33,8 @@ const styles = (theme) => ({
 	},
 	title: {
 		fontFamily: 'Poppins',
-		marginTop: theme.spacing(5),
+		marginTop: theme.spacing(7),
+		fontSize: '2rem',
 		fontWeight: 700,
 		color: '#fff'
 	},
@@ -124,16 +125,30 @@ const WaitingRoom = (props) => {
 	const { classes } = props
 	const [errorOpen, setErrorOpen] = React.useState(false)
 
-	React.useEffect(() => {
-		if (props.error !== null) setErrorOpen(true)
-	}, [props.error])
-
 	const startGame = () => {
 		props.startGame(props.gameCode, props.playerData.id)
 	}
 	const leaveGame = () => {
 		props.leaveGame(props.gameCode, props.playerData.id)
 	}
+
+	useEffect(() => {
+		if (props.error !== null) setErrorOpen(true)
+	}, [props.error])
+
+	useEffect(() => {
+		// Add component specific general tag classnames
+		if (document.getElementsByClassName('game-canvas')[0])
+			document
+				.getElementsByTagName('canvas')[0]
+				.classList.add('waiting-room-canvas')
+		// Remove all component specifics on component unmount
+		return () => {
+			document
+				.getElementsByClassName('game-canvas')[0]
+				.classList.remove('waiting-room-canvas')
+		}
+	})
 
 	return (
 		<div className="waiting-room-modal">
