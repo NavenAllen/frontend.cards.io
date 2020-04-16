@@ -25,8 +25,6 @@ const literatureHandleStateChange = (rootStore) => {
 		currentState = nextState
 		if (currentState && currentState.length) {
 			let parsedLog = logParser(currentState[0])
-			if (currentNotificationId)
-				notificationsStore.removeNotification(currentNotificationId)
 			currentNotificationId = notificationsStore.addNotification({
 				title: parsedLog.title,
 				message: parsedLog.message,
