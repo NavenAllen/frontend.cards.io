@@ -21,20 +21,19 @@ const bezierEqn = (points, t) => {
 const findOtherHandCoordinates = (width, height, count) => {
 	let points = [],
 		results = [],
-		px = 60, // padding-x
+		px = 50, // padding-x
 		py = 50, // padding-y
 		isPortrait = window.screen.orientation.type.includes('portrait')
 
 	if (isPortrait) {
-		px = 60
-		py = 150
+		py = 80
 	}
 
 	width = width - 2 * px
 	height = height - 2 * py
 
 	if (isPortrait) {
-		height -= height * 0.2
+		height -= height * 0.05
 		points.push({ x: 0, y: 0 })
 		points.push({ x: 0, y: height / 6 })
 		points.push({ x: 0, y: height / 3 })

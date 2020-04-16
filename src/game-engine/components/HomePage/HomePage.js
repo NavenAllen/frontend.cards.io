@@ -112,6 +112,31 @@ const useStyles = makeStyles((theme) => ({
 	}
 }))
 
+// Functions for Tabs
+const TabPanel = (props) => {
+	const { children, value, index, ...other } = props
+
+	return (
+		<Typography
+			component="div"
+			role="tabpanel"
+			hidden={value !== index}
+			id={`full-width-tabpanel-${index}`}
+			aria-labelledby={`full-width-tab-${index}`}
+			{...other}
+		>
+			{value === index && <Box p={3}>{children}</Box>}
+		</Typography>
+	)
+}
+
+const a11yProps = (index) => {
+	return {
+		id: `full-width-tab-${index}`,
+		'aria-controls': `full-width-tabpanel-${index}`
+	}
+}
+
 const HomePage = (props) => {
 	const classes = useStyles()
 
@@ -119,36 +144,6 @@ const HomePage = (props) => {
 	const [nameError, setNameError] = useState(false)
 	const [tabValue, setTabValue] = useState(0)
 	const [errorOpen, setErrorOpen] = React.useState(false)
-
-	useEffect(() => {
-		if (props.inGame) props.history.push('/game')
-		if (props.error !== null) setErrorOpen(true)
-	}, [props.history, props.inGame, props.error])
-
-	// Functions for Tabs
-	const TabPanel = (props) => {
-		const { children, value, index, ...other } = props
-
-		return (
-			<Typography
-				component="div"
-				role="tabpanel"
-				hidden={value !== index}
-				id={`full-width-tabpanel-${index}`}
-				aria-labelledby={`full-width-tab-${index}`}
-				{...other}
-			>
-				{value === index && <Box p={3}>{children}</Box>}
-			</Typography>
-		)
-	}
-
-	const a11yProps = (index) => {
-		return {
-			id: `full-width-tab-${index}`,
-			'aria-controls': `full-width-tabpanel-${index}`
-		}
-	}
 
 	const handleCreateGameFormSubmit = (gameType) => {
 		if (name) {
@@ -186,6 +181,11 @@ const HomePage = (props) => {
 	const handleTabChange = () => {
 		setTabValue(1 - tabValue)
 	}
+
+	useEffect(() => {
+		if (props.inGame) props.history.push('/game')
+		if (props.error !== null) setErrorOpen(true)
+	}, [props.history, props.inGame, props.error])
 
 	const { locked } = props
 

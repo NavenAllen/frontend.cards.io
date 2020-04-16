@@ -129,7 +129,8 @@ export function game(state = initialState, action) {
 					hand: []
 				},
 				locked: false,
-				inGame: false
+				inGame: false,
+				chats: []
 			}
 		case gameConstants.LEAVE_GAME_FAILURE:
 			return {

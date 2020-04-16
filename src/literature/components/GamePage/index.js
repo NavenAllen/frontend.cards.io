@@ -183,9 +183,11 @@ const GamePage = (props) => {
 		setAbandonOpen(false)
 	}
 
+	const handleClickErrorLeave = () => {
+		props.errorLeaveGame()
+	}
+
 	const handleClickLeave = () => {
-		if (localStorage.getItem('gameCode'))
-			localStorage.removeItem('gameCode')
 		renderer.resetRenderer()
 		props.leaveGame(props.gameData.code, props.playerData.id)
 	}
@@ -495,7 +497,7 @@ const GamePage = (props) => {
 									<Button
 										key={1}
 										className={classes.leaveButton}
-										onClick={handleClickLeave}
+										onClick={handleClickErrorLeave}
 									>
 										Leave
 									</Button>
@@ -532,7 +534,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		leaveGame: (code, pid) =>
-			dispatch(gameActions.leaveGameRequest(code, pid))
+			dispatch(gameActions.leaveGameRequest(code, pid)),
+		errorLeaveGame: (response) =>
+			dispatch(gameActions.leaveGameSuccess(response))
 	}
 }
 
