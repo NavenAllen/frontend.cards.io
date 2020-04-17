@@ -52,6 +52,14 @@
 .chatHeader {
     padding: 10px;
     background-color: #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.minimize {
+    padding: 0!important;
+    position: relative;
+    top: -7px;
 }
 
 .chatName {
@@ -117,4 +125,15 @@
     font-weight: 900;
     font-size: 16px;
     text-align: center;
+}
+
+.unread {
+    background-color: red;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    border-radius: 50%;
+    right: -10px;
+    top: -10px;
+    padding: 5px 8px 8px 8px;
 }
