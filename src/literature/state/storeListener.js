@@ -1,8 +1,6 @@
-import { store as notificationsStore } from 'react-notifications-component'
-import logParser from '../util/logParser'
+import { logParser, addNotification } from '../util'
 
 let currentState = []
-let currentNotificationId
 
 const checkArrayIdentical = (a, b) => {
 	if (!a || !b) return false
@@ -25,20 +23,7 @@ const literatureHandleStateChange = (rootStore) => {
 		currentState = nextState
 		if (currentState && currentState.length) {
 			let parsedLog = logParser(currentState[0])
-			currentNotificationId = notificationsStore.addNotification({
-				title: parsedLog.title,
-				message: parsedLog.message,
-				type: parsedLog.type,
-				insert: 'top',
-				container: 'top-right',
-				animationIn: ['animated', 'fadeIn'],
-				animationOut: ['animated', 'fadeOut'],
-				dismiss: {
-					showIcon: true,
-					duration: 20000
-				},
-				dismissable: true
-			})
+			addNotification(parsedLog.title, parsedLog.message, parsedLog.type)
 		}
 	}
 }

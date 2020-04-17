@@ -1,4 +1,5 @@
 import { socket } from '../../../util/socket-client'
+import { addNotification } from '../../util'
 
 export const literatureGameConstants = {
 	PLAY_ASK_REQUEST: 'PLAY_ASK_REQUEST',
@@ -40,6 +41,7 @@ function playAskSuccess() {
 }
 
 function playAskFailure(errorDetails) {
+	addNotification('Ask Card Error', errorDetails.message, 'danger')
 	return (dispatch) =>
 		dispatch({
 			type: literatureGameConstants.PLAY_ASK_FAILURE,
@@ -61,6 +63,7 @@ function playDeclareSuccess() {
 }
 
 function playDeclareFailure(errorDetails) {
+	addNotification('Declare Error', errorDetails.message, 'danger')
 	return (dispatch) =>
 		dispatch({
 			type: literatureGameConstants.PLAY_DECLARE_FAILURE,
@@ -82,6 +85,7 @@ function playTransferSuccess() {
 }
 
 function playTransferFailure(errorDetails) {
+	addNotification('Turn Transfer Error', errorDetails.message, 'danger')
 	return (dispatch) =>
 		dispatch({
 			type: literatureGameConstants.PLAY_TRANSFER_FAILURE,

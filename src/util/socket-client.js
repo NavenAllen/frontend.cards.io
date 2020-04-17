@@ -10,7 +10,7 @@ const setDispatch = (d) => {
 
 const openGameSocket = (gameType) => {
 	if (socket === undefined) {
-		socket = io('http://localhost:3000/' + gameType, {
+		socket = io('https://cards.siliconcupcake.me/' + gameType, {
 			query: {
 				pid: localStorage.getItem('playerId')
 					? localStorage.getItem('playerId')

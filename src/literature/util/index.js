@@ -1,3 +1,5 @@
+import { store } from 'react-notifications-component'
+
 const numberMap = {
 	'2': 'Two',
 	'3': 'Three',
@@ -110,4 +112,21 @@ const logParser = (log) => {
 	return parsedLog
 }
 
-export default logParser
+const addNotification = (title, message, type) => {
+	store.addNotification({
+		title: title,
+		message: message,
+		type: type,
+		insert: 'top',
+		container: 'top-right',
+		animationIn: ['animated', 'fadeIn'],
+		animationOut: ['animated', 'fadeOut'],
+		dismiss: {
+			showIcon: true,
+			duration: 20000
+		},
+		dismissable: true
+	})
+}
+
+export { logParser, addNotification }

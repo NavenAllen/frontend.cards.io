@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core'
 
 import { useSelector } from 'react-redux'
-import logParser from '../../util/logParser'
+import { logParser } from '../../util'
 
 const LogDisplay = ({ open, handleClose }) => {
 	const gameLogs = useSelector((state) => state.gameData.logs)
