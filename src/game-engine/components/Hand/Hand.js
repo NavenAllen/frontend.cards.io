@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import * as PIXI from 'pixi.js'
 import { OutlineFilter } from '@pixi/filter-outline'
 
@@ -8,22 +8,29 @@ const Hand = (props) => {
 	const {
 		parent,
 		cards,
-		count,
 		x,
 		y,
 		scale,
 		position,
 		currentTurn,
-		disabled
+		disabled,
+		hidden,
+		index
 	} = props
 	const container = new PIXI.Container()
 	if (currentTurn) container.filters = [new OutlineFilter(4, 0xf7c4c8, 0.5)]
 	parent.addChild(container)
+	parent.setChildIndex(container, index)
 
 	if (x) container.x = x
 	if (y) container.y = y
 
-	const createText = () => {
+	useEffect(() => {
+		if (container.children.length > cards.length + 1)
+			container.removeChildren(cards.length + 1)
+	}, [container, cards.length])
+
+	const createText = useCallback(() => {
 		var textContainer = new PIXI.Container()
 		let style = new PIXI.TextStyle({
 			fontFamily: 'Poppins',
@@ -44,12 +51,12 @@ const Hand = (props) => {
 		textContainer.addChild(name)
 
 		return textContainer
-	}
+	}, [position, props.name, scale])
 
-	const createHand = () => {
+	const createHand = useCallback(() => {
 		container.pivot.set(container.width / 2, container.height / 2)
 
-		if (!cards) {
+		if (hidden) {
 			var text = createText()
 			text.pivot.set(text.width / 2, text.height / 2)
 			container.addChild(text)
@@ -68,33 +75,35 @@ const Hand = (props) => {
 		} else {
 			container.y -= (2 * container.height) / 3
 		}
-	}
+	}, [hidden, disabled, container, createText])
 
 	useEffect(() => {
 		createHand()
-	})
+	}, [createHand])
 
 	return (
 		<>
-			{cards
+			{!hidden
 				? cards.map((value, index) => (
 						<Card
 							parent={container}
-							index={index}
 							key={index}
+							index={index}
 							scale={scale}
+							cardPosition={index}
 							onClick={(value) => {
 								console.log('Clicked value: ' + value)
 							}}
 							value={value}
 						/>
 				  ))
-				: [...Array(count)].map((value, index) => (
+				: cards.map((value, index) => (
 						<Card
 							parent={container}
-							index={index - Math.floor(count / 2)}
 							key={index}
+							index={index}
 							scale={scale}
+							cardPosition={index - Math.floor(cards.length / 2)}
 							hidden
 						/>
 				  ))}

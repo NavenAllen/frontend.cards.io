@@ -4,7 +4,7 @@ import * as PIXI from 'pixi.js'
 import { rendererLoader } from '../../renderer'
 
 const Card = (props) => {
-	const { parent, hidden, index, value, onClick, scale } = props
+	const { parent, hidden, index, value, onClick, scale, cardPosition } = props
 
 	const createCard = (props) => {
 		var url = hidden ? 'blue.svg' : `${value}.svg`
@@ -20,7 +20,7 @@ const Card = (props) => {
 				gapFactor = 27
 			card.interactive = true
 
-			card.x += index * gapFactor
+			card.x += cardPosition * gapFactor
 			card.on('pointerover', () => {
 				card.y -= 15
 			})
@@ -32,11 +32,12 @@ const Card = (props) => {
 			})
 		} else {
 			card.anchor.set(0, 1)
-			card.angle = index * 4
+			card.angle = cardPosition * 4
 			card.y = card.height * card.anchor.y
 		}
 
 		parent.addChild(card)
+		parent.setChildIndex(card, index)
 	}
 
 	useEffect(() => {

@@ -126,6 +126,7 @@ const WaitingRoom = (props) => {
 	const [errorOpen, setErrorOpen] = React.useState(false)
 
 	const startGame = () => {
+		props.renderer.initRenderer()
 		props.startGame(props.gameCode, props.playerData.id)
 	}
 	const leaveGame = () => {

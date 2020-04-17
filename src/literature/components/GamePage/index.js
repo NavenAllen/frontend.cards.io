@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { useMediaQuery } from 'react-responsive'
 import { gameActions } from '../../../game-engine/state/actions'
 
-import { GameRenderer } from '../../../game-engine/renderer'
+import GameRenderer from '../../../game-engine/renderer'
 import { Engine } from '../../../game-engine/engine'
 import GameView from '../../../game-engine/components/GameView/GameView'
 
@@ -80,7 +80,8 @@ const useStyles = makeStyles((theme) => ({
 
 // Initialize Renderer
 let renderer = new GameRenderer(),
-	startedLoad = false
+	startedLoad = false,
+	assetsLoaded = false
 renderer.initRenderer()
 
 window.onorientationchange = () => window.location.reload()
@@ -88,12 +89,13 @@ window.onorientationchange = () => window.location.reload()
 const GamePage = (props) => {
 	const classes = useStyles()
 
-	const [isAssetsLoaded, setIsAssetsLoaded] = useState(false)
+	const [isAssetsLoaded, setIsAssetsLoaded] = useState(assetsLoaded)
 
 	const [playerTeamScore, setPlayerTeamScore] = useState(0)
 	const [opponentTeamScore, setOpponentTeamScore] = useState(0)
 
 	const loadGameView = () => {
+		assetsLoaded = true
 		setIsAssetsLoaded(true)
 	}
 
@@ -185,6 +187,7 @@ const GamePage = (props) => {
 	}
 
 	const handleClickErrorLeave = () => {
+		renderer.resetRenderer()
 		props.errorLeaveGame()
 	}
 
@@ -248,6 +251,7 @@ const GamePage = (props) => {
 									error={props.error}
 									minPlayers={props.gameData.minPlayers}
 									playerData={props.playerData}
+									renderer={renderer}
 								/>
 							) : (
 								<>

@@ -37,7 +37,8 @@ export function game(state = initialState, action) {
 				playerData: {
 					id: action.data.pid,
 					name: action.data.pname,
-					position: 1
+					position: 1,
+					hand: []
 				},
 				locked: false,
 				inGame: true

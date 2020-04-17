@@ -6,6 +6,9 @@ export class GameRenderer {
 	constructor() {
 		this.cardsScale = null
 		this.rootContainer = null
+		this.otherContainer = null
+		this.playerContainer = null
+		this.loader = null
 
 		this.app = new PIXI.Application({
 			antialias: true,
@@ -49,6 +52,14 @@ export class GameRenderer {
 
 	initBaseContainers = () => {
 		this.rootContainer = this.app.stage
+		this.otherContainer = new PIXI.Container({
+			interactive: false
+		})
+		this.rootContainer.addChild(this.otherContainer)
+		this.playerContainer = new PIXI.Container({
+			interactive: true
+		})
+		this.rootContainer.addChild(this.playerContainer)
 	}
 
 	initRenderer = () => {
@@ -63,3 +74,5 @@ export class GameRenderer {
 		this.app.ticker.start()
 	}
 }
+
+export default GameRenderer
