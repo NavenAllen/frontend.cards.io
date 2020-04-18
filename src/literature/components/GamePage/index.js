@@ -140,6 +140,12 @@ const GamePage = (props) => {
 	const [actionsMenuOpen, setActionsMenuOpen] = useState(null)
 	const [appBarMenuOpen, setAppBarMenuOpen] = useState(null)
 
+	const [previousModalOptions, setPreviousModalOptions] = useState({
+		suit: 'H',
+		order: 0,
+		opponent: 0
+	})
+
 	const handleDeclareClose = () => {
 		setDeclareOpen((prev) => !prev)
 		setActionsMenuOpen(null)
@@ -472,12 +478,24 @@ const GamePage = (props) => {
 									{declareOpen && (
 										<Declare
 											open={declareOpen}
+											previousOptions={
+												previousModalOptions
+											}
+											setPreviousOptions={
+												setPreviousModalOptions
+											}
 											handleClose={handleDeclareClose}
 										/>
 									)}
 									{askOpen && (
 										<AskCard
 											open={askOpen}
+											previousOptions={
+												previousModalOptions
+											}
+											setPreviousOptions={
+												setPreviousModalOptions
+											}
 											handleClose={handleAskClose}
 										/>
 									)}

@@ -28,10 +28,10 @@ export const ChatBox = () => {
 	useEffect(() => {
 		box.current.scrollIntoView()
 		if (openChat) setChatLen(chat.length)
-	}, [chat])
+	}, [chat, openChat])
 	useEffect(() => {
 		if (openChat) setChatLen(chat.length)
-	}, [openChat])
+	}, [openChat, chat.length])
 	const send = (e) => {
 		e.preventDefault()
 		if (message.current.value === '') return

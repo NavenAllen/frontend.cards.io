@@ -9,10 +9,8 @@ export const Friends = ({
 }) => {
 	return (
 		<Tabs
+			variant="scrollable"
 			value={selectedFriend}
-			classes={{
-				flexContainer: classes.tabs
-			}}
 			onChange={(e, newVal) => setselectedFriend(newVal)}
 		>
 			{friends.map((friend) => (

@@ -16,13 +16,18 @@ import { Friends } from './components/Friends'
 import DisplayCards from './components/DisplayCards'
 import * as LiteratureConstants from '../../constants'
 
-const Declare = ({ open, handleClose }) => {
-	const [suit, setSuit] = useState('H')
+const Declare = ({
+	open,
+	previousOptions,
+	setPreviousOptions,
+	handleClose
+}) => {
+	const [suit, setSuit] = useState(previousOptions.suit)
 	const [availableSuits, setAvailableSuits] = useState(
 		LiteratureConstants.suits
 	)
 	const [cards, setCards] = useState([])
-	const [order, setOrder] = useState(0)
+	const [order, setOrder] = useState(previousOptions.order)
 	const [availableOrders, setAvailableOrders] = useState(
 		LiteratureConstants.orders
 	)
@@ -135,12 +140,18 @@ const Declare = ({ open, handleClose }) => {
 		else if (order === 1) setAvailableSuits(availableSets['higher'])
 		else setAvailableSuits(availableSets['jokers'])
 
-		for (let i = 0; i < availableSuits.length; i++)
-			if (availableSuits[i].present) {
-				setSuit(availableSuits[i].value)
+		let selectedSuit = suit,
+			selectedSuitPresent = false
+		for (let i = 0; i < availableSuits.length; i++) {
+			if (availableSuits[i].value === suit && availableSuits[i].present) {
+				selectedSuitPresent = true
 				break
 			}
-	}, [order, availableSets, availableSuits])
+			if (availableSuits[i].present)
+				selectedSuit = availableSuits[i].value
+		}
+		if (!selectedSuitPresent) setSuit(selectedSuit)
+	}, [order, suit, availableSets, availableSuits])
 
 	const assign = (card) => {
 		let prev = cards.map((item) => {
@@ -153,6 +164,15 @@ const Declare = ({ open, handleClose }) => {
 	const isCardOpaque = (card) => {
 		return card.assignedTo === selectedFriend
 	}
+
+	const handleModalClose = useCallback(() => {
+		setPreviousOptions({
+			...previousOptions,
+			suit,
+			order
+		})
+		handleClose()
+	}, [suit, order, previousOptions, setPreviousOptions, handleClose])
 
 	const declare = useCallback(() => {
 		const nums = [
@@ -171,9 +191,9 @@ const Declare = ({ open, handleClose }) => {
 		]
 		if (cards.some((card) => card.assignedTo === '')) return
 		else {
-			let declaration = [[]]
-			let last_num,
-				j = 0
+			let declaration = []
+			for (let i = 0; i < game.players.length / 2; i++)
+				declaration.push([])
 			if (order !== 2)
 				for (let i = order * 6; i < order * 6 + 6; i++) {
 					if (userCards.indexOf(nums[i] + suit) !== -1)
@@ -205,15 +225,14 @@ const Declare = ({ open, handleClose }) => {
 				})
 			}
 			cards.sort((a, b) => a.assignedTo - b.assignedTo)
-			last_num = parseInt(cards[0].assignedTo)
-			declaration[j].push(cards[0].value)
-			for (let i = 1; i < cards.length; i++) {
-				if (parseInt(cards[i].assignedTo) !== last_num) {
-					declaration.push([])
-					j++
-					last_num = parseInt(cards[i].assignedTo)
-				}
-				declaration[j].push(cards[i].value)
+			for (let i = 0; i < cards.length; i++) {
+				console.log(cards.assignedTo)
+				let declarePos =
+					Math.floor(cards[i].assignedTo / 2) +
+					(cards[i].assignedTo % 2) -
+					1
+				console.log(declarePos)
+				declaration[declarePos].push(cards[i].value)
 			}
 			dispatch(
 				literatureGameActions.playDeclare({
@@ -222,7 +241,8 @@ const Declare = ({ open, handleClose }) => {
 					declaration
 				})
 			)
-			handleClose()
+			console.log(declaration)
+			handleModalClose()
 		}
 	}, [
 		dispatch,
@@ -230,10 +250,11 @@ const Declare = ({ open, handleClose }) => {
 		order,
 		suit,
 		game.code,
+		game.players.length,
 		userCards,
 		user.position,
 		user.id,
-		handleClose
+		handleModalClose
 	])
 
 	return (
@@ -241,13 +262,7 @@ const Declare = ({ open, handleClose }) => {
 			<DialogTitle>Declare cards</DialogTitle>
 			<DialogContent dividers>
 				<p className={classes.p}>Select order</p>
-				<Tabs
-					value={order}
-					classes={{
-						flexContainer: classes.tabs
-					}}
-					onChange={(e, newVal) => setOrder(newVal)}
-				>
+				<Tabs value={order} onChange={(e, newVal) => setOrder(newVal)}>
 					{availableOrders.map((order) => {
 						return (
 							<Tab
@@ -261,10 +276,8 @@ const Declare = ({ open, handleClose }) => {
 				</Tabs>
 				<p className={classes.p}>Select suit</p>
 				<Tabs
+					variant="scrollable"
 					value={suit}
-					classes={{
-						flexContainer: classes.tabs
-					}}
 					onChange={(e, newVal) => setSuit(newVal)}
 				>
 					{availableSuits.map((suit) => {
@@ -297,7 +310,7 @@ const Declare = ({ open, handleClose }) => {
 				<Button
 					variant="contained"
 					color="secondary"
-					onClick={handleClose}
+					onClick={handleModalClose}
 				>
 					Close
 				</Button>

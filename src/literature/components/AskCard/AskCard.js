@@ -15,14 +15,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import DisplayCards from '../Declare/components/DisplayCards'
 import * as LiteratureConstants from '../../constants'
 
-const AskCard = ({ open, handleClose }) => {
-	const [suit, setSuit] = useState('H')
-	const [avalaibleSuits, setAvailableSuits] = useState(
+const AskCard = ({
+	open,
+	previousOptions,
+	setPreviousOptions,
+	handleClose
+}) => {
+	const [suit, setSuit] = useState(previousOptions.suit)
+	const [availableSuits, setAvailableSuits] = useState(
 		LiteratureConstants.suits
 	)
 	const [cards, setCards] = useState([])
-	const [order, setOrder] = useState(0)
-	const [avalaibleOrders, setAvailableOrders] = useState(
+	const [order, setOrder] = useState(previousOptions.order)
+	const [availableOrders, setAvailableOrders] = useState(
 		LiteratureConstants.orders
 	)
 	const [availableSets, setAvailableSets] = useState(LiteratureConstants.sets)
@@ -39,7 +44,7 @@ const AskCard = ({ open, handleClose }) => {
 			player.position % 2 !== user.position % 2
 	)
 	const [selectedOpponent, setselectedOpponent] = useState(
-		opponents[0].position
+		previousOptions.opponent
 	)
 
 	useEffect(() => {
@@ -137,16 +142,32 @@ const AskCard = ({ open, handleClose }) => {
 		else if (order === 1) setAvailableSuits(availableSets['higher'])
 		else setAvailableSuits(availableSets['jokers'])
 
-		for (let i = 0; i < avalaibleSuits.length; i++)
-			if (avalaibleSuits[i].present) {
-				setSuit(avalaibleSuits[i].value)
+		let selectedSuit = suit,
+			selectedSuitPresent = false
+		for (let i = 0; i < availableSuits.length; i++) {
+			if (availableSuits[i].value === suit && availableSuits[i].present) {
+				selectedSuitPresent = true
 				break
 			}
-	}, [order, availableSets, avalaibleSuits])
+			if (availableSuits[i].present)
+				selectedSuit = availableSuits[i].value
+		}
+		if (!selectedSuitPresent) setSuit(selectedSuit)
+	}, [order, suit, availableSets, availableSuits])
 
 	const assign = (card) => {
 		askCard(card.value)
 	}
+
+	const handleModalClose = useCallback(() => {
+		setPreviousOptions({
+			suit,
+			order,
+			opponent: selectedOpponent
+		})
+		handleClose()
+	}, [suit, order, selectedOpponent, setPreviousOptions, handleClose])
+
 	const askCard = useCallback(
 		(card) => {
 			if (!locked)
@@ -158,9 +179,16 @@ const AskCard = ({ open, handleClose }) => {
 						card
 					})
 				)
-			handleClose()
+			handleModalClose()
 		},
-		[locked, dispatch, game.code, user.id, selectedOpponent, handleClose]
+		[
+			locked,
+			dispatch,
+			game.code,
+			user.id,
+			selectedOpponent,
+			handleModalClose
+		]
 	)
 
 	return (
@@ -168,14 +196,8 @@ const AskCard = ({ open, handleClose }) => {
 			<DialogTitle>Ask a Card</DialogTitle>
 			<DialogContent dividers>
 				<p className={classes.p}>Select order</p>
-				<Tabs
-					value={order}
-					classes={{
-						flexContainer: classes.tabs
-					}}
-					onChange={(e, newVal) => setOrder(newVal)}
-				>
-					{avalaibleOrders.map((order) => {
+				<Tabs value={order} onChange={(e, newVal) => setOrder(newVal)}>
+					{availableOrders.map((order) => {
 						return (
 							<Tab
 								key={order.value}
@@ -188,13 +210,11 @@ const AskCard = ({ open, handleClose }) => {
 				</Tabs>
 				<p className={classes.p}>Select suit</p>
 				<Tabs
+					variant="scrollable"
 					value={suit}
-					classes={{
-						flexContainer: classes.tabs
-					}}
 					onChange={(e, newVal) => setSuit(newVal)}
 				>
-					{avalaibleSuits.map((suit) => {
+					{availableSuits.map((suit) => {
 						return (
 							<Tab
 								key={suit.value}
@@ -207,10 +227,8 @@ const AskCard = ({ open, handleClose }) => {
 				</Tabs>
 				<p className={classes.p}>Select Opponent</p>
 				<Tabs
+					variant="scrollable"
 					value={selectedOpponent}
-					classes={{
-						flexContainer: classes.tabs
-					}}
 					onChange={(e, newVal) => setselectedOpponent(newVal)}
 				>
 					{opponents.map((opponent) => (
@@ -235,7 +253,7 @@ const AskCard = ({ open, handleClose }) => {
 				<Button
 					variant="contained"
 					color="secondary"
-					onClick={handleClose}
+					onClick={handleModalClose}
 				>
 					Close
 				</Button>
