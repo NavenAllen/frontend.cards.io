@@ -41,6 +41,8 @@ export const gameConstants = {
 
 	ADD_CHAT: 'ADD_CHAT',
 
+	TOGGLE_MUTE: 'TOGGLE_MUTE',
+
 	ADD_CARD: 'ADD_CARD'
 }
 
@@ -68,7 +70,8 @@ export const gameActions = {
 	sendChat,
 	sendChatFailure,
 	addChat,
-	addCard
+	addCard,
+	toggleMute
 }
 
 function getPlayersList(gameCode) {
@@ -227,6 +230,9 @@ function addChat(data) {
 	return (dispatch) => dispatch({ type: gameConstants.ADD_CHAT, data: data })
 }
 
+function toggleMute() {
+	return (dispatch) => dispatch({ type: gameConstants.TOGGLE_MUTE })
+}
 function addCard(card, fromPos, toPos) {
 	return (dispatch) =>
 		dispatch({

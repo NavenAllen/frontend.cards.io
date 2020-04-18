@@ -22,6 +22,8 @@ const suitMap = {
 	C: 'Clubs'
 }
 
+let notificationAudio = new Audio('sounds/notification.mp3')
+
 const parseCard = (card) => {
 	console.log(card)
 	let parsedCard = ''
@@ -112,21 +114,23 @@ const logParser = (log) => {
 	return parsedLog
 }
 
-const addNotification = (title, message, type) => {
+const addNotification = (title, message, type, mute) => {
 	store.addNotification({
 		title: title,
 		message: message,
 		type: type,
 		insert: 'top',
 		container: 'top-right',
-		animationIn: ['animated', 'fadeIn'],
-		animationOut: ['animated', 'fadeOut'],
+		animationIn: ['animated', 'bounceIn'],
+		animationOut: ['animated', 'bounceOut'],
 		dismiss: {
 			showIcon: true,
-			duration: 20000
+			duration: 10000,
+			onScreen: true
 		},
 		dismissable: true
 	})
+	if (!mute) notificationAudio.play()
 }
 
 export { logParser, addNotification }

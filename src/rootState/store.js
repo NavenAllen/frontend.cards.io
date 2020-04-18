@@ -15,7 +15,8 @@ const preloadedState = {
 	chats: [],
 	error: null,
 	inGame: false,
-	isGameStarted: false
+	isGameStarted: false,
+	mute: false
 }
 const rootStore = createStore(
 	rootReducer,

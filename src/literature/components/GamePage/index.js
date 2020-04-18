@@ -37,7 +37,9 @@ import {
 import MenuIcon from '@material-ui/icons/Menu'
 import {
 	Navigation as NavigationIcon,
-	VideogameAsset as VideogameAssetIcon
+	VideogameAsset as VideogameAssetIcon,
+	VolumeOff as VolumeOffIcon,
+	VolumeUp as VolumeUpIcon
 } from '@material-ui/icons'
 import { ChatBox } from '../../../game-engine/components/ChatBox'
 
@@ -292,6 +294,16 @@ const GamePage = (props) => {
 												>
 													LITERATURE
 												</Typography>
+												<IconButton
+													onClick={props.toggleMute}
+													color="inherit"
+												>
+													{props.mute ? (
+														<VolumeUpIcon />
+													) : (
+														<VolumeOffIcon />
+													)}
+												</IconButton>
 												<Button
 													color="inherit"
 													onClick={
@@ -533,7 +545,8 @@ const mapStateToProps = (state) => {
 		error: state.error,
 		cardSelected: state.cardSelected,
 		playerData: state.playerData,
-		inGame: state.inGame
+		inGame: state.inGame,
+		mute: state.mute
 	}
 }
 
@@ -542,7 +555,8 @@ const mapDispatchToProps = (dispatch) => {
 		leaveGame: (code, pid) =>
 			dispatch(gameActions.leaveGameRequest(code, pid)),
 		errorLeaveGame: (response) =>
-			dispatch(gameActions.leaveGameSuccess(response))
+			dispatch(gameActions.leaveGameSuccess(response)),
+		toggleMute: (response) => dispatch(gameActions.toggleMute())
 	}
 }
 

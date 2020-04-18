@@ -18,12 +18,18 @@ const selectLogs = (state) => {
 
 const literatureHandleStateChange = (rootStore) => {
 	let nextState = selectLogs(rootStore.getState())
+	let mute = rootStore.getState().mute
 
 	if (!checkArrayIdentical(nextState, currentState)) {
 		currentState = nextState
 		if (currentState && currentState.length) {
 			let parsedLog = logParser(currentState[0])
-			addNotification(parsedLog.title, parsedLog.message, parsedLog.type)
+			addNotification(
+				parsedLog.title,
+				parsedLog.message,
+				parsedLog.type,
+				mute
+			)
 		}
 	}
 }

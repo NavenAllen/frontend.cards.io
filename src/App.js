@@ -1,6 +1,7 @@
 import React from 'react'
 import './App.css'
 import 'react-notifications-component/dist/theme.css'
+import 'animate.css'
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 import ReactNotification from 'react-notifications-component'
 import GamePage from './literature/components/GamePage'

@@ -222,6 +222,11 @@ export function game(state = initialState, action) {
 				...state,
 				chats: state.chats.concat(action.data)
 			}
+		case gameConstants.TOGGLE_MUTE:
+			return {
+				...state,
+				mute: !state.mute
+			}
 		case gameConstants.ADD_CARD: {
 			let prev = JSON.parse(JSON.stringify(state))
 			if (action.data.fromPos === state.playerData.position)
