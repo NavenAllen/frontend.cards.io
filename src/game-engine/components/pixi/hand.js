@@ -16,16 +16,19 @@ const createHand = (
 	hidden
 ) => {
 	const container = new PIXI.Container()
-	if (isCurrentTurn) container.filters = [new OutlineFilter(4, 0xf7c4c8, 0.5)]
+	const cardsContainer = new PIXI.Container()
+	if (isCurrentTurn)
+		cardsContainer.filters = [new OutlineFilter(4, 0xdc3545, 1)]
 
 	if (x) container.x = x
 	if (y) container.y = y
 
 	cards.forEach((value, index) => {
 		let cardPosition = index - Math.floor(cards.length / 2)
-		container.addChild(
+		cardsContainer.addChild(
 			createCard(value, cardPosition, scale, hidden, index)
 		)
+		container.addChild(cardsContainer)
 	})
 
 	const createText = () => {
@@ -74,7 +77,7 @@ const createHand = (
 	}
 
 	if (hidden) {
-		let marginY = 5,
+		let marginY = 10,
 			marginX = 3
 		var text = createText()
 		text.pivot.set(text.width / 2, text.height / 2)
