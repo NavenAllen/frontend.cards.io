@@ -1,3 +1,5 @@
+const isMobile = window.screen.width < 768
+
 const binom = (n, k) => {
 	var coeff = 1
 	var i
@@ -21,12 +23,12 @@ const bezierEqn = (points, t) => {
 const findOtherHandCoordinates = (width, height, count) => {
 	let points = [],
 		results = [],
-		px = 50, // padding-x
-		py = 50, // padding-y
+		px = 40,
+		py = 40,
 		isPortrait = window.screen.orientation.type.includes('portrait')
 
-	if (isPortrait) {
-		py = 80
+	if (isMobile) {
+		px = 30
 	}
 
 	width = width - 2 * px
@@ -65,8 +67,6 @@ const findOtherHandCoordinates = (width, height, count) => {
 	for (let i = 1; i < count + 1; i++) {
 		let r = bezierEqn(points, i * base)
 		r.y = height - r.y
-		r.x += px
-		r.y += py
 		results.push(r)
 	}
 
@@ -74,21 +74,13 @@ const findOtherHandCoordinates = (width, height, count) => {
 }
 
 const findPlayerHandCoordinates = (width, height, cardScale) => {
-	let _w = window.screen.availWidth,
-		_h = window.screen.availHeight
 	let cardHeight = 249
+	let px = 40
 
-	let hFactor = 0.05
-	if (window.screen.orientation.type.includes('portrait')) {
-		if (_w <= 1024) hFactor = -0.1
-		if (_w <= 768) hFactor = 0.01
-		if (_w <= 500) hFactor = -0.05
-	} else {
-		if (_w <= 900 && _h <= 450) hFactor = 0
-	}
+	if (isMobile) px = 30
 
-	let x = width / 2,
-		y = height - cardHeight * cardScale + height * hFactor
+	let x = width / 2 - px,
+		y = height - cardHeight * cardScale
 
 	return { x, y }
 }

@@ -1,10 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps*/
 import React, { useEffect, useState } from 'react'
 
-import Hand from '../Hand/Hand'
-
+import { createHand } from '../pixi/hand'
 import { findHandCoordinates } from '../../../util/handCoordinates'
-
-import './GameView.css'
 
 const GameView = (props) => {
 	const { renderer, player, others, currentTurn, disabled } = props
@@ -18,12 +16,88 @@ const GameView = (props) => {
 		)
 	)
 
+	const createOtherPlayerHands = () => {
+		renderer.otherContainer.removeChildren()
+		others.forEach((other, index) => {
+			let isCurrentTurn = other.position === currentTurn
+			let isOpponent = other.position % 2 !== player.position % 2
+			renderer.otherContainer.addChild(
+				createHand(
+					Array(other.count).fill(''),
+					other.name,
+					other.position,
+					isCurrentTurn,
+					isOpponent,
+					coordinates.others[index].x,
+					coordinates.others[index].y,
+					renderer.cardsScale,
+					disabled,
+					true
+				)
+			)
+		})
+	}
+
+	const updateOtherPlayerHand = (other, index) => {
+		let isCurrentTurn = other.position === currentTurn
+		let isOpponent = other.position % 2 !== player.position % 2
+		let childContainer = createHand(
+			Array(other.count).fill(''),
+			other.name,
+			other.position,
+			isCurrentTurn,
+			isOpponent,
+			coordinates.others[index].x,
+			coordinates.others[index].y,
+			renderer.cardsScale,
+			disabled,
+			true
+		)
+
+		renderer.otherContainer.removeChildAt(index)
+		renderer.otherContainer.addChild(childContainer)
+		renderer.otherContainer.setChildIndex(childContainer, index)
+	}
+
+	const updatePlayerHand = () => {
+		renderer.playerContainer.removeChildren()
+		renderer.playerContainer.addChild(
+			createHand(
+				player.hand,
+				player.name,
+				player.position,
+				false,
+				false,
+				coordinates.player.x,
+				coordinates.player.y,
+				renderer.cardsScale,
+				false,
+				false
+			)
+		)
+	}
+
 	useEffect(() => {
-		if (renderer.otherContainer.children.length > others.length)
-			renderer.otherContainer.removeChildren(others.length)
-		if (renderer.playerContainer.children.length > 1)
-			renderer.playerContainer.removeChildren(1)
-		if (renderer.app.ticker.started) renderer.app.ticker.start()
+		createOtherPlayerHands()
+		updatePlayerHand()
+	}, [coordinates])
+
+	useEffect(() => {
+		updatePlayerHand()
+	}, [player.hand.length])
+
+	useEffect(() => {
+		if (renderer.otherContainer.children.length === others.length)
+			others.forEach((player, index) => {
+				let childrenLength = renderer.otherContainer.getChildAt(index)
+					.children.length
+				if (player.count !== childrenLength) {
+					updateOtherPlayerHand(player, index)
+				}
+			})
+	}, [others])
+
+	useEffect(() => {
 		setCoordinates(
 			findHandCoordinates(
 				renderer.app.screen.width,
@@ -32,43 +106,9 @@ const GameView = (props) => {
 				others.length
 			)
 		)
-	}, [
-		renderer,
-		renderer.otherContainer.children.length,
-		renderer.playerContainer.children.length,
-		others.length
-	])
+	}, [others.length, renderer.cardsScale])
 
-	return (
-		<>
-			{others.map((player, index) => (
-				<Hand
-					parent={renderer.otherContainer}
-					cards={Array(player.count).fill('')}
-					key={index}
-					index={index}
-					scale={renderer.cardsScale}
-					x={coordinates.others[index].x}
-					y={coordinates.others[index].y}
-					disabled={disabled}
-					position={player.position}
-					name={player.name}
-					currentTurn={player.position === currentTurn}
-					hidden={true}
-				/>
-			))}
-			{
-				<Hand
-					index={0}
-					parent={renderer.playerContainer}
-					scale={Math.max(renderer.cardsScale, 0.3)}
-					x={coordinates.player.x}
-					y={coordinates.player.y}
-					cards={player.hand}
-				/>
-			}
-		</>
-	)
+	return <></>
 }
 
 export default GameView

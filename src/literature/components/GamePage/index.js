@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { useMediaQuery } from 'react-responsive'
 import { gameActions } from '../../../game-engine/state/actions'
 
-import GameRenderer from '../../../game-engine/renderer'
+import GameRenderer from '../../../game-engine/components/pixi/renderer'
 import { Engine } from '../../../game-engine/engine'
 import GameView from '../../../game-engine/components/GameView/GameView'
 
@@ -359,6 +359,16 @@ const GamePage = (props) => {
 												>
 													LITERATURE
 												</Typography>
+												<IconButton
+													onClick={props.toggleMute}
+													color="inherit"
+												>
+													{props.mute ? (
+														<VolumeUpIcon />
+													) : (
+														<VolumeOffIcon />
+													)}
+												</IconButton>
 												<IconButton
 													color="inherit"
 													aria-label="open drawer"
