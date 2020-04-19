@@ -1,4 +1,5 @@
-const isMobile = window.screen.width < 768
+const isMobile = window.screen.width <= 500
+const isTablet = window.screen.width <= 768 && window.screen.width > 500
 
 const binom = (n, k) => {
 	var coeff = 1
@@ -28,14 +29,37 @@ const findOtherHandCoordinates = (width, height, count) => {
 		isPortrait = window.screen.orientation.type.includes('portrait')
 
 	if (isMobile) {
-		px = 30
+		px = 50
+		py = 70
+	} else if (isTablet) {
+		px = 80
 	}
 
 	width = width - 2 * px
 	height = height - 2 * py
 
-	if (isPortrait) {
-		height -= height * 0.05
+	if (isPortrait && isMobile) {
+		points.push({ x: 0, y: 0 })
+		points.push({ x: 0, y: height / 12 })
+		points.push({ x: 0, y: height / 6 })
+		points.push({ x: 0, y: height / 4 })
+		points.push({ x: 0, y: height / 3 })
+		points.push({ x: 0, y: height / 2 })
+		points.push({ x: 0, y: (2 * height) / 3 })
+		points.push({ x: 0, y: (5 * height) / 6 })
+		points.push({ x: 0, y: (9 * height) / 10 })
+		points.push({ x: width / 2, y: height })
+		points.push({ x: width, y: (9 * height) / 10 })
+		points.push({ x: width, y: (5 * height) / 6 })
+		points.push({ x: width, y: (2 * height) / 3 })
+		points.push({ x: width, y: height / 2 })
+		points.push({ x: width, y: height / 3 })
+		points.push({ x: width, y: height / 4 })
+		points.push({ x: width, y: height / 6 })
+		points.push({ x: width, y: height / 12 })
+		points.push({ x: width, y: 0 })
+	} else if (isPortrait && isTablet) {
+		// For tablets
 		points.push({ x: 0, y: 0 })
 		points.push({ x: 0, y: height / 6 })
 		points.push({ x: 0, y: height / 3 })
@@ -67,6 +91,15 @@ const findOtherHandCoordinates = (width, height, count) => {
 	for (let i = 1; i < count + 1; i++) {
 		let r = bezierEqn(points, i * base)
 		r.y = height - r.y
+		if (isMobile) {
+			r.x += px / 2
+			r.y -= py
+		} else if (isTablet) {
+			r.x += px / 2
+		} else {
+			if (window.screen.height < 500) r.y -= py / 4
+			else r.y -= py / 2
+		}
 		results.push(r)
 	}
 
@@ -81,6 +114,8 @@ const findPlayerHandCoordinates = (width, height, cardScale) => {
 
 	let x = width / 2 - px,
 		y = height - cardHeight * cardScale
+
+	if (!isMobile && !isTablet && window.screen.height > 500) y += 0.05 * height
 
 	return { x, y }
 }
