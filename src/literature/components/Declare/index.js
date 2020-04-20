@@ -6,8 +6,11 @@ import {
 	DialogActions,
 	Button,
 	Tabs,
-	Tab
+	Tab,
+	Grid,
+	Collapse
 } from '@material-ui/core'
+import { Alert } from '@material-ui/lab'
 
 import classes from './Declare.module.css'
 import { literatureGameActions } from '../../state/actions/game.actions'
@@ -33,6 +36,9 @@ const Declare = ({
 	)
 	const [availableSets, setAvailableSets] = useState(LiteratureConstants.sets)
 
+	const [errorOpen, setErrorOpen] = useState(false)
+	const [errorMessage, setErrorMessage] = useState('')
+
 	const dispatch = useDispatch()
 	const userCards = useSelector((state) => state.playerData.hand)
 	const locked = useSelector((state) => state.locked)
@@ -46,60 +52,94 @@ const Declare = ({
 	const [selectedFriend, setselectedFriend] = useState(friends[0].position)
 
 	useEffect(() => {
+		let availableOrders = LiteratureConstants.orders
+		let availableSets = LiteratureConstants.sets
 		userCards.forEach((card) => {
 			let cardValue = card.slice(0, -1)
 			if (card !== 'JOKER' && cardValue !== '8') {
 				let cardSuit = card.slice(-1)
 				if (LiteratureConstants.lowerRanks.indexOf(cardValue) !== -1) {
-					setAvailableOrders((previousOrders) => {
-						return previousOrders.map((order) => {
-							if (order.value === 0) order.present = true
-							return order
-						})
-					})
-					setAvailableSets((previousAvailableSets) => {
-						let updatedAvailableSets = previousAvailableSets
-						updatedAvailableSets['lower'] = updatedAvailableSets[
-							'lower'
-						].map((suit) => {
-							if (suit.value === cardSuit) suit.present = true
-							return suit
-						})
-						return updatedAvailableSets
-					})
-				} else {
-					setAvailableOrders((previousOrders) => {
-						return previousOrders.map((order) => {
-							if (order.value === 1) order.present = true
-							return order
-						})
-					})
-					setAvailableSets((previousAvailableSets) => {
-						let updatedAvailableSets = previousAvailableSets
-						updatedAvailableSets['higher'] = updatedAvailableSets[
-							'higher'
-						].map((suit) => {
-							if (suit.value === cardSuit) suit.present = true
-							return suit
-						})
-						return updatedAvailableSets
-					})
-				}
-			} else {
-				setAvailableOrders((previousOrders) => {
-					return previousOrders.map((order) => {
-						if (order.value === 2) order.present = true
+					availableOrders.map((order) => {
+						if (order.value === 0) order.present = true
 						return order
 					})
+					availableSets['lower'] = availableSets['lower'].map(
+						(suit) => {
+							if (suit.value === cardSuit) suit.present = true
+							return suit
+						}
+					)
+				} else {
+					availableOrders.map((order) => {
+						if (order.value === 1) order.present = true
+						return order
+					})
+					availableSets['higher'] = availableSets['higher'].map(
+						(suit) => {
+							if (suit.value === cardSuit) suit.present = true
+							return suit
+						}
+					)
+				}
+			} else {
+				availableOrders.map((order) => {
+					if (order.value === 2) order.present = true
+					return order
 				})
-				setAvailableSets((previousAvailableSets) => {
-					let updatedAvailableSets = previousAvailableSets
-					updatedAvailableSets['jokers'][0].present = true
-					return updatedAvailableSets
-				})
+				availableSets['jokers'][0].present = true
 			}
 		})
-	}, [userCards])
+
+		availableOrders = availableOrders.filter((order) => {
+			return order.present
+		})
+		setAvailableOrders(availableOrders)
+
+		availableSets['lower'] = availableSets['lower'].filter((set) => {
+			return set.present
+		})
+		availableSets['higher'] = availableSets['higher'].filter((set) => {
+			return set.present
+		})
+		availableSets['jokers'].filter((set) => {
+			return set.present
+		})
+		setAvailableSets(availableSets)
+
+		let availableSuits
+		if (order === 0) availableSuits = availableSets['lower']
+		else if (order === 1) availableSuits = availableSets['higher']
+		else availableSuits = availableSets['jokers']
+		setAvailableSuits(availableSuits)
+
+		let selectedOrder = order,
+			selectedOrderPresent = false
+		for (let i = 0; i < availableOrders.length; i++) {
+			if (
+				availableOrders[i].value === order &&
+				availableOrders[i].present
+			) {
+				selectedOrderPresent = true
+				break
+			}
+			if (availableOrders[i].present)
+				selectedOrder = availableOrders[i].value
+		}
+		if (!selectedOrderPresent) setOrder(selectedOrder)
+
+		let selectedSuit = suit,
+			selectedSuitPresent = false
+		for (let i = 0; i < availableSuits.length; i++) {
+			if (availableSuits[i].value === suit && availableSuits[i].present) {
+				selectedSuitPresent = true
+				break
+			}
+			if (availableSuits[i].present)
+				selectedSuit = availableSuits[i].value
+		}
+		if (!selectedSuitPresent) setSuit(selectedSuit)
+	}, [userCards, suit, order])
+
 	useEffect(() => {
 		let ret = []
 		if (order !== 2) {
@@ -135,6 +175,7 @@ const Declare = ({
 		}
 		setCards(ret)
 	}, [suit, order, userCards])
+
 	useEffect(() => {
 		if (order === 0) setAvailableSuits(availableSets['lower'])
 		else if (order === 1) setAvailableSuits(availableSets['higher'])
@@ -189,8 +230,11 @@ const Declare = ({
 			'K',
 			'A'
 		]
-		if (cards.some((card) => card.assignedTo === '')) return
-		else {
+		if (cards.some((card) => card.assignedTo === '')) {
+			setErrorMessage('Assign each card to a player')
+			setErrorOpen(true)
+			return
+		} else {
 			let declaration = []
 			for (let i = 0; i < game.players.length / 2; i++)
 				declaration.push([])
@@ -226,12 +270,10 @@ const Declare = ({
 			}
 			cards.sort((a, b) => a.assignedTo - b.assignedTo)
 			for (let i = 0; i < cards.length; i++) {
-				console.log(cards.assignedTo)
 				let declarePos =
 					Math.floor(cards[i].assignedTo / 2) +
 					(cards[i].assignedTo % 2) -
 					1
-				console.log(declarePos)
 				declaration[declarePos].push(cards[i].value)
 			}
 			dispatch(
@@ -241,7 +283,6 @@ const Declare = ({
 					declaration
 				})
 			)
-			console.log(declaration)
 			handleModalClose()
 		}
 	}, [
@@ -262,7 +303,11 @@ const Declare = ({
 			<DialogTitle>Declare cards</DialogTitle>
 			<DialogContent dividers>
 				<p className={classes.p}>Select order</p>
-				<Tabs value={order} onChange={(e, newVal) => setOrder(newVal)}>
+				<Tabs
+					value={order}
+					onChange={(e, newVal) => setOrder(newVal)}
+					centered
+				>
 					{availableOrders.map((order) => {
 						return (
 							<Tab
@@ -276,9 +321,12 @@ const Declare = ({
 				</Tabs>
 				<p className={classes.p}>Select suit</p>
 				<Tabs
-					variant="scrollable"
+					variant={
+						availableSuits.length === 4 ? 'scrollable' : 'standard'
+					}
 					value={suit}
 					onChange={(e, newVal) => setSuit(newVal)}
+					centered={availableSuits.length < 4}
 				>
 					{availableSuits.map((suit) => {
 						return (
@@ -307,6 +355,20 @@ const Declare = ({
 				/>
 			</DialogContent>
 			<DialogActions>
+				<Grid
+					container
+					item
+					spacing={0}
+					direction="column"
+					alignItems="flex-start"
+					justify="flex-start"
+				>
+					<Collapse in={errorOpen}>
+						<Alert severity="error">
+							{errorMessage ? errorMessage : ''}
+						</Alert>
+					</Collapse>
+				</Grid>
 				<Button
 					variant="contained"
 					color="secondary"

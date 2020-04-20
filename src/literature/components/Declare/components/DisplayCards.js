@@ -7,14 +7,15 @@ import DisplayCard from '../../../../game-engine/components/DisplayCard'
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		display: 'flex',
 		flexWrap: 'wrap',
 		justifyContent: 'space-around',
 		overflow: 'hidden',
+		width: '100%',
 		backgroundColor: theme.palette.background.paper
 	},
 	gridList: {
-		width: 600
+		flexWrap: 'nowrap',
+		transform: 'translateZ(0)'
 	}
 }))
 
@@ -23,7 +24,7 @@ const DisplayCards = ({ onCardClick, cards, isCardOpaque }) => {
 
 	return (
 		<div className={classes.root}>
-			<GridList cellHeight={160} className={classes.gridList} cols={7}>
+			<GridList className={classes.gridList} cols={7}>
 				{cards.map((card, index) => (
 					<GridListTile key={index} cols={1}>
 						<DisplayCard

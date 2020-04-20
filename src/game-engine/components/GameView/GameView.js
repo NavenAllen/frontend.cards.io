@@ -89,13 +89,9 @@ const GameView = (props) => {
 	useEffect(() => {
 		if (renderer.otherContainer.children.length === others.length)
 			others.forEach((player, index) => {
-				let childrenLength = renderer.otherContainer.getChildAt(index)
-					.children.length
-				if (player.count !== childrenLength) {
-					updateOtherPlayerHand(player, index)
-				}
+				updateOtherPlayerHand(player, index)
 			})
-	}, [others])
+	}, [others, currentTurn])
 
 	useEffect(() => {
 		setCoordinates(

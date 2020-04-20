@@ -574,7 +574,8 @@ const mapStateToProps = (state) => {
 		cardSelected: state.cardSelected,
 		playerData: state.playerData,
 		inGame: state.inGame,
-		mute: state.mute
+		mute: state.mute,
+		locked: state.locked
 	}
 }
 
