@@ -6,8 +6,11 @@ import {
 	DialogActions,
 	Button,
 	Tabs,
-	Tab
+	Tab,
+	Grid,
+	Collapse
 } from '@material-ui/core'
+import { Alert } from '@material-ui/lab'
 
 import classes from './AskCard.module.css'
 import { literatureGameActions } from '../../state/actions/game.actions'
@@ -31,6 +34,9 @@ const AskCard = ({
 		LiteratureConstants.orders
 	)
 	const [availableSets, setAvailableSets] = useState(LiteratureConstants.sets)
+
+	const [errorOpen, setErrorOpen] = useState(false)
+	const [errorMessage, setErrorMessage] = useState('')
 
 	const dispatch = useDispatch()
 	const userCards = useSelector((state) => state.playerData.hand)
@@ -205,6 +211,11 @@ const AskCard = ({
 
 	const askCard = useCallback(
 		(card) => {
+			if (!selectedOpponent) {
+				setErrorMessage('Choose a player!')
+				setErrorOpen(true)
+				return
+			}
 			if (!locked)
 				dispatch(
 					literatureGameActions.playAsk({
@@ -292,6 +303,20 @@ const AskCard = ({
 				/>
 			</DialogContent>
 			<DialogActions>
+				<Grid
+					container
+					item
+					spacing={0}
+					direction="column"
+					alignItems="flex-start"
+					justify="flex-start"
+				>
+					<Collapse in={errorOpen}>
+						<Alert severity="error">
+							{errorMessage ? errorMessage : ''}
+						</Alert>
+					</Collapse>
+				</Grid>
 				<Button
 					variant="contained"
 					color="secondary"
