@@ -7,7 +7,6 @@ import { useMediaQuery } from 'react-responsive'
 import { gameActions } from '../../../game-engine/state/actions'
 
 import GameRenderer from '../../../game-engine/components/pixi/renderer'
-import { Engine } from '../../../game-engine/engine'
 import GameView from '../../../game-engine/components/GameView/GameView'
 
 import { Desktop, Mobile } from '../../../util/device'
@@ -16,10 +15,13 @@ import Declare from '../Declare'
 import AskCard from '../AskCard/AskCard'
 import Transfer from '../Transfer'
 import LogDisplay from '../LogDisplay'
+import GameOverRoom from '../../../game-engine/components/GameOverRoom'
 
 import WaitingRoom from '../../../game-engine/components/WaitingRoom/WaitingRoom'
 import LoaderModal from '../../../game-engine/components/LoaderModal/LoaderModal'
 import DialogModal from '../../../game-engine/components/DialogModal/DialogModal'
+
+import { logParser, addNotification } from '../../util'
 
 import './GamePage.css'
 
@@ -117,20 +119,10 @@ const GamePage = (props) => {
 			(item) => item.position !== player.position
 		)
 	)
-	const onCardClick = (card) => {
-		if (player.hand.indexOf(card) === -1) return
-		let position = parseInt(prompt('Enter position'))
-		transferCard(card, player.position, position, () => {
-			// action to perform after animation and transfer
-			console.log('here')
-		})
-	}
-	let { transferCard } = Engine({
-		playerCards: player.hand,
-		otherPlayers,
-		onCardClick,
-		userPos: player.position
-	})
+	const logs = useSelector((state) => state.gameData.logs)
+
+	const [previousLogs, setPreviousLogs] = useState([])
+
 	const [declareOpen, setDeclareOpen] = useState(false)
 	const [askOpen, setAskOpen] = useState(false)
 	const [transferOpen, setTransferOpen] = useState(false)
@@ -139,6 +131,8 @@ const GamePage = (props) => {
 	const [errorOpen, setErrorOpen] = useState(false)
 	const [actionsMenuOpen, setActionsMenuOpen] = useState(null)
 	const [appBarMenuOpen, setAppBarMenuOpen] = useState(null)
+	const [gameOver, setGameOver] = useState(false)
+	const [winners, setWinners] = useState(0)
 
 	const [previousModalOptions, setPreviousModalOptions] = useState({
 		suit: 'H',
@@ -164,6 +158,12 @@ const GamePage = (props) => {
 	const handleLogDisplayClose = () => {
 		setLogDisplayOpen((prev) => !prev)
 		setAppBarMenuOpen(null)
+	}
+
+	const handleGameOverClose = () => {
+		renderer.resetRenderer()
+		props.leaveGame(props.gameData.code, props.playerData.id)
+		setGameOver(false)
 	}
 
 	const handleActionsFabClick = (event) => {
@@ -245,6 +245,51 @@ const GamePage = (props) => {
 		}
 	}, [props.error, props.gameData, props.playerData, isMobile])
 
+	const checkArrayIdentical = (a, b) => {
+		if (!a || !b) return false
+		var i = a.length
+		if (i !== b.length) return false
+		while (i--) {
+			if (a[i] !== b[i]) return false
+		}
+		return true
+	}
+
+	useEffect(() => {
+		if (!checkArrayIdentical(logs, previousLogs)) {
+			setPreviousLogs(logs)
+			if (logs && logs.length) {
+				let parsedLog = logParser(logs[0])
+				if (parsedLog.title !== 'GameOver') {
+					addNotification(
+						parsedLog.title,
+						parsedLog.message,
+						parsedLog.type,
+						props.mute
+					)
+				} else {
+					let winnerTeam =
+						playerTeamScore > opponentTeamScore
+							? player.position % 2
+							: 1 - (player.position % 2)
+					let winners = game.players.filter((player) => {
+						return player.position % 2 === winnerTeam
+					})
+					setWinners(winners)
+					setGameOver(true)
+				}
+			}
+		}
+	}, [
+		logs,
+		previousLogs,
+		game.players,
+		player.position,
+		playerTeamScore,
+		opponentTeamScore,
+		props.mute
+	])
+
 	return (
 		<>
 			{localStorage.getItem('gameCode') ? (
@@ -261,7 +306,7 @@ const GamePage = (props) => {
 									playerData={props.playerData}
 									renderer={renderer}
 								/>
-							) : (
+							) : !gameOver ? (
 								<>
 									<AppBar
 										position="sticky"
@@ -522,6 +567,11 @@ const GamePage = (props) => {
 										/>
 									)}
 								</>
+							) : (
+								<GameOverRoom
+									players={winners}
+									handleClose={handleGameOverClose}
+								/>
 							)}
 							<ChatBox />
 						</div>

@@ -25,7 +25,6 @@ const suitMap = {
 let notificationAudio = new Audio('sounds/notification.mp3')
 
 const parseCard = (card) => {
-	console.log(card)
 	let parsedCard = ''
 	if (card === 'JOKER') parsedCard = 'Joker'
 	else {
@@ -108,8 +107,13 @@ const logParser = (log) => {
 			parsedLog.message = splitLog[1] + ' has left the game!'
 			parsedLog.type = 'info'
 			break
+		case 'WINNER':
+			parsedLog.title = 'GameOver'
+			parsedLog.message = splitLog[1]
+			parsedLog.type = 'info'
+			break
 		default:
-			console.log(log)
+			break
 	}
 	return parsedLog
 }
