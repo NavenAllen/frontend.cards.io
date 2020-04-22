@@ -87,22 +87,23 @@ const GameView = (props) => {
 	}, [player.hand.length])
 
 	useEffect(() => {
-		if (renderer.otherContainer.children.length === others.length)
+		if (
+			renderer.otherContainer.children.length === others.length &&
+			others.length >= 5
+		) {
+			setCoordinates(
+				findHandCoordinates(
+					renderer.app.screen.width,
+					renderer.app.screen.height,
+					renderer.cardsScale,
+					others.length
+				)
+			)
 			others.forEach((player, index) => {
 				updateOtherPlayerHand(player, index)
 			})
+		}
 	}, [others, currentTurn])
-
-	useEffect(() => {
-		setCoordinates(
-			findHandCoordinates(
-				renderer.app.screen.width,
-				renderer.app.screen.height,
-				renderer.cardsScale,
-				others.length
-			)
-		)
-	}, [others.length, renderer.cardsScale])
 
 	return <></>
 }

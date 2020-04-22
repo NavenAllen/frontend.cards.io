@@ -69,7 +69,7 @@ export class GameRenderer {
 	initRenderer = () => {
 		this.initBaseContainers()
 
-		window.onresize = this.autoResize
+		this.autoResize()
 		window.onorientationchange = this.autoResize
 
 		const animate = (delta) => {}

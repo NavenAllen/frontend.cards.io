@@ -78,12 +78,18 @@ const createHand = (
 
 	if (hidden) {
 		let marginY = 10,
-			marginX = 3
+			marginX = 3,
+			cardHeight = 249,
+			cardWidth = 350
 		var text = createText()
 		text.pivot.set(text.width / 2, text.height / 2)
 		container.addChild(text)
-		text.y = container.height + marginY * scale
-		text.x = container.width / 2 - marginX * cards.length * scale
+
+		let textY = cards.length ? container.height : cardHeight * scale
+		let textX = cards.length ? container.width / 2 : (cardWidth * scale) / 2
+
+		text.y = textY + marginY * scale
+		text.x = textX - marginX * cards.length * scale
 
 		if (!disabled) {
 			container.interactive = true
