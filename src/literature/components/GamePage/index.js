@@ -204,6 +204,10 @@ const GamePage = (props) => {
 		props.leaveGame(props.gameData.code, props.playerData.id)
 	}
 
+	const handleClickRules = () => {
+		window.open('/rules/literature', '_blank')
+	}
+
 	useEffect(() => {
 		// Add renderer to game page
 		document.body.appendChild(renderer.app.view)
@@ -354,6 +358,12 @@ const GamePage = (props) => {
 												</IconButton>
 												<Button
 													color="inherit"
+													onClick={handleClickRules}
+												>
+													Rules
+												</Button>
+												<Button
+													color="inherit"
 													onClick={
 														handleLogDisplayClose
 													}
@@ -432,6 +442,13 @@ const GamePage = (props) => {
 														handleAppBarMenuClose
 													}
 												>
+													<MenuItem
+														onClick={
+															handleClickRules
+														}
+													>
+														Rules
+													</MenuItem>
 													<MenuItem
 														onClick={
 															handleLogDisplayClose

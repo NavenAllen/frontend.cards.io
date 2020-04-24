@@ -14,14 +14,14 @@ export const useStyles = makeStyles((theme) => ({
 			maxWidth: `calc(90vw - ${theme.spacing(2) * 2}px)`
 		}
 	},
-	card: {
+	innerCard: {
 		padding: 10,
 		borderRadius: '16px',
-		backgroundColor: 'rgba(0, 0, 0, 0)',
-		margin: theme.spacing(7, 0),
+		backgroundColor: 'rgba(255, 255, 255, 0.9)',
+		margin: theme.spacing(4, 0),
 		marginLeft: 'auto',
 		marginRight: 'auto',
-		maxWidth: '90%'
+		maxWidth: '95%'
 	},
 	listItem: {
 		display: 'flex'

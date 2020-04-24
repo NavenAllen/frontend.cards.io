@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useHistory } from 'react-router'
 
 import classNames from 'classnames'
 
@@ -96,7 +97,7 @@ const createGameData = [
 	{
 		name: 'Literature',
 		tags: ['Team', '6 to 8'],
-		rules: 'link',
+		rules: '/rules/literature',
 		type: 'literature',
 		disabled: false
 	},
@@ -132,6 +133,7 @@ const createGameData = [
 
 const CreateGameForm = (props) => {
 	const classes = useStyles()
+	const history = useHistory()
 
 	const [activeCard, setActiveCard] = useState(-1)
 
@@ -143,8 +145,9 @@ const CreateGameForm = (props) => {
 		if (!gameDisabled) setActiveCard(index)
 	}
 
-	const handleCreateGameInfoClick = (e, index) => {
+	const handleCreateGameInfoClick = (e, link) => {
 		// Stop click event propagation to parent(handleCreateGameCardClick)
+		history.push(link)
 		e.stopPropagation()
 	}
 
@@ -181,7 +184,10 @@ const CreateGameForm = (props) => {
 										className={classes.infoButton}
 										disabled={game.disabled}
 										onClick={(e) =>
-											handleCreateGameInfoClick(e, index)
+											handleCreateGameInfoClick(
+												e,
+												game.rules
+											)
 										}
 									>
 										<InfoIcon fontSize="small" />

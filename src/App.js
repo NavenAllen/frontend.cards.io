@@ -52,7 +52,7 @@ const App = (props) => {
 				<Switch>
 					<Route path="/home" component={HomePage} />
 					<Route path="/game" component={GamePage} />
-					<Route path="/rules" component={Instructions} />
+					<Route path="/rules/literature" component={Instructions} />
 					<Route
 						path="/"
 						render={() =>
