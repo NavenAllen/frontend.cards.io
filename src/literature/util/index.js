@@ -109,7 +109,7 @@ const logParser = (log) => {
 			break
 		case 'WINNER':
 			parsedLog.title = 'GameOver'
-			parsedLog.message = splitLog[1]
+			parsedLog.message = splitLog[2]
 			parsedLog.type = 'info'
 			break
 		default:

@@ -27,7 +27,6 @@ export class GameRenderer {
 
 		loader.onComplete.add((loader) => {
 			rendererLoader = loader
-			console.log('Renderer assets loaded')
 
 			this.autoResize()
 			callback()
@@ -39,8 +38,6 @@ export class GameRenderer {
 	}
 
 	autoResize = () => {
-		console.log('Auto resizing elements')
-
 		this.setScale()
 	}
 

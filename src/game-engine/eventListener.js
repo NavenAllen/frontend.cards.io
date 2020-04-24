@@ -22,7 +22,6 @@ var startCoreGameEventListeners = (dispatch) => {
 	} = gameActions
 
 	socket.on('game-probe', (response) => {
-		console.log(response)
 		if (response.code === 200) {
 			dispatch(getPlayersListSuccess(response))
 		} else {
@@ -30,7 +29,6 @@ var startCoreGameEventListeners = (dispatch) => {
 		}
 	})
 	socket.on('game-updates', (response) => {
-		console.log(response)
 		switch (response.type) {
 			case 'CREATE':
 				if (response.code === 200) dispatch(createGameSuccess(response))
@@ -57,11 +55,9 @@ var startCoreGameEventListeners = (dispatch) => {
 		}
 	})
 	socket.on('game-data', (response) => {
-		console.log(response)
 		dispatch(updateGame(response.data))
 	})
 	socket.on('player-data', (response) => {
-		console.log(response)
 		dispatch(updatePlayer(response.data))
 	})
 	socket.on('chat', (response) => {

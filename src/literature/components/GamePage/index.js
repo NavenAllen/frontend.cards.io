@@ -268,10 +268,7 @@ const GamePage = (props) => {
 						props.mute
 					)
 				} else {
-					let winnerTeam =
-						playerTeamScore > opponentTeamScore
-							? player.position % 2
-							: 1 - (player.position % 2)
+					let winnerTeam = parseInt(parsedLog.message)
 					let winners = game.players.filter((player) => {
 						return player.position % 2 === winnerTeam
 					})
@@ -350,9 +347,9 @@ const GamePage = (props) => {
 													color="inherit"
 												>
 													{props.mute ? (
-														<VolumeUpIcon />
-													) : (
 														<VolumeOffIcon />
+													) : (
+														<VolumeUpIcon />
 													)}
 												</IconButton>
 												<Button
