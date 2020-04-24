@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 import ReactNotification from 'react-notifications-component'
 import GamePage from './literature/components/GamePage'
 import HomePage from './game-engine/components/HomePage/HomePage'
+import { Instructions } from './literature/components/Instructions'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
@@ -51,6 +52,7 @@ const App = (props) => {
 				<Switch>
 					<Route path="/home" component={HomePage} />
 					<Route path="/game" component={GamePage} />
+					<Route path="/rules" component={Instructions} />
 					<Route
 						path="/"
 						render={() =>
